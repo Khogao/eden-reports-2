@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tóm Tắt Đầu Tư — Kịch Bản Gốc (Ngắn) — Eden Residential</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#1e2d45;--deep-mid:#273d5c;
+    --teal:#1a8a7a;--teal-light:#22a896;--teal-pale:#6bbdb3;
+    --coral:#e76f51;--paper:#f5f7f9;--paper-warm:#ebf0f5;
+    --border:#c4d0da;--ink:#1a1a2e;--ink-mid:#3a4a5a;--ink-soft:#6a7a8a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{font-size:125%}
+  body{font-family:'Inter',sans-serif;font-weight:300;background:var(--paper);color:var(--ink);line-height:1.8;font-size:1rem;max-width:900px;margin:0 auto;padding:0 0 60px}
+
+  /* HERO */
+  .hero{background:var(--deep);padding:56px 60px 44px;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--teal),transparent)}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(26,138,122,0.15);border:1px solid rgba(26,138,122,0.35);padding:5px 14px;border-radius:2px;margin-bottom:22px}
+  .hero-tag span{font-size:11px;color:var(--teal-light);text-transform:uppercase;letter-spacing:0.12em;font-weight:600}
+  .hero-dot{width:5px;height:5px;background:var(--coral);border-radius:50%}
+  .hero h1{font-family:'Merriweather',serif;font-size:32px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:10px}
+  .hero-sub{font-size:15px;color:rgba(255,255,255,0.5);font-weight:300;margin-bottom:32px;line-height:1.65}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-top:8px}
+  .stat-box{background:rgba(255,255,255,0.04);padding:18px 20px}
+  .stat-label{font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:6px}
+  .stat-value{font-size:26px;font-family:'Merriweather',serif;color:#fff;font-weight:700;line-height:1.1}
+  .stat-note{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+
+  /* CONTENT */
+  .content{padding:0 60px}
+  .section{padding-top:52px}
+  .sec-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+  .sec-num{font-family:'Merriweather',serif;font-size:38px;color:var(--teal-pale);font-weight:700;line-height:1;flex-shrink:0;margin-top:-4px}
+  .sec-label{font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.15em;font-weight:600;margin-bottom:4px}
+  .sec-title{font-family:'Merriweather',serif;font-size:22px;color:var(--deep);font-weight:700;line-height:1.3}
+
+  .callout{background:var(--deep);border-left:4px solid var(--teal);padding:16px 20px;margin:18px 0;border-radius:0 3px 3px 0}
+  .callout p{color:rgba(255,255,255,0.8);font-size:14px;margin-bottom:0;font-style:italic;font-weight:300}
+  .callout strong{color:var(--teal-light);font-style:normal}
+
+  .tbl-wrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead tr{background:var(--deep)}
+  th{padding:11px 14px;color:var(--teal-light);font-weight:600;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.08em}
+  td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink-mid);font-weight:300;vertical-align:top;line-height:1.6}
+  tr:nth-child(even) td{background:var(--paper-warm)}
+  tr:last-child td{border-bottom:none}
+  .td-right{text-align:right;font-variant-numeric:tabular-nums}
+  .td-bold{font-weight:600;color:var(--ink)}
+  .td-total-row td{background:rgba(30,45,69,0.06)!important;font-weight:600;color:var(--deep)}
+  .td-highlight{color:var(--teal);font-weight:600}
+
+  .bullet-list{list-style:none;padding:0;margin:0 0 16px}
+  .bullet-list li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--ink-mid);font-weight:300}
+  .bullet-list li:last-child{border-bottom:none}
+  .bullet-list li::before{content:'›';color:var(--teal);font-size:18px;font-weight:600;flex-shrink:0;margin-top:-1px}
+
+  .badge-green{display:inline-block;background:rgba(26,138,122,0.12);border:1px solid rgba(26,138,122,0.35);color:var(--teal);padding:3px 10px;font-size:11px;font-weight:600;border-radius:2px;letter-spacing:0.05em}
+
+  .timeline{margin:16px 0}
+  .tl-item{display:flex;gap:18px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .tl-item:last-child{border-bottom:none}
+  .tl-num{font-family:'Merriweather',serif;font-size:13px;font-weight:700;color:var(--teal);min-width:80px;flex-shrink:0}
+  .tl-text{font-size:14px;color:var(--ink-mid);line-height:1.65}
+  .tl-text strong{color:var(--ink);font-weight:600}
+
+  @media print{
+    @page{size:A4;margin:16mm 14mm 16mm 14mm}
+    body{font-size:10pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;max-width:none}
+    .hero{padding:24px 0 16px}
+    .content{padding:0}
+    .section{page-break-inside:avoid;padding-top:24px}
+    .hero-stats{grid-template-columns:repeat(3,1fr)}
+    table{page-break-inside:avoid;font-size:9pt}
+    a{text-decoration:none;color:inherit}
+    .print-footer{display:block;position:fixed;bottom:0;left:0;right:0;padding:5px 14mm;font-size:8pt;color:#555;border-top:1px solid #bbb;background:#fff;text-align:center}
+    .print-qr{display:block;position:fixed;bottom:22px;right:14mm;text-align:center}
+    .print-qr img{width:66px;height:66px;display:block;margin:0 auto}
+    .print-qr-label{font-size:7pt;color:#777;margin-top:2px;line-height:1.3}
+  }
+  @media screen{.print-footer{display:none}.print-qr{display:none}}
+  @media(max-width:700px){.hero,.content{padding-left:24px;padding-right:24px}.hero-stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">
+    <div class="hero-dot"></div>
+    <span>Tài liệu nội bộ — Kịch bản quy hoạch gốc — Tóm tắt ngắn</span>
+  </div>
+  <h1>Tóm Tắt Đầu Tư<br>Eden Residential — Kịch Bản Gốc</h1>
+  <p class="hero-sub">Triển khai theo quy hoạch 1/500 hiện hành · Không xin điều chỉnh quy hoạch · Xã An Phú Tây, Huyện Bình Chánh, TP.HCM</p>
+  <div class="hero-stats">
+    <div class="stat-box">
+      <div class="stat-label">Tổng doanh thu</div>
+      <div class="stat-value">7.823<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-note">Giá cơ sở CH 70 tr/m²</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">EBIT (PA B)</div>
+      <div class="stat-value">2.094<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-note">26,8% doanh thu · Giá đất tham khảo</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Lợi nhuận sau thuế (PA B)</div>
+      <div class="stat-value">~1.275<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-note">16,3% doanh thu · Sau lãi vay &amp; thuế</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- S1 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div>
+        <div class="sec-label">Phần 1</div>
+        <div class="sec-title">Thông Tin Cốt Lõi</div>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <tbody>
+          <tr><td style="width:38%"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
+          <tr><td><strong>Vị trí</strong></td><td>Xã An Phú Tây, Huyện Bình Chánh, TP.HCM — mặt tiền đường Nguyễn Văn Linh (lộ giới 120m)</td></tr>
+          <tr><td><strong>Diện tích quy hoạch</strong></td><td>75.386,4 m² (~7,5 ha) — theo QĐ 1/500 đã phê duyệt</td></tr>
+          <tr><td><strong>Kịch bản</strong></td><td>Gốc — triển khai theo QHCT 1/500 hiện hành, không xin điều chỉnh quy hoạch</td></tr>
+          <tr><td><strong>Hệ số sử dụng đất CT10</strong></td><td>3,28× (tổng sàn 91.366 m²)</td></tr>
+          <tr><td><strong>Chủ đầu tư</strong></td><td>[Bảo mật]</td></tr>
+          <tr><td><strong>Tình trạng giải phóng mặt bằng</strong></td><td>~80,9% đã thỏa thuận hoặc bàn giao — san lấp ~90% hoàn tất</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div>
+        <div class="sec-label">Phần 2</div>
+        <div class="sec-title">Quy Mô Sản Phẩm</div>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Loại hình</th><th class="td-right">Số lượng</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Căn hộ chung cư</strong> (Lô A + B, 15 tầng)</td><td class="td-right td-bold">376 căn</td><td>Lô A: 192 căn · Lô B: 184 căn · Sàn TM 32.309 m²</td></tr>
+          <tr><td><strong>Biệt thự thấp tầng</strong> (TT13 + TT14)</td><td class="td-right td-bold">76 căn</td><td>19.365,5 m² đất · hệ số 1,5×</td></tr>
+          <tr><td><strong>Nhà liên kế</strong> (TT13 + TT14)</td><td class="td-right td-bold">24 căn</td><td>2.934 m² đất · hệ số 2,8×</td></tr>
+          <tr><td><strong>Văn phòng Lô C</strong> (cho thuê)</td><td class="td-right td-bold">21.600 m²</td><td>Hệ số 9,8× · TMDV tầng đế: 8.880 m²</td></tr>
+          <tr class="td-total-row"><td><strong>Tổng sàn xây dựng</strong></td><td class="td-right">136.165 m²</td><td>Theo QĐ phê duyệt 1/500</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <div>
+        <div class="sec-label">Phần 3</div>
+        <div class="sec-title">Tài Chính Tổng Hợp</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Hai phương án theo giá mua đất: <strong>PA A</strong> — giá đất chính thức 15 triệu/m² &nbsp;|&nbsp; <strong>PA B</strong> — giá đất tham khảo 13 triệu/m² (ngoài Phú Cường). Phú Cường tạm tính 15 triệu/m² ở cả hai phương án.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Chỉ tiêu</th><th class="td-right">PA A (15 tr/m²)</th><th class="td-right">PA B (13 tr/m²)</th></tr></thead>
+        <tbody>
+          <tr><td>Doanh thu</td><td class="td-right td-bold">7.823 tỷ</td><td class="td-right td-bold">7.823 tỷ</td></tr>
+          <tr><td>Chi phí mua đất</td><td class="td-right">1.131 tỷ</td><td class="td-right">1.003 tỷ</td></tr>
+          <tr><td>Chi phí xây dựng &amp; hạ tầng</td><td class="td-right">1.947 tỷ</td><td class="td-right">1.947 tỷ</td></tr>
+          <tr><td>Tiền sử dụng đất (NQ 87/2025)</td><td class="td-right">1.840 tỷ</td><td class="td-right">1.840 tỷ</td></tr>
+          <tr><td>Chi phí bán hàng, tư vấn, quản lý</td><td class="td-right">939 tỷ</td><td class="td-right">939 tỷ</td></tr>
+          <tr class="td-total-row"><td><strong>EBIT (trước lãi vay &amp; thuế)</strong></td><td class="td-right" style="color:var(--teal);font-weight:700">1.966 tỷ (25,1%)</td><td class="td-right" style="color:var(--teal);font-weight:700">2.094 tỷ (26,8%)</td></tr>
+          <tr><td>Lãi vay ước tính (~35% vốn, 10%/năm)</td><td class="td-right">~500 tỷ</td><td class="td-right">~500 tỷ</td></tr>
+          <tr><td>Thuế TNDN (20%)</td><td class="td-right">~293 tỷ</td><td class="td-right">~319 tỷ</td></tr>
+          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế — LNST</strong></td><td class="td-right" style="color:var(--teal);font-weight:700">~1.173 tỷ (15,0%)</td><td class="td-right" style="color:var(--teal);font-weight:700">~1.275 tỷ (16,3%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">04</div>
+      <div>
+        <div class="sec-label">Phần 4</div>
+        <div class="sec-title">Lịch Trình Triển Khai</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-num">Năm 1</div>
+        <div class="tl-text"><strong>Chuẩn bị &amp; pháp lý:</strong> Xin gia hạn / phê duyệt lại QĐ 1/500 · Hoàn tất bồi thường phần còn lại · Thiết kế &amp; cấp phép xây dựng</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">Năm 2–3</div>
+        <div class="tl-text"><strong>Xây dựng:</strong> Khởi công CT10 (Lô A, B, C) và nhóm thấp tầng (TT13, TT14) · Mở bán song song theo tiến độ xây dựng</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">Năm 3–4</div>
+        <div class="tl-text"><strong>Hoàn thiện &amp; bàn giao:</strong> Nghiệm thu, cấp sổ · Bàn giao căn hộ, biệt thự, liên kế · Thu hồi vốn &amp; lợi nhuận</div>
+      </div>
+    </div>
+    <ul class="bullet-list" style="margin-top:18px">
+      <li><strong>Ưu thế then chốt:</strong> Không cần xin điều chỉnh quy hoạch → tiết kiệm ~12 tháng &amp; ~40–80 tỷ chi phí tư vấn so với kịch bản nâng tầng</li>
+      <li><strong>Pháp lý cơ sở:</strong> QH 1/500 đã phê duyệt 2010 &amp; 2013 · Chấp thuận đầu tư từ 2002 · Không thuộc diện thu hồi</li>
+      <li><strong>Cao độ san nền:</strong> +2,0m trở lên — đảm bảo không ngập lũ</li>
+    </ul>
+  </div>
+
+  <!-- S5 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">05</div>
+      <div>
+        <div class="sec-label">Phần 5</div>
+        <div class="sec-title">Tổng Kết</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Quỹ đất <strong>~7,5 ha mặt tiền Nguyễn Văn Linh</strong>, quy hoạch 1/500 đã duyệt, giải phóng mặt bằng gần hoàn tất, san lấp ~90%. Kịch bản Gốc cho phép <strong>triển khai ngay trong 3–4 năm</strong> — rủi ro pháp lý thấp nhất. Lợi nhuận sau thuế ước tính <strong>~1.173–1.275 tỷ đồng</strong> (tỷ suất <strong>15,0–16,3%</strong> doanh thu), tỷ suất hoàn vốn nội bộ dự kiến &gt;20%/năm.</p>
+    </div>
+    <ul class="bullet-list">
+      <li><span class="badge-green">Pháp lý</span> &nbsp;QH 1/500 có hiệu lực — chỉ cần xin gia hạn/phê duyệt lại, không điều chỉnh</li>
+      <li><span class="badge-green">Mặt bằng</span> &nbsp;80,9% đã thỏa thuận hoặc bàn giao · San lấp ~90% hoàn tất</li>
+      <li><span class="badge-green">Tài chính</span> &nbsp;EBIT 2.094 tỷ (26,8%) · LNST ~1.275 tỷ (16,3%) — PA B</li>
+      <li><span class="badge-green">Timing</span> &nbsp;Triển khai 3–4 năm · Không cần ~12 tháng xin điều chỉnh QH</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="print-qr">
+  <img src="image/EXECUTIVE_SUMMARY/EXECUTIVE_SUMMARY_OG_qr.png" alt="QR Eden Residential">
+  <div class="print-qr-label">Scan để xem báo cáo đầy đủ<br><span>khogao.github.io/eden-reports-2</span></div>
+</div>
+<div class="print-footer">Lê Nguyên Phi &nbsp;·&nbsp; lenguyenphi@gmail.com &nbsp;·&nbsp; 0916&nbsp;509&nbsp;000</div>
+</body>
+</html>
