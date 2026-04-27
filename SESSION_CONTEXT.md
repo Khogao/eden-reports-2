@@ -1,5 +1,5 @@
 # SESSION CONTEXT — Eden Residential Reports
-> Cập nhật: 28/04/2026 — Dùng để tiếp nối từ máy khác hoặc session mới
+> Cập nhật: 28/04/2026 (session 2) — Dùng để tiếp nối từ máy khác hoặc session mới
 
 ---
 
@@ -97,12 +97,14 @@ Pre-FS MD → ES MD → Pre-FS HTML → ES HTML
 - KHÔNG dùng `../image/` (sai path khi deploy ở root)
 - KHÔNG gọi là "Lợi nhuận ròng" khi chưa trừ thuế
 - KHÔNG dùng "Khu Dân Cư Ê Đen" trong heading (dùng "Eden Residential")
+- KHÔNG dùng "OG" làm visible text trong báo cáo → dùng "Kịch bản Gốc" / "kịch bản Gốc"
+- OK dùng "OG" trong: CSS class name, filename, backtick code
 
 ---
 
 ## SỐ LIỆU CỐT LÕI (KHÔNG THAY ĐỔI)
 
-### Kịch bản Gốc (OG) — PA B (giá đất 13 tr/m²):
+### Kịch bản Gốc — PA B (giá đất 13 tr/m²):
 - DT = 7.823 tỷ
 - EBIT = 2.094 tỷ (26,8%)
 - Lãi vay ≈ 500 tỷ; Thuế ≈ 319 tỷ
@@ -154,11 +156,21 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
 | File | Bảo mật | Số liệu | Image path | V1 ref | Status |
 |---|---|---|---|---|---|
-| EXECUTIVE_SUMMARY_OG.html | ✅ | ✅ | ✅ | ❌ Đã xóa | ✅ OK |
-| EXECUTIVE_SUMMARY_V1.html | ✅ | ✅ | ✅ | — | ✅ OK |
-| PRE_FS_EDEN_OG.html | N/A | ✅ | ✅ | — | ✅ OK |
-| PRE_FS_EDEN_V1.html | N/A | ✅ | ✅ | — | ✅ OK |
-| ESSOG.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ NEW |
+| EXECUTIVE_SUMMARY_OG.html | ✅ | ✅ | ✅ | ❌ Đã xóa | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| EXECUTIVE_SUMMARY_V1.html | ✅ | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| PRE_FS_EDEN_OG.html | N/A | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| PRE_FS_EDEN_V1.html | N/A | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| ESSOG.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK |
+
+### MD source files (D:\Eden\md\):
+| File | Status |
+|---|---|
+| PRE_FS_EDEN_OG.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| PRE_FS_EDEN_V1.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| EXECUTIVE_SUMMARY_OG.md | ✅ OK |
+| EXECUTIVE_SUMMARY_V1.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| ESSOG.md | ✅ NEW — không có "OG" visible |
+| ESSV1.md | ✅ NEW — "OG" → "Kịch bản Gốc" ✅ |
 
 ---
 
