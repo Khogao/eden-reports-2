@@ -123,6 +123,17 @@
   .diff-box p{font-size:13px;color:var(--ink-mid);margin-bottom:0}
 
   hr{border:none;border-top:1px solid var(--border);margin:28px 0}
+  /* utility classes */
+  .stat-unit{font-size:13px;font-weight:400}
+  .stat-unit-xs{font-size:11px;font-weight:400}
+  .td-rust{color:var(--rust)}
+  .mt-20{margin-top:20px}
+  .mt-28{margin-top:28px}
+  .note-xs{font-size:13px;color:var(--ink-soft)}
+  .note-xxs{font-size:12.5px;color:var(--ink-soft)}
+  .note-xxs2{font-size:12px;color:var(--ink-soft)}
+  .td-result{color:var(--amber);font-weight:700;font-size:15px}
+  .td-fs-15{font-size:15px}
   @media print{
     @page{size:A4;margin:18mm 15mm 18mm 15mm}
     #sidebar{display:none}
@@ -206,22 +217,22 @@
     <div class="hero-stats">
       <div class="stat-box">
         <div class="stat-label">Tổng doanh thu</div>
-        <div class="stat-value">7.866<span style="font-size:13px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">7.866<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">Giá cơ sở (CH 70 tr/m²)</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Lợi nhuận hoạt động (PA B)</div>
-        <div class="stat-value">27,1<span style="font-size:13px;font-weight:400">%</span></div>
+        <div class="stat-value">27,1<span class="stat-unit">%</span></div>
         <div class="stat-note">2.132 tỷ · Giá đất tham khảo</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Lợi nhuận sau thuế (PA B)</div>
-        <div class="stat-value">~1.306<span style="font-size:13px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">~1.306<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">Sau lãi vay ~500 tỷ &amp; thuế 20%</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Tổng sàn CT10</div>
-        <div class="stat-value">91.366<span style="font-size:11px;font-weight:400"> m²</span></div>
+        <div class="stat-value">91.366<span class="stat-unit-xs"> m²</span></div>
         <div class="stat-note">~376 căn hộ + văn phòng Lô C · hệ số 3,28×</div>
       </div>
     </div>
@@ -251,7 +262,7 @@
             <tr><td>Diện tích trong ranh</td><td><strong>75.386,4 m²</strong> (~7,5 ha)</td></tr>
             <tr><td>Diện tích liên quan</td><td><strong>92.195,1 m²</strong> (~9,2 ha)</td></tr>
             <tr><td>Quy hoạch gốc 1/500</td><td>Ban hành 29/02/2010; phê duyệt chi tiết Lô CT10, TT13, TT14 (2013)</td></tr>
-            <tr><td class="td-bold" style="color:var(--rust)">Tình trạng pháp lý</td><td style="color:var(--rust)"><strong>Quyết định 1/500 đã hết hiệu lực — cần xin gia hạn/phê duyệt lại trước khi triển khai</strong></td></tr>
+            <tr><td class="td-bold td-rust">Tình trạng pháp lý</td><td class="td-rust"><strong>Quyết định 1/500 đã hết hiệu lực — cần xin gia hạn/phê duyệt lại trước khi triển khai</strong></td></tr>
             <tr><td>Tình trạng san lấp</td><td>~90% hoàn tất</td></tr>
             <tr><td>Giá mua đất</td><td>15 triệu/m² (chính thức) — ~13 triệu/m² (ngoài Phú Cường, tham khảo)</td></tr>
             <tr><td>Phú Cường</td><td>Tạm tính <strong>15 triệu/m²</strong> (11.293 m²) — sẵn sàng thương lượng</td></tr>
@@ -286,7 +297,7 @@
          │  Khu TT14: Nhà liên kế           │   │ ~147m
          │  11.149 m² đất ở                 │   │
    471m  └──────────────────────────────────┘  ─┘</pre>
-      <div class="tbl-wrap" style="margin-top:20px">
+      <div class="tbl-wrap mt-20">
         <table>
           <thead><tr><th>Phân khu</th><th>Chi tiết</th><th class="td-right">Diện tích</th><th>Công năng</th></tr></thead>
           <tbody>
@@ -319,7 +330,7 @@
           </tbody>
         </table>
       </div>
-      <div class="subsec" style="margin-top:28px">
+      <div class="subsec mt-28">
         <div class="subsec-title">Hiện trạng bồi thường &amp; giải phóng mặt bằng</div>
         <div class="tbl-wrap">
           <table>
@@ -362,7 +373,7 @@
           </tbody>
         </table>
       </div>
-      <div id="s3-dg" class="subsec" style="margin-top:28px">
+      <div id="s3-dg" class="subsec mt-28">
         <div class="subsec-title">Đơn giá xây dựng</div>
         <div class="tbl-wrap">
           <table>
@@ -473,7 +484,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:var(--ink-soft)">Làm tròn: <strong>~1.840 tỷ</strong>. Tiết kiệm ~75 tỷ so với kịch bản V1 (Lô C tính đất ở = 155,9 tỷ thay vì 78,0 tỷ).</p>
+        <p class="note-xs">Làm tròn: <strong>~1.840 tỷ</strong>. Tiết kiệm ~75 tỷ so với kịch bản V1 (Lô C tính đất ở = 155,9 tỷ thay vì 78,0 tỷ).</p>
       </div>
     </div>
 
@@ -535,7 +546,7 @@
           <div class="card amber"><div class="card-num">1.947</div><div class="card-label">Chi phí XD (tỷ)</div><p>91.366 m² × 15 triệu + thấp tầng + hạ tầng</p></div>
           <div class="card amber"><div class="card-num">1.840</div><div class="card-label">Tiền sử dụng đất (tỷ)</div><p>Nghị quyết 87/2025 — Lô C tính thương mại dịch vụ (24,9 triệu)</p></div>
         </div>
-        <p style="font-size:12.5px;color:var(--ink-soft)">Bán hàng &amp; tiếp thị: 10% doanh thu = 787 tỷ · Tư vấn pháp lý: 60 tỷ · Tư vấn thiết kế &amp; thẩm tra: 3% xây dựng = 58 tỷ · Quản lý: 2% xây dựng = 39 tỷ</p>
+        <p class="note-xxs">Bán hàng &amp; tiếp thị: 10% doanh thu = 787 tỷ · Tư vấn pháp lý: 60 tỷ · Tư vấn thiết kế &amp; thẩm tra: 3% xây dựng = 58 tỷ · Quản lý: 2% xây dựng = 39 tỷ</p>
       </div>
 
       <div id="s8-1" class="subsec">
@@ -553,7 +564,7 @@
               <tr><td>Tư vấn thiết kế &amp; thẩm tra (3%)</td><td class="td-right">58 tỷ</td><td class="td-right">58 tỷ</td></tr>
               <tr><td>Quản lý doanh nghiệp (2%)</td><td class="td-right">39 tỷ</td><td class="td-right">39 tỷ</td></tr>
               <tr class="td-total-row"><td><strong>Tổng chi phí</strong></td><td class="td-right"><strong>5.862 tỷ</strong></td><td class="td-right"><strong>5.734 tỷ</strong></td></tr>
-              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right" style="color:var(--amber);font-weight:700;font-size:15px">2.004 tỷ</td><td class="td-right" style="color:var(--amber);font-weight:700;font-size:15px">2.132 tỷ</td></tr>
+              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-result">2.004 tỷ</td><td class="td-right td-result">2.132 tỷ</td></tr>
               <tr><td><strong>Tỷ suất lợi nhuận hoạt động</strong></td><td class="td-right td-bold">25,5%</td><td class="td-right td-bold">27,1%</td></tr>
             </tbody>
           </table>
@@ -623,7 +634,7 @@
           <table>
             <thead><tr><th>Khoản</th><th class="td-right">Phương án A — đất 15 triệu/m²</th><th class="td-right">Phương án B — đất 13 triệu/m²</th></tr></thead>
             <tbody>
-              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-amber" style="font-size:15px">2.004 tỷ</td><td class="td-right td-amber" style="font-size:15px">2.132 tỷ</td></tr>
+              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-amber td-fs-15">2.004 tỷ</td><td class="td-right td-amber td-fs-15">2.132 tỷ</td></tr>
               <tr><td>Lãi vay ước tính</td><td class="td-right">~500 tỷ</td><td class="td-right">~500 tỷ</td></tr>
               <tr><td><strong>Lợi nhuận trước thuế</strong></td><td class="td-right td-bold">~1.504 tỷ</td><td class="td-right td-bold">~1.632 tỷ</td></tr>
               <tr><td>Thuế thu nhập doanh nghiệp (20%)</td><td class="td-right">~301 tỷ</td><td class="td-right">~326 tỷ</td></tr>
@@ -631,7 +642,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:12px;color:var(--ink-soft)">Lãi vay: vay ~35% tổng vốn (~1.720 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền để xác định chính xác.</p>
+        <p class="note-xxs2">Lãi vay: vay ~35% tổng vốn (~1.720 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền để xác định chính xác.</p>
       </div>
       <div class="subsec">
         <div class="subsec-title">9.2 Vốn đầu tư và hiệu quả vốn</div>

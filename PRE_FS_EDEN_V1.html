@@ -139,6 +139,17 @@
   /* VERSION DIFF BOX */
   .diff-box{background:rgba(184,120,32,0.05);border:1px solid rgba(184,120,32,0.25);padding:14px 18px;margin:14px 0;border-radius:2px}
   .diff-box p{font-size:13px;color:var(--ink-mid);margin-bottom:0}
+  /* utility classes */
+  .stat-unit{font-size:13px;font-weight:400}
+  .stat-unit-xs{font-size:11px;font-weight:400}
+  .td-rust{color:var(--rust)}
+  .mt-20{margin-top:20px}
+  .mt-28{margin-top:28px}
+  .note-xs{font-size:13px;color:var(--ink-soft)}
+  .note-xxs{font-size:12.5px;color:var(--ink-soft)}
+  .note-xxs2{font-size:12px;color:var(--ink-soft)}
+  .td-result{color:var(--amber);font-weight:700;font-size:15px}
+  .td-fs-15{font-size:15px}
 
   /* PRINT */
   @media print{
@@ -224,22 +235,22 @@
     <div class="hero-stats">
       <div class="stat-box">
         <div class="stat-label">Tổng doanh thu</div>
-        <div class="stat-value">14.879<span style="font-size:13px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">14.879<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">PA cơ sở (giá CH 70 tr/m²)</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">EBIT (PA B)</div>
-        <div class="stat-value">41,9<span style="font-size:13px;font-weight:400">%</span></div>
+        <div class="stat-value">41,9<span class="stat-unit">%</span></div>
         <div class="stat-note">6.240 tỷ · Giá đất tham khảo</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">LNST (PA B)</div>
-        <div class="stat-value">~4.312<span style="font-size:13px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">~4.312<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">Gấp 3,3× so với kịch bản Gốc</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Tổng sàn CT10</div>
-        <div class="stat-value">222.736<span style="font-size:11px;font-weight:400"> m²</span></div>
+        <div class="stat-value">222.736<span class="stat-unit-xs"> m²</span></div>
         <div class="stat-note">~1.987 căn hộ · hệ số 8×</div>
       </div>
     </div>
@@ -269,7 +280,7 @@
             <tr><td>Diện tích trong ranh</td><td><strong>75.386,4 m²</strong> (~7,5 ha)</td></tr>
             <tr><td>Diện tích liên quan</td><td><strong>92.195,1 m²</strong> (~9,2 ha)</td></tr>
             <tr><td class="td-bold">Kịch bản V1</td><td><strong>CT10 toàn bộ chung cư — cần xin điều chỉnh quy hoạch 1/500</strong></td></tr>
-            <tr><td class="td-bold" style="color:var(--rust)">Tình trạng pháp lý</td><td style="color:var(--rust)"><strong>QH điều chỉnh cần phê duyệt trước khi triển khai</strong></td></tr>
+            <tr><td class="td-bold td-rust">Tình trạng pháp lý</td><td class="td-rust"><strong>QH điều chỉnh cần phê duyệt trước khi triển khai</strong></td></tr>
             <tr><td>Tình trạng san lấp</td><td>~90% hoàn tất</td></tr>
             <tr><td>Giá mua đất</td><td>15 tr/m² (chính thức) — ~13 tr/m² (ngoài Phú Cường, tham khảo)</td></tr>
             <tr><td>Phú Cường</td><td>Tạm tính <strong>15 tr/m²</strong> (11.293 m²) — sẵn sàng thương lượng</td></tr>
@@ -306,7 +317,7 @@
          │  Khu TT14: Nhà liên kế           │   │ ~147m
          │  11.149 m² đất ở                 │   │
    471m  └──────────────────────────────────┘  ─┘</pre>
-      <div class="tbl-wrap" style="margin-top:20px">
+      <div class="tbl-wrap mt-20">
         <table>
           <thead><tr><th>Phân khu</th><th>Chi tiết</th><th class="td-right">Diện tích</th><th>Công năng</th></tr></thead>
           <tbody>
@@ -339,7 +350,7 @@
           </tbody>
         </table>
       </div>
-      <div class="subsec" style="margin-top:28px">
+      <div class="subsec mt-28">
         <div class="subsec-title">Hiện trạng bồi thường &amp; giải phóng mặt bằng</div>
         <div class="tbl-wrap">
           <table>
@@ -383,7 +394,7 @@
           </tbody>
         </table>
       </div>
-      <div id="s3-dg" class="subsec" style="margin-top:28px">
+      <div id="s3-dg" class="subsec mt-28">
         <div class="subsec-title">Đơn giá xây dựng</div>
         <div class="tbl-wrap">
           <table>
@@ -553,7 +564,7 @@
           <div class="card amber"><div class="card-num">3.917</div><div class="card-label">Chi phí XD (tỷ)</div><p>222.736 m² × 15 tr + thấp tầng + hạ tầng</p></div>
           <div class="card amber"><div class="card-num">1.915</div><div class="card-label">Tiền sử dụng đất (tỷ)</div><p>Nghị quyết 87/2025 — bảng giá trực tiếp</p></div>
         </div>
-        <p style="font-size:12.5px;color:var(--ink-soft)">Bán hàng &amp; tiếp thị: 10% DT = 1.495 tỷ · Tư vấn pháp lý: 120 tỷ · Tư vấn TK &amp; thẩm tra: 3% XD = 118 tỷ · Quản lý: 2% XD = 78 tỷ</p>
+        <p class="note-xxs">Bán hàng &amp; tiếp thị: 10% DT = 1.495 tỷ · Tư vấn pháp lý: 120 tỷ · Tư vấn TK &amp; thẩm tra: 3% XD = 118 tỷ · Quản lý: 2% XD = 78 tỷ</p>
       </div>
 
       <div id="s8-1" class="subsec">
@@ -571,7 +582,7 @@
               <tr><td>Tư vấn TK &amp; thẩm tra (3%)</td><td class="td-right">118 tỷ</td><td class="td-right">118 tỷ</td></tr>
               <tr><td>Quản lý doanh nghiệp (2%)</td><td class="td-right">78 tỷ</td><td class="td-right">78 tỷ</td></tr>
               <tr class="td-total-row"><td><strong>Tổng chi phí</strong></td><td class="td-right"><strong>8.774 tỷ</strong></td><td class="td-right"><strong>8.646 tỷ</strong></td></tr>
-              <tr><td><strong>EBIT</strong></td><td class="td-right" style="color:var(--amber);font-weight:700;font-size:15px">6.177 tỷ</td><td class="td-right" style="color:var(--amber);font-weight:700;font-size:15px">6.305 tỷ</td></tr>
+              <tr><td><strong>EBIT</strong></td><td class="td-right td-result">6.177 tỷ</td><td class="td-right td-result">6.305 tỷ</td></tr>
               <tr><td><strong>Tỷ suất EBIT</strong></td><td class="td-right td-bold">41,3%</td><td class="td-right td-bold">42,2%</td></tr>
             </tbody>
           </table>
@@ -641,7 +652,7 @@
           <table>
             <thead><tr><th>Khoản</th><th class="td-right">PA A — đất 15 tr/m²</th><th class="td-right">PA B — đất 13 tr/m²</th></tr></thead>
             <tbody>
-              <tr><td><strong>EBIT</strong></td><td class="td-right td-amber" style="font-size:15px">6.177 tỷ</td><td class="td-right td-amber" style="font-size:15px">6.305 tỷ</td></tr>
+              <tr><td><strong>EBIT</strong></td><td class="td-right td-amber td-fs-15">6.177 tỷ</td><td class="td-right td-amber td-fs-15">6.305 tỷ</td></tr>
               <tr><td>Lãi vay ước tính</td><td class="td-right">~850 tỷ</td><td class="td-right">~850 tỷ</td></tr>
               <tr><td><strong>Lợi nhuận trước thuế (EBT)</strong></td><td class="td-right td-bold">~5.327 tỷ</td><td class="td-right td-bold">~5.455 tỷ</td></tr>
               <tr><td>Thuế TNDN 20%</td><td class="td-right">~1.065 tỷ</td><td class="td-right">~1.091 tỷ</td></tr>
@@ -649,7 +660,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:12px;color:var(--ink-soft)">Lãi vay: vay ~35% tổng vốn (~2.437 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền (IRR) để xác định chính xác.</p>
+        <p class="note-xxs2">Lãi vay: vay ~35% tổng vốn (~2.437 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền (IRR) để xác định chính xác.</p>
       </div>
       <div class="subsec">
         <div class="subsec-title">9.2 Vốn đầu tư và hiệu quả vốn</div>

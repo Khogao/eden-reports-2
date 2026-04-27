@@ -138,6 +138,18 @@
 
   /* DIVIDER */
   hr{border:none;border-top:1px solid var(--border);margin:32px 0}
+  /* utility classes */
+  .txt-dim{color:rgba(255,255,255,0.5)}
+  .stat-unit{font-size:15px;font-weight:400}
+  .stat-unit-sm{font-size:14px;font-weight:400}
+  .mb-24{margin-bottom:24px}
+  .mb-28{margin-bottom:28px}
+  .pa-hdr-teal{background:var(--teal)}
+  .pa-bdg-teal{background:#fff;color:var(--teal)}
+  .note-sm{font-size:14px;color:var(--ink-soft)}
+  .note-xs{font-size:13px;color:var(--ink-soft)}
+  .td-result{color:var(--teal);font-weight:700;font-size:16px}
+  .tr-base{background:rgba(26,138,122,0.07)}
 
   /* PRINT */
   @media print{
@@ -203,7 +215,7 @@
   <div class="sb-footer">
     Phiên bản V1 — Tháng 4/2026<br>
     Xã An Phú Tây, Huyện Bình Chánh<br><br>
-    <strong style="color:rgba(255,255,255,0.5)">Người lập:</strong> Kiến trúc sư Lê Nguyên Phi<br>
+    <strong class="txt-dim">Người lập:</strong> Kiến trúc sư Lê Nguyên Phi<br>
     <a href="tel:0916509000">0916 509 000</a> · <a href="mailto:lenguyenphi@gmail.com">lenguyenphi@gmail.com</a>
   </div>
 </nav>
@@ -220,22 +232,22 @@
     <div class="hero-stats">
       <div class="stat-box">
         <div class="stat-label">Tổng doanh thu</div>
-        <div class="stat-value">14.951<span style="font-size:15px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">14.951<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">Gấp 1,9× so với quy hoạch gốc</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Tỷ suất lợi nhuận hoạt động</div>
-        <div class="stat-value">42,2<span style="font-size:15px;font-weight:400">%</span></div>
+        <div class="stat-value">42,2<span class="stat-unit">%</span></div>
         <div class="stat-note">6.305 tỷ · Phương án B</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Lợi nhuận sau thuế (Phương án B)</div>
-        <div class="stat-value">~4.364<span style="font-size:15px;font-weight:400"> tỷ</span></div>
+        <div class="stat-value">~4.364<span class="stat-unit"> tỷ</span></div>
         <div class="stat-note">Gấp 3,4× so với quy hoạch gốc</div>
       </div>
       <div class="stat-box">
         <div class="stat-label">Quy mô sản phẩm</div>
-        <div class="stat-value">~2.011<span style="font-size:14px;font-weight:400"> căn</span></div>
+        <div class="stat-value">~2.011<span class="stat-unit-sm"> căn</span></div>
         <div class="stat-note">+ 76 biệt thự + 24 liên kế · 7,5 ha mặt tiền</div>
       </div>
     </div>
@@ -405,7 +417,7 @@
           <div class="sec-title">Lộ Trình Pháp Lý — Quan Điểm Thực Tiễn</div>
         </div>
       </div>
-      <div class="callout" style="margin-bottom:24px">
+      <div class="callout mb-24">
         <p>Vì dự án đã tạm dừng dài, đa số thủ tục pháp lý <strong>coi như phải làm lại theo các quy định hiện hành</strong>. Khối lượng và thời gian thủ tục không khác biệt nhiều giữa hai phương án.</p>
       </div>
       <div class="pa-grid">
@@ -414,11 +426,11 @@
           <div class="pa-body"><p>Không cần xin điều chỉnh quy hoạch 1/500, nhưng vẫn phải hoàn thiện toàn bộ hồ sơ pháp lý theo Luật mới. Lợi nhuận sau thuế ước tính ~1.275 tỷ.</p></div>
         </div>
         <div class="pa-block">
-          <div class="pa-header" style="background:var(--teal)"><div class="pa-badge" style="background:#fff;color:var(--teal)">Phương án B — V1</div><div class="pa-header-title">Điều chỉnh quy hoạch — hệ số 8, ~21 tầng</div></div>
+          <div class="pa-header pa-hdr-teal"><div class="pa-badge pa-bdg-teal">Phương án B — V1</div><div class="pa-header-title">Điều chỉnh quy hoạch — hệ số 8, ~21 tầng</div></div>
           <div class="pa-body"><p>Thêm bước xin điều chỉnh quy hoạch 1/500 + chuyển Tòa C sang đất chung cư — dự kiến ~<strong>12–18 tháng</strong> thực hiện song song. <strong>Lợi nhuận sau thuế ~4.364 tỷ — gấp 3,4 lần.</strong></p></div>
         </div>
       </div>
-          <p style="font-size:14px;color:var(--ink-soft)">Chênh lệch thời gian: ~12–18 tháng. Chênh lệch lợi nhuận ròng: <strong>gấp 3,4 lần</strong>. Kịch bản V1 là phương án được đề xuất.</p>
+          <p class="note-sm">Chênh lệch thời gian: ~12–18 tháng. Chênh lệch lợi nhuận ròng: <strong>gấp 3,4 lần</strong>. Kịch bản V1 là phương án được đề xuất.</p>
     </div>
 
     <!-- S6 TIỀM NĂNG PHÁT TRIỂN -->
@@ -564,7 +576,7 @@
               <tr><td>Chi phí tư vấn pháp lý &amp; thủ tục</td><td class="td-right">120 tỷ</td><td class="td-right">120 tỷ</td></tr>
               <tr><td>Chi phí tư vấn thiết kế &amp; quản lý</td><td class="td-right">196 tỷ</td><td class="td-right">196 tỷ</td></tr>
               <tr class="td-total-row"><td><strong>Tổng chi phí hoạt động</strong></td><td class="td-right"><strong>8.774 tỷ</strong></td><td class="td-right"><strong>8.646 tỷ</strong></td></tr>
-              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right" style="color:var(--teal);font-weight:700;font-size:16px">6.177 tỷ</td><td class="td-right" style="color:var(--teal);font-weight:700;font-size:16px">6.305 tỷ</td></tr>
+              <tr><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-result">6.177 tỷ</td><td class="td-right td-result">6.305 tỷ</td></tr>
               <tr><td><strong>Tỷ suất lợi nhuận hoạt động</strong></td><td class="td-right td-bold">41,3%</td><td class="td-right td-bold">42,2%</td></tr>
               <tr><td>Lãi vay ước tính (~850 tỷ)</td><td class="td-right">~850 tỷ</td><td class="td-right">~850 tỷ</td></tr>
               <tr><td>Lợi nhuận trước thuế</td><td class="td-right">~5.327 tỷ</td><td class="td-right">~5.455 tỷ</td></tr>
@@ -573,7 +585,7 @@
             </tbody>
           </table>
         </div>
-        <p style="font-size:13px;color:var(--ink-soft)">Ước tính vay ~35% tổng vốn (~2.394–2.438 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền chi tiết để xác định chính xác.</p>
+        <p class="note-xs">Ước tính vay ~35% tổng vốn (~2.394–2.438 tỷ) × 10%/năm × 3–4 năm phân bổ đều. Cần mô hình dòng tiền chi tiết để xác định chính xác.</p>
       </div>
 
       <div id="s7-dn" class="subsec">
@@ -584,7 +596,7 @@
             <tbody>
               <tr><td class="td-right">60</td><td class="td-right">13.280</td><td class="td-right">3.161</td><td class="td-right">23,8%</td></tr>
               <tr><td class="td-right">65</td><td class="td-right">14.115</td><td class="td-right">3.762</td><td class="td-right">26,7%</td></tr>
-              <tr style="background:rgba(26,138,122,0.07)"><td class="td-right"><strong>70</strong> ← cơ sở</td><td class="td-right td-bold">14.951</td><td class="td-right td-bold">4.364</td><td class="td-right td-highlight"><strong>29,2%</strong></td></tr>
+              <tr class="tr-base"><td class="td-right"><strong>70</strong> ← cơ sở</td><td class="td-right td-bold">14.951</td><td class="td-right td-bold">4.364</td><td class="td-right td-highlight"><strong>29,2%</strong></td></tr>
               <tr><td class="td-right">75</td><td class="td-right">15.786</td><td class="td-right">4.965</td><td class="td-right">31,5%</td></tr>
               <tr><td class="td-right">80</td><td class="td-right">16.621</td><td class="td-right">5.566</td><td class="td-right">33,5%</td></tr>
             </tbody>
@@ -639,7 +651,7 @@
           <div class="sec-title">Tổng Kết</div>
         </div>
       </div>
-      <div class="callout" style="margin-bottom:28px">
+      <div class="callout mb-28">
         <p>Dây là quỹ đất <strong>có quy hoạch 1/500 đã duyệt, pháp lý cơ sở đầy đủ, giải phóng mặt bằng gần hoàn tất</strong> tại khu vực phát triển phía Nam TP.HCM. Với <strong>~7,5 ha mặt tiền Nguyễn Văn Linh</strong>, kịch bản V1 tạo ra tổng sàn xây dựng hơn <strong>261.000 m²</strong> (~2.011 căn hộ + 76 biệt thự + 24 nhà liên kế + 12.960 m² thương mại dịch vụ) — <strong>lớn nhất trong các kịch bản được phân tích</strong>.</p>
       </div>
       <div class="tbl-wrap">
