@@ -70,6 +70,12 @@
 
   .compare-table td:nth-child(2){color:var(--ink-soft)}
   .compare-table td:nth-child(3){color:var(--amber);font-weight:600}
+  /* utility classes */
+  .stat-unit{font-size:14px;font-weight:400}
+  .col-label{width:38%}
+  .td-result{color:var(--amber);font-weight:700}
+  .mt-18{margin-top:18px}
+  .mt-24{margin-top:24px}
 
   @media print{
     @page{size:A4;margin:16mm 14mm 16mm 14mm}
@@ -101,17 +107,17 @@
   <div class="hero-stats">
     <div class="stat-box">
       <div class="stat-label">Tổng doanh thu</div>
-      <div class="stat-value">14.951<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">14.951<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">Giá cơ sở CH 70 tr/m²</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">EBIT (PA B)</div>
-      <div class="stat-value">6.305<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">6.305<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">42,2% doanh thu · Giá đất tham khảo</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Lợi nhuận sau thuế (PA B)</div>
-      <div class="stat-value">~4.364<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">~4.364<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">29,2% doanh thu · Sau lãi vay &amp; thuế</div>
     </div>
   </div>
@@ -131,7 +137,7 @@
     <div class="tbl-wrap">
       <table>
         <tbody>
-          <tr><td style="width:38%"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
+          <tr><td class="col-label"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
           <tr><td><strong>Vị trí</strong></td><td>Xã An Phú Tây, Huyện Bình Chánh, TP.HCM — mặt tiền đường Nguyễn Văn Linh (lộ giới 120m)</td></tr>
           <tr><td><strong>Diện tích quy hoạch</strong></td><td>75.386,4 m² (~7,5 ha) — theo quyết định 1/500 đã phê duyệt</td></tr>
           <tr><td><strong>Kịch bản</strong></td><td>V1 — xin điều chỉnh quy hoạch chi tiết (QHCT) 1/500: toàn bộ CT10 là chung cư, hệ số sử dụng đất 8× (~21 tầng)</td></tr>
@@ -190,11 +196,11 @@
           <tr class="td-total-row"><td><strong>EBIT (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-highlight">6.177 tỷ (41,3%)</td><td class="td-right td-highlight">6.305 tỷ (42,2%)</td></tr>
           <tr><td>Lãi vay ước tính (~35% vốn, 10%/năm)</td><td class="td-right">~850 tỷ</td><td class="td-right">~850 tỷ</td></tr>
           <tr><td>Thuế TNDN (20%)</td><td class="td-right">~1.065 tỷ</td><td class="td-right">~1.091 tỷ</td></tr>
-          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế — LNST</strong></td><td class="td-right" style="color:var(--amber);font-weight:700">~4.262 tỷ (28,5%)</td><td class="td-right" style="color:var(--amber);font-weight:700">~4.364 tỷ (29,2%)</td></tr>
+          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế — LNST</strong></td><td class="td-right td-result">~4.262 tỷ (28,5%)</td><td class="td-right td-result">~4.364 tỷ (29,2%)</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="callout" style="margin-top:18px">
+    <div class="callout mt-18">
       <p><strong>Biên an toàn:</strong> Ngay ở giá bán 60 triệu/m², LNST vẫn đạt <strong>3.161 tỷ (23,8%)</strong> — vượt xa kịch bản Gốc (LNST ~1.275 tỷ, 16,3%).</p>
     </div>
   </div>
@@ -226,7 +232,7 @@
         <div class="tl-text"><strong>Hoàn thiện &amp; bàn giao:</strong> Nghiệm thu, cấp sổ · Thu hồi vốn &amp; lợi nhuận</div>
       </div>
     </div>
-    <ul class="bullet-list" style="margin-top:18px">
+    <ul class="bullet-list mt-18">
       <li><strong>Chi phí thêm so với kịch bản Gốc:</strong> ~40–80 tỷ tư vấn điều chỉnh quy hoạch &amp; ~75 tỷ tiền sử dụng đất thêm (Tòa C chuyển mục đích) — đã phản ánh trong bảng tài chính</li>
       <li><strong>Chênh lệch timing:</strong> ~12–18 tháng thêm so với kịch bản Gốc</li>
       <li><strong>Hiệu quả kinh tế:</strong> LNST V1 gấp <strong>3,4 lần</strong> kịch bản Gốc (4.364 tỷ so với 1.275 tỷ) — biện minh rõ ràng cho thời gian chờ thêm</li>
@@ -252,7 +258,7 @@
       <li><span class="badge-amber">Timing</span> &nbsp;4–5 năm · ~12–18 tháng thêm so với kịch bản Gốc — hoàn toàn biện minh bởi lợi nhuận vượt trội</li>
     </ul>
 
-    <div class="tbl-wrap" style="margin-top:24px">
+    <div class="tbl-wrap mt-24">
       <table class="compare-table">
         <thead><tr><th>So sánh nhanh</th><th class="td-right">Kịch bản Gốc</th><th class="td-right">Kịch bản V1</th></tr></thead>
         <tbody>

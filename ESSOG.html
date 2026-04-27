@@ -67,6 +67,11 @@
   .tl-num{font-family:'Merriweather',serif;font-size:13px;font-weight:700;color:var(--teal);min-width:80px;flex-shrink:0}
   .tl-text{font-size:14px;color:var(--ink-mid);line-height:1.65}
   .tl-text strong{color:var(--ink);font-weight:600}
+  /* utility classes */
+  .stat-unit{font-size:14px;font-weight:400}
+  .col-label{width:38%}
+  .td-result{color:var(--teal);font-weight:700}
+  .mt-18{margin-top:18px}
 
   @media print{
     @page{size:A4;margin:16mm 14mm 16mm 14mm}
@@ -98,17 +103,17 @@
   <div class="hero-stats">
     <div class="stat-box">
       <div class="stat-label">Tổng doanh thu</div>
-      <div class="stat-value">7.823<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">7.823<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">Giá cơ sở CH 70 tr/m²</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">EBIT (PA B)</div>
-      <div class="stat-value">2.094<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">2.094<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">26,8% doanh thu · Giá đất tham khảo</div>
     </div>
     <div class="stat-box">
       <div class="stat-label">Lợi nhuận sau thuế (PA B)</div>
-      <div class="stat-value">~1.275<span style="font-size:14px;font-weight:400"> tỷ</span></div>
+      <div class="stat-value">~1.275<span class="stat-unit"> tỷ</span></div>
       <div class="stat-note">16,3% doanh thu · Sau lãi vay &amp; thuế</div>
     </div>
   </div>
@@ -128,7 +133,7 @@
     <div class="tbl-wrap">
       <table>
         <tbody>
-          <tr><td style="width:38%"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
+          <tr><td class="col-label"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
           <tr><td><strong>Vị trí</strong></td><td>Xã An Phú Tây, Huyện Bình Chánh, TP.HCM — mặt tiền đường Nguyễn Văn Linh (lộ giới 120m)</td></tr>
           <tr><td><strong>Diện tích quy hoạch</strong></td><td>75.386,4 m² (~7,5 ha) — theo QĐ 1/500 đã phê duyệt</td></tr>
           <tr><td><strong>Kịch bản</strong></td><td>Gốc — triển khai theo quy hoạch chi tiết (QHCT) 1/500 hiện hành, không xin điều chỉnh quy hoạch</td></tr>
@@ -184,10 +189,10 @@
           <tr><td>Chi phí xây dựng &amp; hạ tầng</td><td class="td-right">1.947 tỷ</td><td class="td-right">1.947 tỷ</td></tr>
           <tr><td>Tiền sử dụng đất (Nghị quyết 87/2025)</td><td class="td-right">1.840 tỷ</td><td class="td-right">1.840 tỷ</td></tr>
           <tr><td>Chi phí bán hàng, tư vấn, quản lý</td><td class="td-right">939 tỷ</td><td class="td-right">939 tỷ</td></tr>
-          <tr class="td-total-row"><td><strong>EBIT (trước lãi vay &amp; thuế)</strong></td><td class="td-right" style="color:var(--teal);font-weight:700">1.966 tỷ (25,1%)</td><td class="td-right" style="color:var(--teal);font-weight:700">2.094 tỷ (26,8%)</td></tr>
+          <tr class="td-total-row"><td><strong>EBIT (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-result">1.966 tỷ (25,1%)</td><td class="td-right td-result">2.094 tỷ (26,8%)</td></tr>
           <tr><td>Lãi vay ước tính (~35% vốn, 10%/năm)</td><td class="td-right">~500 tỷ</td><td class="td-right">~500 tỷ</td></tr>
           <tr><td>Thuế TNDN (20%)</td><td class="td-right">~293 tỷ</td><td class="td-right">~319 tỷ</td></tr>
-          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế — LNST</strong></td><td class="td-right" style="color:var(--teal);font-weight:700">~1.173 tỷ (15,0%)</td><td class="td-right" style="color:var(--teal);font-weight:700">~1.275 tỷ (16,3%)</td></tr>
+          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế — LNST</strong></td><td class="td-right td-result">~1.173 tỷ (15,0%)</td><td class="td-right td-result">~1.275 tỷ (16,3%)</td></tr>
         </tbody>
       </table>
     </div>
@@ -216,7 +221,7 @@
         <div class="tl-text"><strong>Hoàn thiện &amp; bàn giao:</strong> Nghiệm thu, cấp sổ · Bàn giao căn hộ, biệt thự, liên kế · Thu hồi vốn &amp; lợi nhuận</div>
       </div>
     </div>
-    <ul class="bullet-list" style="margin-top:18px">
+    <ul class="bullet-list mt-18">
       <li><strong>Ưu thế then chốt:</strong> Không cần xin điều chỉnh quy hoạch → tiết kiệm ~12 tháng &amp; ~40–80 tỷ chi phí tư vấn so với kịch bản nâng tầng</li>
       <li><strong>Pháp lý cơ sở:</strong> QH 1/500 đã phê duyệt 2010 &amp; 2013 · Chấp thuận đầu tư từ 2002 · Không thuộc diện thu hồi</li>
       <li><strong>Cao độ san nền:</strong> +2,0m trở lên — đảm bảo không ngập lũ</li>
