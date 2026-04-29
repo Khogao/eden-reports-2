@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FS Calculator BĐS VN — Template đầy đủ (Feasibility Study)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .out { font-variant-numeric: tabular-nums; }
+  table.calc { width: 100%; font-size: .8rem; border-collapse: collapse; }
+  table.calc th, table.calc td { padding: 4px 6px; border-bottom: 1px solid #e5e7eb; }
+  table.calc thead th { background: #f8fafc; font-size: .7rem; text-transform: uppercase; color: #475569; text-align: left; font-weight: 600; }
+  table.calc tfoot td { background: #f1f5f9; font-weight: 700; border-top: 2px solid #cbd5e1; }
+  table.calc tr.sub td { background: #fafbfc; font-style: italic; }
+  table.calc tr.tot td { background: #eef2ff; font-weight: 700; }
+  .section { background: white; border-radius: .5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 1.5rem; }
+  .h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid; }
+  .h3 { font-size: 1rem; font-weight: 600; margin: 12px 0 6px; color: #334155; }
+  .row { display: grid; grid-template-columns: 1fr 130px 60px; gap: 8px; align-items: center; padding: 4px 0; }
+  .row label { font-size: .85rem; }
+  .row .u { font-size: .7rem; color: #64748b; }
+  .btn { padding: 4px 10px; border-radius: .25rem; font-size: .75rem; cursor: pointer; border: 1px solid #cbd5e1; background: white; }
+  .btn:hover { background: #f1f5f9; }
+  .btn-blue { background: #2563eb; color: white; border: none; }
+  .pill { display: inline-block; padding: 2px 8px; font-size: .7rem; border-radius: 999px; background: #e0e7ff; color: #3730a3; font-weight: 600; }
+  .stat { background: white/10; border-radius: .375rem; padding: 0.6rem 0.75rem; }
+  details > summary { cursor: pointer; }
+  .stack-area { display: flex; flex-direction: column; gap: 8px; }
+  @media print {
+    .no-print { display: none !important; }
+    .section { box-shadow: none; border: 1px solid #cbd5e1; page-break-inside: avoid; }
+    body { font-size: 9pt; }
+    .page-break { page-break-before: always; }
+  }
+  .topbar { position: sticky; top: 0; z-index: 50; background: linear-gradient(90deg,#0f172a,#312e81,#0f766e); color: white; }
+</style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- TOP BAR -->
+<div class="topbar shadow-lg">
+  <div class="max-w-[1400px] mx-auto px-4 py-3 flex flex-wrap items-center gap-3 text-xs">
+    <div class="font-bold text-sm">📈 <span id="t_name">FS — Dự án mới</span></div>
+    <div class="flex flex-wrap gap-x-5 gap-y-1 ml-auto">
+      <div>DT: <b class="out" id="t_rev">0</b> tỷ</div>
+      <div>CP: <b class="out" id="t_cost">0</b> tỷ</div>
+      <div>NPV: <b class="out" id="t_npv">0</b> tỷ</div>
+      <div>IRR: <b class="out" id="t_irr">0%</b></div>
+      <div>Payback: <b class="out" id="t_pb">0</b>n</div>
+      <div>DSCR<sub>min</sub>: <b class="out" id="t_dscr">0</b></div>
+    </div>
+    <div class="flex gap-2 no-print">
+      <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">🖨 PDF</button>
+      <button onclick="exportJSON()" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">💾 Lưu</button>
+      <label class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded cursor-pointer">📂 Tải<input type="file" accept=".json" onchange="importJSON(event)" class="hidden"></label>
+      <button onclick="loadEdenV2FS()" class="bg-emerald-500/40 hover:bg-emerald-500/60 px-3 py-1 rounded">🏗 Eden V2</button>
+      <a href="TEMPLATE_FS_CALCULATOR.html" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">← Pre-FS</a>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-[1400px] mx-auto p-4 md:p-6 space-y-5">
+
+<!-- HEADER -->
+<header class="section">
+  <div class="flex items-start justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">📈 FS Calculator — Báo cáo nghiên cứu khả thi đầy đủ</h1>
+      <p class="text-sm text-slate-600 mt-1">Tính toán theo <b>quý</b>, đa dự án, NPV/IRR/MIRR/PI/DSCR, S-curve xây dựng, lịch hấp thụ bán hàng, VAT, quỹ NƠXH 20%, lịch trả nợ.</p>
+    </div>
+    <div class="flex items-center gap-2"><span class="pill">FS v1.0</span><span class="pill">Theo TT 09/2021/TT-BXD</span></div>
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
+    <div><label class="text-xs text-slate-500">Tên dự án</label><input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Địa điểm</label><input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Chủ đầu tư</label><input id="p_owner" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Quý bắt đầu</label><input id="p_start" type="text" value="Q1/2026" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Số quý dự án</label><input id="p_nq" type="number" value="20" min="4" max="40" step="1" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+  </div>
+</header>
+
+<!-- ① TỔNG MỨC ĐẦU TƯ — KẾT NHẬP TỪ PRE-FS -->
+<section class="section">
+  <h2 class="h2 text-blue-900 border-blue-200">① Tổng mức đầu tư & Doanh thu (kết quả Pre-FS)</h2>
+  <p class="text-xs text-slate-500 mb-3">Nhập trực tiếp các tổng từ kết quả Pre-FS calculator hoặc tải JSON từ Pre-FS.</p>
+  <div class="grid md:grid-cols-2 gap-x-6">
+    <div>
+      <h3 class="h3">Doanh thu (gross, chưa VAT)</h3>
+      <div class="row"><label>Doanh thu BĐS để bán</label><input id="g_rev_sale" type="number" value="13500" step="100" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Doanh thu chỗ đỗ xe (bán)</label><input id="g_rev_park" type="number" value="450" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Doanh thu cho thuê (TMDV)</label><input id="g_rev_lease" type="number" value="0" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ/năm</span></div>
+      <div class="row"><label>Trong đó: % NƠXH (Đ.83 Luật NƠ 2023)</label><input id="g_pct_nox" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">% sàn ở</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Chi phí (chưa VAT đầu vào)</h3>
+      <div class="row"><label>Mua đất / GPMB</label><input id="g_land" type="number" value="2000" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Tiền chuyển MĐSDĐ (NQ 87)</label><input id="g_cmd" type="number" value="3500" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Xây dựng & hạ tầng</label><input id="g_build" type="number" value="4500" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Chi phí gián tiếp (TK, PM, MKT, dự phòng)</label><input id="g_indirect" type="number" value="1100" step="50" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+      <div class="row"><label>Pháp lý & thủ tục (cố định)</label><input id="g_legal" type="number" value="60" step="5" class="num border rounded px-2 py-1"><span class="u">tỷ</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ② LỊCH XÂY DỰNG (S-CURVE) -->
+<section class="section">
+  <h2 class="h2 text-orange-900 border-orange-200">② Lịch xây dựng (S-curve) — % giải ngân theo quý</h2>
+  <p class="text-xs text-slate-500 mb-2">Chọn preset hoặc nhập tay. Hệ thống chuẩn hoá tổng = 100%.</p>
+  <div class="flex gap-2 mb-3 no-print">
+    <button onclick="presetSCurve('linear')" class="btn">Tuyến tính</button>
+    <button onclick="presetSCurve('s')" class="btn">S-curve chuẩn</button>
+    <button onclick="presetSCurve('frontload')" class="btn">Front-load (Đào, hầm sớm)</button>
+    <button onclick="presetSCurve('backload')" class="btn">Back-load (Hoàn thiện cuối)</button>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="calc text-xs">
+      <thead><tr id="sc_thead"></tr></thead>
+      <tbody><tr id="sc_row"></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ③ LỊCH BÁN HÀNG (Sales Absorption) -->
+<section class="section">
+  <h2 class="h2 text-emerald-900 border-emerald-200">③ Lịch hấp thụ bán hàng — % thu tiền theo quý</h2>
+  <p class="text-xs text-slate-500 mb-2">% tiền thu về theo tiến độ thanh toán HĐMB (đặt cọc/ký HĐ/đợt 1‑5/bàn giao). Thường bắt đầu sau khi xong móng (đủ điều kiện bán nhà ở hình thành trong tương lai — Đ.55 Luật KDBĐS 2023).</p>
+  <div class="flex gap-2 mb-3 no-print">
+    <button onclick="presetSales('standard')" class="btn">Chuẩn (sau móng)</button>
+    <button onclick="presetSales('fast')" class="btn">Hấp thụ nhanh</button>
+    <button onclick="presetSales('slow')" class="btn">Hấp thụ chậm</button>
+    <button onclick="presetSales('handover')" class="btn">Tập trung bàn giao</button>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="calc text-xs">
+      <thead><tr id="sa_thead"></tr></thead>
+      <tbody><tr id="sa_row"></tr></tbody>
+    </table>
+  </div>
+  <div class="mt-2 grid md:grid-cols-3 gap-3 text-sm">
+    <div class="row"><label>Quý mở bán (đợt 1)</label><input id="sa_open" type="number" value="5" step="1" class="num border rounded px-2 py-1"><span class="u">quý từ Q1</span></div>
+    <div class="row"><label>Tỷ lệ đặt cọc / ký HĐ</label><input id="sa_deposit" type="number" value="30" step="1" class="num border rounded px-2 py-1"><span class="u">% giá trị</span></div>
+    <div class="row"><label>Bàn giao (giữ lại 5%)</label><input id="sa_handover" type="number" value="16" step="1" class="num border rounded px-2 py-1"><span class="u">quý</span></div>
+  </div>
+</section>
+
+<!-- ④ THUẾ & QUỸ -->
+<section class="section">
+  <h2 class="h2 text-red-900 border-red-200">④ Thuế, VAT & Nghĩa vụ tài chính</h2>
+  <div class="grid md:grid-cols-2 gap-x-6">
+    <div>
+      <h3 class="h3">VAT</h3>
+      <div class="row"><label>VAT đầu ra (BĐS để bán)</label><input id="t_vat_out" type="number" value="10" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+      <div class="row"><label>VAT đầu vào (XD, dịch vụ)</label><input id="t_vat_in" type="number" value="10" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+      <div class="row"><label>Thuế TNDN</label><input id="t_cit" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+      <div class="row"><label>Lệ phí trước bạ (CĐT chịu hộ?)</label><input id="t_regfee" type="number" value="0" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Quỹ NƠXH (20% — Đ.83 Luật NƠ 2023)</h3>
+      <p class="text-xs text-slate-500">Dự án nhà ở thương mại tại đô thị từ loại III trở lên phải dành 20% diện tích đất ở/sàn ở để xây NƠXH HOẶC nộp giá trị tương đương bằng tiền.</p>
+      <div class="row"><label>Phương án</label>
+        <select id="nox_mode" class="border rounded px-2 py-1 col-span-2">
+          <option value="onsite">Xây NƠXH tại chỗ</option>
+          <option value="cash">Nộp tiền tương đương</option>
+          <option value="offsite">Hoán đổi quỹ đất khác</option>
+        </select>
+      </div>
+      <div class="row"><label>Suất XD NƠXH (nếu onsite)</label><input id="nox_cost" type="number" value="14" step="0.5" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>Giá bán NƠXH trần</label><input id="nox_sale" type="number" value="20" step="0.5" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ TÀI CHÍNH & VỐN -->
+<section class="section">
+  <h2 class="h2 text-purple-900 border-purple-200">⑤ Cấu trúc vốn & Lịch trả nợ</h2>
+  <div class="grid md:grid-cols-3 gap-x-6">
+    <div>
+      <h3 class="h3">Sources</h3>
+      <div class="row"><label>Vốn CSH</label><input id="sf_equity" type="number" value="35" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
+      <div class="row"><label>Vay NH</label><input id="sf_loan" type="number" value="40" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
+      <div class="row"><label>Tiền KH (HĐMB)</label><input id="sf_buyer" type="number" value="25" step="1" class="num border rounded px-2 py-1"><span class="u">% (auto từ ③)</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Vay</h3>
+      <div class="row"><label>Lãi suất</label><input id="lo_rate" type="number" value="10" step="0.1" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+      <div class="row"><label>Quý ân hạn nợ gốc</label><input id="lo_grace" type="number" value="8" step="1" class="num border rounded px-2 py-1"><span class="u">quý</span></div>
+      <div class="row"><label>Quý trả gốc đều</label><input id="lo_term" type="number" value="12" step="1" class="num border rounded px-2 py-1"><span class="u">quý</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Chiết khấu</h3>
+      <div class="row"><label>WACC</label><input id="fi_wacc" type="number" value="12" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+      <div class="row"><label>Reinvest rate (MIRR)</label><input id="fi_rein" type="number" value="8" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+      <div class="row"><label>Finance rate (MIRR)</label><input id="fi_fin" type="number" value="10" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ DÒNG TIỀN THEO QUÝ -->
+<section class="section page-break">
+  <h2 class="h2 text-indigo-900 border-indigo-200">⑥ Dòng tiền theo quý (Cash Flow Statement)</h2>
+  <div class="overflow-x-auto">
+    <table class="calc text-[11px]" id="cf_table">
+      <thead id="cf_thead"></thead>
+      <tbody id="cf_tb"></tbody>
+      <tfoot id="cf_tf"></tfoot>
+    </table>
+  </div>
+</section>
+
+<!-- ⑦ KẾT QUẢ HIỆU QUẢ -->
+<section class="bg-gradient-to-br from-slate-900 to-indigo-900 text-white rounded-lg shadow-xl p-6 page-break">
+  <h2 class="text-xl font-bold mb-4">⑦ Chỉ tiêu hiệu quả tài chính</h2>
+  <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">NPV</div><div class="text-2xl font-bold out" id="r_npv">0</div><div class="text-xs opacity-70">tỷ @ WACC</div></div>
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">IRR</div><div class="text-2xl font-bold out" id="r_irr">0%</div><div class="text-xs opacity-70">/năm</div></div>
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">MIRR</div><div class="text-2xl font-bold out" id="r_mirr">0%</div><div class="text-xs opacity-70">/năm</div></div>
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">PI</div><div class="text-2xl font-bold out" id="r_pi">0</div><div class="text-xs opacity-70">PV in / PV out</div></div>
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">Payback</div><div class="text-2xl font-bold out" id="r_pb">0</div><div class="text-xs opacity-70">năm</div></div>
+    <div class="bg-white/10 rounded p-3"><div class="text-xs uppercase opacity-70">DSCR<sub>min</sub></div><div class="text-2xl font-bold out" id="r_dscr">0</div><div class="text-xs opacity-70">≥ 1,2 OK</div></div>
+  </div>
+  <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+    <div class="bg-white/5 rounded p-2"><div class="text-xs opacity-70">Đỉnh vốn vay</div><div class="font-bold out" id="r_peak_loan">0</div></div>
+    <div class="bg-white/5 rounded p-2"><div class="text-xs opacity-70">Tổng lãi vay</div><div class="font-bold out" id="r_int">0</div></div>
+    <div class="bg-white/5 rounded p-2"><div class="text-xs opacity-70">LNST</div><div class="font-bold out" id="r_net">0</div></div>
+    <div class="bg-white/5 rounded p-2"><div class="text-xs opacity-70">ROE</div><div class="font-bold out" id="r_roe">0%</div></div>
+  </div>
+</section>
+
+<!-- ⑧ KỊCH BẢN -->
+<section class="section">
+  <h2 class="h2 text-amber-900 border-amber-200">⑧ Phân tích kịch bản (Bear / Base / Bull)</h2>
+  <p class="text-xs text-slate-500 mb-3">3 kịch bản với điều chỉnh giá bán & chi phí xây dựng. So sánh NPV/IRR.</p>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead>
+        <tr><th>Kịch bản</th><th>Δ Giá bán</th><th>Δ CP XD</th><th>Δ Hấp thụ</th><th class="num">NPV</th><th class="num">IRR</th><th class="num">Payback</th><th class="num">DSCR<sub>min</sub></th></tr>
+      </thead>
+      <tbody id="sc_tb"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ⑨ CHECKLIST FS -->
+<section class="section no-print">
+  <h2 class="h2 text-slate-700 border-slate-200">⑨ Checklist hồ sơ FS theo quy định VN</h2>
+  <details open>
+    <summary class="font-bold">📋 Bộ hồ sơ FS theo TT 09/2021/TT-BXD & NĐ 15/2021/NĐ-CP</summary>
+    <ul class="mt-2 text-sm space-y-1 list-disc pl-5">
+      <li><b>Phần 1 — Sự cần thiết:</b> Bối cảnh thị trường, mục tiêu đầu tư, sự phù hợp quy hoạch (QHC, QHPK, QHCT 1/500).</li>
+      <li><b>Phần 2 — Quy mô & Hình thức:</b> Diện tích đất, chỉ tiêu QH (mật độ, FAR, tầng cao), số căn theo từng loại, dân số dự kiến, tiện ích công cộng.</li>
+      <li><b>Phần 3 — Phương án kỹ thuật:</b> Sơ bộ thiết kế, kết cấu, M&E, PCCC (QCVN 06), giao thông, hạ tầng kỹ thuật (cấp/thoát nước, điện, viễn thông).</li>
+      <li><b>Phần 4 — Đánh giá tác động môi trường (ĐTM):</b> Theo Luật BVMT 2020.</li>
+      <li><b>Phần 5 — Phương án GPMB & Tái định cư:</b> Số hộ ảnh hưởng, đơn giá bồi thường, quỹ TĐC.</li>
+      <li><b>Phần 6 — Phương án đầu tư & vốn:</b> Tổng mức đầu tư, cấu trúc vốn, tiến độ giải ngân.</li>
+      <li><b>Phần 7 — Phân tích tài chính:</b> Doanh thu, chi phí, dòng tiền, NPV/IRR/Payback/DSCR — <i>nội dung của template này</i>.</li>
+      <li><b>Phần 8 — Phân tích KT-XH:</b> Tạo việc làm, đóng góp ngân sách (NQ 87/2025 + thuế), GDP địa phương.</li>
+      <li><b>Phần 9 — Phân tích rủi ro:</b> Pháp lý, thị trường, kỹ thuật, tài chính, lãi suất — kèm phương án xử lý.</li>
+      <li><b>Phần 10 — Phụ lục:</b> Bản vẽ, văn bản pháp lý (chấp thuận chủ trương, GĐĐ, QHCT 1/500), hợp đồng nguyên tắc.</li>
+    </ul>
+  </details>
+  <details class="mt-3">
+    <summary class="font-bold">📐 Tiêu chuẩn thẩm định hiệu quả</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>Chỉ tiêu</th><th>Ngưỡng tốt</th><th>Ngưỡng tối thiểu</th><th>Ghi chú</th></tr></thead>
+      <tbody>
+        <tr><td>NPV</td><td>&gt; 10% Tổng vốn</td><td>&gt; 0</td><td>Chiết khấu = WACC</td></tr>
+        <tr><td>IRR</td><td>&gt; WACC + 5%</td><td>&gt; WACC + 2%</td><td>Bù rủi ro thị trường BĐS VN</td></tr>
+        <tr><td>Payback</td><td>≤ 4 năm</td><td>≤ 6 năm</td><td>Chu kỳ BĐS VN ≈ 5–7 năm</td></tr>
+        <tr><td>DSCR<sub>min</sub></td><td>≥ 1,5</td><td>≥ 1,2</td><td>Quy định NHNN cho vay BĐS</td></tr>
+        <tr><td>Biên LNST</td><td>≥ 18%</td><td>≥ 10%</td><td>Trung bình ngành 12–15%</td></tr>
+        <tr><td>ROE</td><td>≥ 25%</td><td>≥ 15%</td><td>Đòn bẩy CĐT BĐS VN</td></tr>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+</div>
+
+<script>
+// ====== STATE ======
+let sCurve = [];   // % chi phí XD theo quý (length = nq)
+let salesCurve = []; // % thu tiền theo quý
+
+// ====== HELPERS ======
+const $ = id => document.getElementById(id);
+const num = id => parseFloat($(id).value) || 0;
+const fmt = (n, d=0) => (n||0).toLocaleString('vi-VN', { maximumFractionDigits: d, minimumFractionDigits: d });
+
+function ensureLen(arr, n, fill=0) {
+  if (arr.length === n) return arr;
+  if (arr.length < n) return arr.concat(Array(n - arr.length).fill(fill));
+  return arr.slice(0, n);
+}
+
+// ====== PRESETS S-CURVE ======
+function presetSCurve(kind) {
+  const n = parseInt($('p_nq').value) || 20;
+  const arr = Array(n).fill(0);
+  if (kind === 'linear') {
+    for (let i = 0; i < n; i++) arr[i] = 100/n;
+  } else if (kind === 's') {
+    // sigmoid
+    for (let i = 0; i < n; i++) {
+      const x = (i + 0.5)/n * 12 - 6;
+      arr[i] = 1 / (1 + Math.exp(-x));
+    }
+    // diff
+    let cum = 0; const diffs = [];
+    for (let i = 0; i < n; i++) { diffs.push(arr[i] - cum); cum = arr[i]; }
+    const sum = diffs.reduce((s,x)=>s+x,0);
+    for (let i = 0; i < n; i++) arr[i] = diffs[i]/sum * 100;
+  } else if (kind === 'frontload') {
+    for (let i = 0; i < n; i++) arr[i] = (n - i);
+    const s = arr.reduce((a,b)=>a+b,0); for (let i=0;i<n;i++) arr[i] = arr[i]/s*100;
+  } else if (kind === 'backload') {
+    for (let i = 0; i < n; i++) arr[i] = (i + 1);
+    const s = arr.reduce((a,b)=>a+b,0); for (let i=0;i<n;i++) arr[i] = arr[i]/s*100;
+  }
+  sCurve = arr;
+  renderSCurve();
+  calc();
+}
+
+function renderSCurve() {
+  const n = parseInt($('p_nq').value) || 20;
+  sCurve = ensureLen(sCurve, n, 0);
+  let h = '<th>Quý</th>';
+  for (let i = 1; i <= n; i++) h += `<th class="text-center">Q${i}</th>`;
+  h += '<th class="text-center bg-slate-100">Σ</th>';
+  $('sc_thead').innerHTML = h;
+  let r = '<td><b>% XD</b></td>';
+  for (let i = 0; i < n; i++) r += `<td><input type="number" value="${sCurve[i].toFixed(1)}" step="0.5" class="num border rounded px-1 py-0.5 w-12" data-curve="s" data-i="${i}"></td>`;
+  r += `<td class="num bg-slate-50">${fmt(sCurve.reduce((s,x)=>s+x,0),1)}%</td>`;
+  $('sc_row').innerHTML = r;
+  $('sc_row').querySelectorAll('input').forEach(inp => inp.addEventListener('input', e => {
+    sCurve[+e.target.dataset.i] = parseFloat(e.target.value)||0; calc();
+  }));
+}
+
+// ====== PRESETS SALES ======
+function presetSales(kind) {
+  const n = parseInt($('p_nq').value) || 20;
+  const open = parseInt($('sa_open').value) || 5;
+  const handover = parseInt($('sa_handover').value) || 16;
+  const arr = Array(n).fill(0);
+  if (kind === 'standard') {
+    // Sau open: 30% deposit/sign, then 5% per quarter to handover, 5% at handover
+    if (open <= n) arr[open-1] = 30;
+    const span = Math.max(1, handover - open);
+    const inst = 65 / span;
+    for (let i = open; i < Math.min(handover, n); i++) arr[i] = inst;
+    if (handover <= n) arr[handover-1] = (arr[handover-1]||0) + 5;
+  } else if (kind === 'fast') {
+    if (open <= n) arr[open-1] = 50;
+    for (let i = open; i < Math.min(open+4, n); i++) arr[i] = 12.5;
+  } else if (kind === 'slow') {
+    if (open <= n) arr[open-1] = 15;
+    const span = Math.max(1, handover - open);
+    for (let i = open; i < Math.min(handover, n); i++) arr[i] = 80/span;
+    if (handover <= n) arr[handover-1] += 5;
+  } else if (kind === 'handover') {
+    if (open <= n) arr[open-1] = 30;
+    if (handover <= n) arr[handover-1] = 70;
+  }
+  salesCurve = arr;
+  renderSales();
+  calc();
+}
+
+function renderSales() {
+  const n = parseInt($('p_nq').value) || 20;
+  salesCurve = ensureLen(salesCurve, n, 0);
+  let h = '<th>Quý</th>';
+  for (let i = 1; i <= n; i++) h += `<th class="text-center">Q${i}</th>`;
+  h += '<th class="text-center bg-slate-100">Σ</th>';
+  $('sa_thead').innerHTML = h;
+  let r = '<td><b>% DT</b></td>';
+  for (let i = 0; i < n; i++) r += `<td><input type="number" value="${salesCurve[i].toFixed(1)}" step="0.5" class="num border rounded px-1 py-0.5 w-12" data-curve="a" data-i="${i}"></td>`;
+  r += `<td class="num bg-slate-50">${fmt(salesCurve.reduce((s,x)=>s+x,0),1)}%</td>`;
+  $('sa_row').innerHTML = r;
+  $('sa_row').querySelectorAll('input').forEach(inp => inp.addEventListener('input', e => {
+    salesCurve[+e.target.dataset.i] = parseFloat(e.target.value)||0; calc();
+  }));
+}
+
+// ====== IRR / MIRR ======
+function irr(cf, guess = 0.05) {
+  let r = guess;
+  for (let it = 0; it < 200; it++) {
+    let npv = 0, dnpv = 0;
+    for (let t = 0; t < cf.length; t++) {
+      const d = Math.pow(1 + r, t);
+      npv += cf[t] / d;
+      if (t > 0) dnpv -= t * cf[t] / (d * (1 + r));
+    }
+    if (Math.abs(npv) < 1e-4) return r;
+    if (dnpv === 0) break;
+    const next = r - npv / dnpv;
+    if (!isFinite(next)) break;
+    if (Math.abs(next - r) < 1e-9) return next;
+    r = next;
+  }
+  return NaN;
+}
+
+function mirr(cf, finRate, reinRate) {
+  const n = cf.length - 1;
+  let pvNeg = 0, fvPos = 0;
+  for (let t = 0; t < cf.length; t++) {
+    if (cf[t] < 0) pvNeg += cf[t] / Math.pow(1 + finRate, t);
+    else if (cf[t] > 0) fvPos += cf[t] * Math.pow(1 + reinRate, n - t);
+  }
+  if (pvNeg === 0) return NaN;
+  return Math.pow(fvPos / -pvNeg, 1/n) - 1;
+}
+
+// ====== MAIN COMPUTE ======
+function compute() {
+  const n = parseInt($('p_nq').value) || 20;
+  sCurve = ensureLen(sCurve, n, 0);
+  salesCurve = ensureLen(salesCurve, n, 0);
+
+  const revSale = num('g_rev_sale');
+  const revPark = num('g_rev_park');
+  const revLeaseY = num('g_rev_lease');
+  const revGross = revSale + revPark;          // doanh thu bán (tỷ)
+  const land = num('g_land');
+  const cmd = num('g_cmd');
+  const build = num('g_build');
+  const indirect = num('g_indirect');
+  const legal = num('g_legal');
+  const totalCost = land + cmd + build + indirect + legal;
+
+  const sumS = sCurve.reduce((s,x)=>s+x,0) || 1;
+  const sumA = salesCurve.reduce((s,x)=>s+x,0) || 1;
+
+  // Quarterly arrays
+  const qBuild   = sCurve.map(v => build * v / sumS);
+  const qIndirect= sCurve.map(v => indirect * v / sumS);
+  const qLand    = Array(n).fill(0);  qLand[0] = land;     // upfront
+  const qCmd     = Array(n).fill(0);  qCmd[1] = cmd;       // quý 2 (xấp xỉ sau khi có QĐ giao đất)
+  const qLegal   = Array(n).fill(0);  for (let i = 0; i < Math.min(8,n); i++) qLegal[i] = legal/Math.min(8,n);
+
+  const qRevenue = salesCurve.map(v => revGross * v / sumA);
+  const qLease   = Array(n).fill(revLeaseY/4);  // tạm: chia đều/quý
+
+  // VAT
+  const vatOut = num('t_vat_out')/100;
+  const vatIn  = num('t_vat_in')/100;
+  const qVATout = qRevenue.map(v => v * vatOut);
+  const qVATin  = qBuild.map((v,i) => (v + qIndirect[i]) * vatIn);
+  const qVATnet = qVATout.map((v,i) => Math.max(0, v - qVATin[i]));  // VAT phải nộp/quý
+
+  // Outflow & inflow base
+  const qOut = qBuild.map((b,i) => b + qIndirect[i] + qLand[i] + qCmd[i] + qLegal[i] + qVATnet[i]);
+  const qIn  = qRevenue.map((r,i) => r + qLease[i]);
+
+  // Financing — simple loan model
+  const eqPct = num('sf_equity')/100;
+  const loPct = num('sf_loan')/100;
+  const rateQ = num('lo_rate')/100/4;
+  const grace = parseInt($('lo_grace').value)||0;
+  const term  = parseInt($('lo_term').value)||1;
+
+  // Funding gap → loan disbursement until cap
+  const loanCap = totalCost * loPct;
+  const equityCap = totalCost * eqPct;
+  let loanBal = 0, eqUsed = 0, loanCum = 0;
+  const qLoanIn = Array(n).fill(0);
+  const qEquityIn = Array(n).fill(0);
+  const qInt = Array(n).fill(0);
+  const qPrin = Array(n).fill(0);
+  const qLoanBal = Array(n).fill(0);
+
+  for (let i = 0; i < n; i++) {
+    let need = qOut[i] - qIn[i];
+    // priority: equity until cap, then loan
+    if (need > 0) {
+      const eqDraw = Math.min(need, Math.max(0, equityCap - eqUsed));
+      eqUsed += eqDraw; need -= eqDraw;
+      qEquityIn[i] = eqDraw;
+      const loDraw = Math.min(need, Math.max(0, loanCap - loanCum));
+      loanCum += loDraw; loanBal += loDraw;
+      qLoanIn[i] = loDraw;
+    }
+    // interest accrual
+    const intr = loanBal * rateQ;
+    qInt[i] = intr;
+    // principal: after grace period, equal repayment over term
+    if (i >= grace && i < grace + term && loanBal > 0) {
+      const pay = Math.min(loanBal, loanCum / term);
+      qPrin[i] = pay;
+      loanBal -= pay;
+    }
+    // surplus cash repays loan early
+    let surplus = qIn[i] - qOut[i] - qInt[i] - qPrin[i];
+    if (surplus > 0 && loanBal > 0) {
+      const extra = Math.min(surplus, loanBal);
+      qPrin[i] += extra;
+      loanBal -= extra;
+    }
+    qLoanBal[i] = loanBal;
+  }
+
+  // Tax (CIT) — accrual basis at handover (last quarter of sales)
+  const lastSaleQ = (() => { for (let i = n-1; i >= 0; i--) if (salesCurve[i] > 0) return i; return n-1; })();
+  const totInt = qInt.reduce((s,x)=>s+x,0);
+  const opr = revGross - totalCost;
+  const pbt = opr - totInt;
+  const tax = Math.max(0, pbt) * num('t_cit')/100;
+  const qTax = Array(n).fill(0); qTax[lastSaleQ] = tax;
+
+  // FCF (project), FCFE (equity)
+  const qFCF = qIn.map((v,i) => v - qOut[i] - qInt[i] - qTax[i]);  // before debt principal
+  const qFCFE = qIn.map((v,i) => v - qOut[i] - qInt[i] - qPrin[i] - qTax[i] + qLoanIn[i]);
+  // CF for project NPV (unlevered)
+  const qCFu = qIn.map((v,i) => v - qOut[i] - qTax[i]);
+
+  // Discount
+  const wacc = num('fi_wacc')/100;
+  const waccQ = Math.pow(1 + wacc, 0.25) - 1;
+  let npv = 0, pvIn = 0, pvOut = 0;
+  qCFu.forEach((v,i) => {
+    const d = Math.pow(1 + waccQ, i + 0.5);
+    npv += v / d;
+    if (v > 0) pvIn += v / d;
+    else pvOut += -v / d;
+  });
+  const irrQ = irr(qCFu);
+  const irrA = isFinite(irrQ) ? Math.pow(1+irrQ,4)-1 : NaN;
+  const finRateQ = Math.pow(1+num('fi_fin')/100, 0.25) - 1;
+  const reinRateQ = Math.pow(1+num('fi_rein')/100, 0.25) - 1;
+  const mirrQ = mirr(qCFu, finRateQ, reinRateQ);
+  const mirrA = isFinite(mirrQ) ? Math.pow(1+mirrQ,4)-1 : NaN;
+
+  // Payback (years, undiscounted)
+  let cum = 0, pb = NaN;
+  for (let i = 0; i < n; i++) {
+    const prev = cum;
+    cum += qCFu[i];
+    if (cum >= 0 && prev < 0) { pb = (i + (0-prev)/(cum-prev) + 0.5) / 4; break; }
+  }
+
+  // DSCR per quarter (only when debt service > 0): CFADS / (Int + Prin)
+  const dscrArr = qInt.map((it,i) => {
+    const ds = it + qPrin[i];
+    if (ds <= 0) return null;
+    const cfads = qIn[i] - qOut[i] - qTax[i];
+    return cfads / ds;
+  });
+  const dscrPositive = dscrArr.filter(v => v !== null);
+  const dscrMin = dscrPositive.length ? Math.min(...dscrPositive) : NaN;
+
+  // Peak loan
+  const peakLoan = Math.max(...qLoanBal, 0);
+  const equity = equityCap;
+  const net = pbt - tax;
+  const roe = equity > 0 ? net/equity*100 : 0;
+
+  return {
+    n, qBuild, qIndirect, qLand, qCmd, qLegal, qOut, qIn, qRevenue, qVATnet,
+    qLoanIn, qEquityIn, qInt, qPrin, qLoanBal, qTax, qCFu, qFCFE,
+    revGross, totalCost, opr, totInt, pbt, tax, net, equity, roe,
+    npv, irrA, mirrA, pi: pvOut>0?pvIn/pvOut:0, pb, dscrMin, peakLoan
+  };
+}
+
+function calc() {
+  const r = compute();
+  renderCF(r);
+  renderResults(r);
+  renderScenarios();
+}
+
+function renderCF(r) {
+  const n = r.n;
+  let h = '<tr><th>Khoản mục (tỷ)</th>';
+  for (let i = 1; i <= n; i++) h += `<th class="text-center">Q${i}</th>`;
+  h += '<th class="text-center bg-slate-100">Σ</th></tr>';
+  $('cf_thead').innerHTML = h;
+
+  const rows = [
+    { lbl: 'Doanh thu bán', arr: r.qRevenue, cls: 'text-emerald-700' },
+    { lbl: 'XD & hạ tầng',  arr: r.qBuild.map(x=>-x), cls: 'text-red-700' },
+    { lbl: 'Gián tiếp',     arr: r.qIndirect.map(x=>-x), cls: 'text-red-700' },
+    { lbl: 'Đất + GPMB',    arr: r.qLand.map(x=>-x), cls: 'text-red-700' },
+    { lbl: 'CMĐSDĐ',        arr: r.qCmd.map(x=>-x), cls: 'text-red-700' },
+    { lbl: 'Pháp lý',       arr: r.qLegal.map(x=>-x), cls: 'text-red-700' },
+    { lbl: 'VAT phải nộp',  arr: r.qVATnet.map(x=>-x), cls: 'text-orange-700' },
+    { lbl: 'Thuế TNDN',     arr: r.qTax.map(x=>-x), cls: 'text-orange-700' },
+    { lbl: 'Vay (giải ngân)', arr: r.qLoanIn, cls: 'text-blue-700 sub' },
+    { lbl: 'Lãi vay',       arr: r.qInt.map(x=>-x), cls: 'text-amber-700 sub' },
+    { lbl: 'Trả gốc',       arr: r.qPrin.map(x=>-x), cls: 'text-amber-700 sub' },
+    { lbl: 'Dư nợ cuối quý', arr: r.qLoanBal, cls: 'text-slate-600 sub' },
+  ];
+  let html = '';
+  rows.forEach(row => {
+    const sum = row.arr.reduce((s,x)=>s+x,0);
+    html += `<tr class="${row.cls.includes('sub')?'sub':''}"><td class="${row.cls}">${row.lbl}</td>`;
+    row.arr.forEach(v => html += `<td class="num ${row.cls}">${fmt(v,0)}</td>`);
+    html += `<td class="num bg-slate-50">${fmt(sum,0)}</td></tr>`;
+  });
+  // FCF
+  html += `<tr class="tot"><td>FCF (unlevered)</td>`;
+  let cum = 0;
+  r.qCFu.forEach(v => { html += `<td class="num">${fmt(v,0)}</td>`; });
+  html += `<td class="num">${fmt(r.qCFu.reduce((s,x)=>s+x,0),0)}</td></tr>`;
+  // Cumulative
+  html += `<tr><td class="text-xs text-slate-500">Lũy kế</td>`;
+  r.qCFu.forEach(v => { cum += v; html += `<td class="num text-xs ${cum<0?'text-red-600':'text-emerald-700'}">${fmt(cum,0)}</td>`; });
+  html += `<td></td></tr>`;
+  $('cf_tb').innerHTML = html;
+}
+
+function renderResults(r) {
+  $('r_npv').textContent = fmt(r.npv);
+  $('r_irr').textContent = isFinite(r.irrA) ? fmt(r.irrA*100,1)+'%' : 'N/A';
+  $('r_mirr').textContent = isFinite(r.mirrA) ? fmt(r.mirrA*100,1)+'%' : 'N/A';
+  $('r_pi').textContent = fmt(r.pi,2);
+  $('r_pb').textContent = isFinite(r.pb) ? fmt(r.pb,1) : 'N/A';
+  $('r_dscr').textContent = isFinite(r.dscrMin) ? fmt(r.dscrMin,2) : 'N/A';
+  $('r_peak_loan').textContent = fmt(r.peakLoan);
+  $('r_int').textContent = fmt(r.totInt);
+  $('r_net').textContent = fmt(r.net);
+  $('r_roe').textContent = fmt(r.roe,1)+'%';
+  // Topbar
+  $('t_name').textContent = $('p_name').value || 'FS';
+  $('t_rev').textContent = fmt(r.revGross);
+  $('t_cost').textContent = fmt(r.totalCost);
+  $('t_npv').textContent = fmt(r.npv);
+  $('t_irr').textContent = isFinite(r.irrA) ? fmt(r.irrA*100,1)+'%' : 'N/A';
+  $('t_pb').textContent = isFinite(r.pb) ? fmt(r.pb,1) : 'N/A';
+  $('t_dscr').textContent = isFinite(r.dscrMin) ? fmt(r.dscrMin,2) : 'N/A';
+}
+
+function renderScenarios() {
+  // Save baseline values
+  const baseRev = num('g_rev_sale');
+  const baseBuild = num('g_build');
+  const baseSales = salesCurve.slice();
+
+  const cases = [
+    { name: 'Bear (xấu)',   dPrice: -10, dCost: +10, dSales: -25, color: 'text-red-700' },
+    { name: 'Base (cơ sở)', dPrice: 0,   dCost: 0,   dSales: 0,   color: 'text-slate-700' },
+    { name: 'Bull (tốt)',   dPrice: +10, dCost: -5,  dSales: +20, color: 'text-emerald-700' },
+  ];
+
+  let html = '';
+  cases.forEach(c => {
+    $('g_rev_sale').value = baseRev * (1 + c.dPrice/100);
+    $('g_build').value = baseBuild * (1 + c.dCost/100);
+    salesCurve = baseSales.map(v => v * (1 + c.dSales/100));
+    const r = compute();
+    html += `<tr><td class="${c.color}"><b>${c.name}</b></td>`+
+      `<td class="num">${c.dPrice>0?'+':''}${c.dPrice}%</td>`+
+      `<td class="num">${c.dCost>0?'+':''}${c.dCost}%</td>`+
+      `<td class="num">${c.dSales>0?'+':''}${c.dSales}%</td>`+
+      `<td class="num ${r.npv<0?'text-red-700':''}">${fmt(r.npv)}</td>`+
+      `<td class="num">${isFinite(r.irrA)?fmt(r.irrA*100,1)+'%':'N/A'}</td>`+
+      `<td class="num">${isFinite(r.pb)?fmt(r.pb,1):'N/A'}</td>`+
+      `<td class="num">${isFinite(r.dscrMin)?fmt(r.dscrMin,2):'N/A'}</td></tr>`;
+  });
+  $('sc_tb').innerHTML = html;
+
+  // Restore
+  $('g_rev_sale').value = baseRev;
+  $('g_build').value = baseBuild;
+  salesCurve = baseSales;
+}
+
+// ====== SAVE/LOAD ======
+function exportJSON() {
+  const data = {
+    meta: { name: $('p_name').value, loc: $('p_loc').value, owner: $('p_owner').value, start: $('p_start').value, nq: $('p_nq').value },
+    inputs: {},
+    sCurve, salesCurve
+  };
+  ['g_rev_sale','g_rev_park','g_rev_lease','g_pct_nox','g_land','g_cmd','g_build','g_indirect','g_legal',
+   'sa_open','sa_deposit','sa_handover','t_vat_out','t_vat_in','t_cit','t_regfee',
+   'nox_mode','nox_cost','nox_sale','sf_equity','sf_loan','sf_buyer','lo_rate','lo_grace','lo_term',
+   'fi_wacc','fi_rein','fi_fin'].forEach(k => data.inputs[k] = $(k).value);
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `FS_${($('p_name').value||'duan').replace(/\s+/g,'_')}.json`;
+  a.click();
+}
+function importJSON(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (d.meta) ['name','loc','owner','start','nq'].forEach(k => { if ($('p_'+k)) $('p_'+k).value = d.meta[k]||''; });
+      if (d.inputs) Object.entries(d.inputs).forEach(([k,v]) => { if ($(k)) $(k).value = v; });
+      if (d.sCurve) sCurve = d.sCurve;
+      if (d.salesCurve) salesCurve = d.salesCurve;
+      renderSCurve(); renderSales(); calc();
+    } catch(err) { alert('JSON không hợp lệ: ' + err.message); }
+  };
+  r.readAsText(f);
+}
+
+// ====== EDEN V2 PRESET ======
+function loadEdenV2FS() {
+  $('p_name').value = 'Eden V2 — FS';
+  $('p_loc').value = 'Bình Chánh, TP.HCM';
+  $('p_owner').value = 'CĐT Eden';
+  $('p_start').value = 'Q1/2026';
+  $('p_nq').value = 20;
+  $('g_rev_sale').value = 13500;
+  $('g_rev_park').value = 450;
+  $('g_land').value = 2000;
+  $('g_cmd').value = 3500;
+  $('g_build').value = 4500;
+  $('g_indirect').value = 1100;
+  $('g_legal').value = 60;
+  $('sa_open').value = 5;
+  $('sa_handover').value = 16;
+  $('sf_equity').value = 35;
+  $('sf_loan').value = 40;
+  $('lo_rate').value = 10;
+  $('lo_grace').value = 8;
+  $('lo_term').value = 12;
+  $('fi_wacc').value = 12;
+  presetSCurve('s');
+  presetSales('standard');
+  calc();
+}
+
+// ====== INIT ======
+document.addEventListener('DOMContentLoaded', () => {
+  ['p_name','p_loc','p_owner','p_start','p_nq',
+   'g_rev_sale','g_rev_park','g_rev_lease','g_pct_nox','g_land','g_cmd','g_build','g_indirect','g_legal',
+   'sa_open','sa_deposit','sa_handover','t_vat_out','t_vat_in','t_cit','t_regfee',
+   'nox_mode','nox_cost','nox_sale','sf_equity','sf_loan','sf_buyer','lo_rate','lo_grace','lo_term',
+   'fi_wacc','fi_rein','fi_fin'].forEach(id => {
+    const el = $(id); if (el) el.addEventListener('input', () => {
+      if (id === 'p_nq') { renderSCurve(); renderSales(); }
+      calc();
+    });
+  });
+  presetSCurve('s');
+  presetSales('standard');
+  calc();
+});
+</script>
+</body>
+</html>

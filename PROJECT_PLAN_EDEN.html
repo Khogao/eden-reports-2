@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Plan — Khu Dân Cư Ê Đen V2</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .num { font-variant-numeric: tabular-nums; }
+  table.calc { width: 100%; font-size: .82rem; border-collapse: collapse; }
+  table.calc th, table.calc td { padding: 6px 8px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  table.calc thead th { background: #f1f5f9; font-size: .72rem; text-transform: uppercase; color: #475569; text-align: left; font-weight: 700; position: sticky; top: 56px; z-index: 10; }
+  table.calc tfoot td { background: #f1f5f9; font-weight: 700; }
+  .section { background: white; border-radius: .5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 1.5rem; }
+  .h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 2px solid; }
+  .h3 { font-size: 1rem; font-weight: 600; margin: 12px 0 6px; color: #334155; }
+  .pill { display: inline-block; padding: 2px 8px; font-size: .7rem; border-radius: 999px; font-weight: 600; }
+  .pill-blue { background: #dbeafe; color: #1e40af; }
+  .pill-green { background: #d1fae5; color: #065f46; }
+  .pill-amber { background: #fef3c7; color: #92400e; }
+  .pill-red { background: #fee2e2; color: #991b1b; }
+  .pill-purple { background: #ede9fe; color: #5b21b6; }
+  .pill-slate { background: #e2e8f0; color: #334155; }
+  .topbar { position: sticky; top: 0; z-index: 50; background: linear-gradient(90deg,#0f172a,#15803d,#0f172a); color: white; }
+
+  /* Gantt */
+  .gantt { display: grid; grid-template-columns: 220px repeat(20, 1fr); gap: 1px; background: #e5e7eb; border-radius: .375rem; overflow: hidden; font-size: .7rem; }
+  .gantt > div { background: white; padding: 4px 6px; min-height: 28px; display: flex; align-items: center; }
+  .gantt .gh { background: #1e293b; color: white; font-weight: 600; justify-content: center; }
+  .gantt .gph { background: #f8fafc; font-weight: 600; }
+  .gantt .gb { padding: 0; position: relative; }
+  .gantt .gb .bar { position: absolute; height: 16px; top: 6px; border-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,.15); }
+  .gantt .ms { position: absolute; top: 4px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 14px solid #dc2626; }
+
+  .stage-1 { background: #fde68a; }
+  .stage-2 { background: #fdba74; }
+  .stage-3 { background: #f87171; }
+  .stage-4 { background: #93c5fd; }
+  .stage-5 { background: #86efac; }
+  .stage-6 { background: #c4b5fd; }
+  .stage-7 { background: #fca5a5; }
+
+  details > summary { cursor: pointer; padding: 6px 0; }
+  details[open] > summary { font-weight: 700; }
+  .risk-h { background: #fee2e2; }
+  .risk-m { background: #fef3c7; }
+  .risk-l { background: #d1fae5; }
+
+  @media print {
+    .no-print { display: none !important; }
+    .section { box-shadow: none; border: 1px solid #cbd5e1; page-break-inside: avoid; }
+    body { font-size: 9.5pt; }
+    .page-break { page-break-before: always; }
+    .topbar { position: static; }
+    .gantt { font-size: .65rem; }
+  }
+</style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- TOP BAR -->
+<div class="topbar shadow-lg">
+  <div class="max-w-[1500px] mx-auto px-4 py-3 flex flex-wrap items-center gap-3 text-xs">
+    <div class="font-bold text-sm">📅 Project Plan — Khu Dân Cư Ê Đen V2</div>
+    <div class="flex flex-wrap gap-x-5 gap-y-1 ml-auto">
+      <div>Thời lượng: <b>20 quý (5 năm)</b></div>
+      <div>Bắt đầu: <b>Q1/2026</b></div>
+      <div>Bàn giao: <b>Q4/2029</b></div>
+      <div>Hết bảo hành: <b>Q4/2030</b></div>
+    </div>
+    <div class="flex gap-2 no-print">
+      <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">🖨 In/PDF</button>
+      <a href="FS_EDEN.html" class="bg-emerald-500/40 hover:bg-emerald-500/60 px-3 py-1 rounded">💰 FS Eden</a>
+      <a href="PRE_FS_EDEN_V2.html" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">📊 Pre-FS V2</a>
+      <a href="EXECUTIVE_SUMMARY_V2.html" class="bg-white/20 hover:bg-white/30 px-3 py-1 rounded">📋 ES V2</a>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-[1500px] mx-auto p-4 md:p-6 space-y-5">
+
+<!-- HEADER -->
+<header class="section">
+  <div class="flex items-start justify-between flex-wrap gap-3">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">📅 Project Plan — Khu Dân Cư Ê Đen (Phương án V2)</h1>
+      <p class="text-sm text-slate-600 mt-1">Kế hoạch triển khai dự án theo quý, đồng bộ với <b>FS Eden</b> (S-curve XD + lịch hấp thụ bán hàng + lịch trả nợ).</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="pill pill-green">Phương án V2 — CT10 đồng bộ chung cư</span>
+      <span class="pill pill-blue">5 năm · 20 quý</span>
+    </div>
+  </div>
+  <div class="grid md:grid-cols-4 gap-3 mt-4 text-sm">
+    <div class="bg-slate-50 rounded p-2"><div class="text-xs text-slate-500">Địa điểm</div><b>Xã An Phú Tây, Bình Chánh, TP.HCM</b></div>
+    <div class="bg-slate-50 rounded p-2"><div class="text-xs text-slate-500">Quy mô đất</div><b>75.386 m²</b></div>
+    <div class="bg-slate-50 rounded p-2"><div class="text-xs text-slate-500">Sàn thương phẩm</div><b>~186.111 m²</b></div>
+    <div class="bg-slate-50 rounded p-2"><div class="text-xs text-slate-500">Tổng vốn đầu tư</div><b>~8.774 tỷ</b></div>
+  </div>
+</header>
+
+<!-- ① TỔNG QUAN GIAI ĐOẠN -->
+<section class="section">
+  <h2 class="h2 text-slate-700 border-slate-200">① Tổng quan 7 giai đoạn</h2>
+  <div class="grid md:grid-cols-7 gap-2 text-xs">
+    <div class="stage-1 rounded p-3"><div class="font-bold mb-1">P1 · Pháp lý</div><div class="opacity-80">Q1–Q4/2026</div><div class="mt-1">4 quý · 60 tỷ</div></div>
+    <div class="stage-2 rounded p-3"><div class="font-bold mb-1">P2 · Đền bù & GPMB</div><div class="opacity-80">Q1–Q3/2026</div><div class="mt-1">3 quý · 1.131 tỷ</div></div>
+    <div class="stage-3 rounded p-3"><div class="font-bold mb-1">P3 · Tiền sử dụng đất</div><div class="opacity-80">Q4/2026</div><div class="mt-1">1 quý · 1.915 tỷ</div></div>
+    <div class="stage-4 rounded p-3"><div class="font-bold mb-1">P4 · Thiết kế</div><div class="opacity-80">Q2/2026–Q1/2027</div><div class="mt-1">4 quý · 118 tỷ</div></div>
+    <div class="stage-5 rounded p-3"><div class="font-bold mb-1">P5 · Xây dựng</div><div class="opacity-80">Q2/2027–Q4/2029</div><div class="mt-1">11 quý · 3.917 tỷ</div></div>
+    <div class="stage-6 rounded p-3"><div class="font-bold mb-1">P6 · Bán hàng</div><div class="opacity-80">Q1/2028–Q4/2029</div><div class="mt-1">8 quý · DT 14.951 tỷ</div></div>
+    <div class="stage-7 rounded p-3"><div class="font-bold mb-1">P7 · Bàn giao + BH</div><div class="opacity-80">Q4/2029–Q4/2030</div><div class="mt-1">5 quý · BH 12 tháng</div></div>
+  </div>
+</section>
+
+<!-- ② GANTT -->
+<section class="section page-break">
+  <h2 class="h2 text-indigo-900 border-indigo-200">② Lịch trình Gantt theo quý (Q1/2026 – Q4/2030)</h2>
+  <div class="overflow-x-auto">
+    <div class="gantt" style="min-width: 1100px;">
+      <!-- Header row -->
+      <div class="gh">Hoạt động ↓ / Quý →</div>
+      <div class="gh">Q1/26</div><div class="gh">Q2/26</div><div class="gh">Q3/26</div><div class="gh">Q4/26</div>
+      <div class="gh">Q1/27</div><div class="gh">Q2/27</div><div class="gh">Q3/27</div><div class="gh">Q4/27</div>
+      <div class="gh">Q1/28</div><div class="gh">Q2/28</div><div class="gh">Q3/28</div><div class="gh">Q4/28</div>
+      <div class="gh">Q1/29</div><div class="gh">Q2/29</div><div class="gh">Q3/29</div><div class="gh">Q4/29</div>
+      <div class="gh">Q1/30</div><div class="gh">Q2/30</div><div class="gh">Q3/30</div><div class="gh">Q4/30</div>
+
+      <!-- P1 Pháp lý -->
+      <div class="gph">P1.1 Chấp thuận chủ trương</div>
+      <div class="gb stage-1" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 18;"></div>
+
+      <div class="gph">P1.2 QHCT 1/500</div>
+      <div class="gb"></div>
+      <div class="gb stage-1" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 17;"></div>
+
+      <div class="gph">P1.3 Quyết định giao đất</div>
+      <div class="gb" style="grid-column: span 2;"></div>
+      <div class="gb stage-1"></div>
+      <div class="gb" style="grid-column: span 17;"></div>
+
+      <div class="gph">P1.4 Giấy phép xây dựng</div>
+      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb stage-1"></div>
+      <div class="gb" style="grid-column: span 15;"></div>
+
+      <!-- P2 GPMB -->
+      <div class="gph">P2 Đền bù GPMB</div>
+      <div class="gb stage-2" style="grid-column: span 3;"></div>
+      <div class="gb" style="grid-column: span 17;"></div>
+
+      <!-- P3 CMĐSDĐ -->
+      <div class="gph">P3 Nộp tiền CMĐSDĐ</div>
+      <div class="gb" style="grid-column: span 3;"></div>
+      <div class="gb stage-3"></div>
+      <div class="gb" style="grid-column: span 16;"></div>
+
+      <!-- P4 Thiết kế -->
+      <div class="gph">P4.1 Thiết kế cơ sở</div>
+      <div class="gb"></div>
+      <div class="gb stage-4" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 17;"></div>
+
+      <div class="gph">P4.2 Thiết kế kỹ thuật</div>
+      <div class="gb" style="grid-column: span 3;"></div>
+      <div class="gb stage-4" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 15;"></div>
+
+      <div class="gph">P4.3 Thiết kế bản vẽ thi công</div>
+      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb stage-4"></div>
+      <div class="gb" style="grid-column: span 15;"></div>
+
+      <!-- P5 Xây dựng -->
+      <div class="gph">P5.1 Cọc + tường vây</div>
+      <div class="gb" style="grid-column: span 5;"></div>
+      <div class="gb stage-5" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 13;"></div>
+
+      <div class="gph">P5.2 Hầm + móng</div>
+      <div class="gb" style="grid-column: span 6;"></div>
+      <div class="gb stage-5" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 12;"></div>
+
+      <div class="gph">P5.3 Khối đế (TMDV)</div>
+      <div class="gb" style="grid-column: span 7;"></div>
+      <div class="gb stage-5" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 11;"></div>
+
+      <div class="gph">P5.4 Thân tầng cao CT10</div>
+      <div class="gb" style="grid-column: span 8;"></div>
+      <div class="gb stage-5" style="grid-column: span 5;"></div>
+      <div class="gb" style="grid-column: span 7;"></div>
+
+      <div class="gph">P5.5 Hoàn thiện M&E</div>
+      <div class="gb" style="grid-column: span 12;"></div>
+      <div class="gb stage-5" style="grid-column: span 3;"></div>
+      <div class="gb" style="grid-column: span 5;"></div>
+
+      <div class="gph">P5.6 Biệt thự + Liên kế</div>
+      <div class="gb" style="grid-column: span 8;"></div>
+      <div class="gb stage-5" style="grid-column: span 6;"></div>
+      <div class="gb" style="grid-column: span 6;"></div>
+
+      <div class="gph">P5.7 Hạ tầng + Cảnh quan</div>
+      <div class="gb" style="grid-column: span 13;"></div>
+      <div class="gb stage-5" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 5;"></div>
+
+      <!-- P6 Bán hàng -->
+      <div class="gph">P6.1 Marketing pre-launch</div>
+      <div class="gb" style="grid-column: span 6;"></div>
+      <div class="gb stage-6" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 12;"></div>
+
+      <div class="gph">P6.2 Mở bán đợt 1 (sau móng)</div>
+      <div class="gb" style="grid-column: span 8;"></div>
+      <div class="gb stage-6"></div>
+      <div class="gb" style="grid-column: span 11;"></div>
+
+      <div class="gph">P6.3 Bán theo tiến độ XD</div>
+      <div class="gb" style="grid-column: span 9;"></div>
+      <div class="gb stage-6" style="grid-column: span 6;"></div>
+      <div class="gb" style="grid-column: span 5;"></div>
+
+      <div class="gph">P6.4 Bàn giao + giữ 5%</div>
+      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb stage-6"></div>
+      <div class="gb" style="grid-column: span 4;"></div>
+
+      <!-- P7 Bàn giao + BH -->
+      <div class="gph">P7.1 Bàn giao đại trà</div>
+      <div class="gb" style="grid-column: span 14;"></div>
+      <div class="gb stage-7" style="grid-column: span 2;"></div>
+      <div class="gb" style="grid-column: span 4;"></div>
+
+      <div class="gph">P7.2 Cấp sổ hồng</div>
+      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb stage-7" style="grid-column: span 3;"></div>
+      <div class="gb" style="grid-column: span 2;"></div>
+
+      <div class="gph">P7.3 Bảo hành 12 tháng</div>
+      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb stage-7" style="grid-column: span 5;"></div>
+    </div>
+    <div class="mt-3 flex flex-wrap gap-3 text-xs">
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-1 rounded"></span>P1 Pháp lý</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-2 rounded"></span>P2 GPMB</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-3 rounded"></span>P3 CMĐSDĐ</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-4 rounded"></span>P4 Thiết kế</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-5 rounded"></span>P5 Xây dựng</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-6 rounded"></span>P6 Bán hàng</div>
+      <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-7 rounded"></span>P7 Bàn giao &amp; BH</div>
+    </div>
+  </div>
+</section>
+
+<!-- ③ MILESTONES -->
+<section class="section">
+  <h2 class="h2 text-red-900 border-red-200">③ Milestones (cột mốc bắt buộc)</h2>
+  <table class="calc">
+    <thead><tr><th style="width:80px">Mốc</th><th style="width:90px">Quý</th><th>Hạng mục</th><th>Điều kiện ràng buộc</th><th>Output</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pill pill-blue">M1</span></td><td>Q1/2026</td><td>Khởi động dự án</td><td>Nộp hồ sơ chấp thuận chủ trương đầu tư · Ký hợp đồng tư vấn lập FS</td><td>Quyết định chấp thuận chủ trương · FS được phê duyệt</td></tr>
+      <tr><td><span class="pill pill-blue">M2</span></td><td>Q2/2026</td><td>QHCT 1/500</td><td>QHCT đã có trong NQ HĐND TP · Phù hợp Phương án V2</td><td>Quyết định phê duyệt QHCT 1/500</td></tr>
+      <tr><td><span class="pill pill-amber">M3</span></td><td>Q3/2026</td><td>Hoàn tất GPMB</td><td>Đền bù 100% diện tích 75.386 m²</td><td>Biên bản bàn giao mặt bằng sạch</td></tr>
+      <tr><td><span class="pill pill-amber">M4</span></td><td>Q3/2026</td><td>Quyết định giao đất</td><td>Đã hoàn tất đền bù · Đã có ĐTM · Có thẩm định nhu cầu sử dụng đất</td><td>QĐ giao đất của UBND TP</td></tr>
+      <tr><td><span class="pill pill-red">M5</span></td><td>Q4/2026</td><td>Nộp tiền CMĐSDĐ 1.915 tỷ</td><td>Có quyết định giao đất · Có thông báo nộp tiền</td><td>Biên lai nộp tiền · Sổ đỏ dự án</td></tr>
+      <tr><td><span class="pill pill-blue">M6</span></td><td>Q1/2027</td><td>Giấy phép xây dựng</td><td>Đã có thiết kế cơ sở thẩm tra · Có thiết kế PCCC duyệt</td><td>GPXD · Quyết định phê duyệt dự án</td></tr>
+      <tr><td><span class="pill pill-purple">M7</span></td><td>Q2/2027</td><td>Khởi công xây dựng</td><td>GPXD · Hợp đồng EPC chính · Bảo hiểm CT</td><td>Lễ động thổ · Báo cáo khởi công Sở XD</td></tr>
+      <tr><td><span class="pill pill-green">M8</span></td><td>Q1/2028</td><td>Đủ điều kiện bán nhà ở hình thành trong tương lai</td><td>Hoàn thành móng CT10 · Có bảo lãnh ngân hàng theo Đ.56 Luật KDBĐS 2023 · Có thông báo Sở XD</td><td>Văn bản Sở XD đủ điều kiện · Mở bán đợt 1</td></tr>
+      <tr><td><span class="pill pill-green">M9</span></td><td>Q3/2028</td><td>Cất nóc CT10 (3 tòa A/B/C)</td><td>Kết cấu thân hoàn thành đến tầng mái</td><td>Lễ cất nóc · Thanh toán đợt theo HĐMB</td></tr>
+      <tr><td><span class="pill pill-amber">M10</span></td><td>Q3/2029</td><td>Nghiệm thu PCCC</td><td>Hoàn thành lắp đặt PCCC · Diễn tập nghiệm thu</td><td>Văn bản nghiệm thu PCCC của CSPCCC</td></tr>
+      <tr><td><span class="pill pill-amber">M11</span></td><td>Q4/2029</td><td>Nghiệm thu công trình hoàn thành</td><td>Đã có nghiệm thu PCCC · Thẩm tra hoàn công</td><td>Biên bản nghiệm thu hoàn thành đưa CT vào sử dụng (Cục Giám định)</td></tr>
+      <tr><td><span class="pill pill-green">M12</span></td><td>Q4/2029</td><td>Bàn giao đại trà</td><td>Đã có nghiệm thu hoàn thành · Đã có nội bộ kiểm tra căn hộ mẫu</td><td>Biên bản bàn giao 95% căn · Thu 95% giá trị HĐ</td></tr>
+      <tr><td><span class="pill pill-purple">M13</span></td><td>Q2/2030</td><td>Cấp sổ hồng đợt đầu</td><td>Đã hoàn tất nghĩa vụ tài chính · Đã đo đạc lập bản đồ địa chính</td><td>Sổ hồng cấp cho cư dân · Thu nốt 5% giữ lại</td></tr>
+      <tr><td><span class="pill pill-slate">M14</span></td><td>Q4/2030</td><td>Hết bảo hành</td><td>12 tháng kể từ bàn giao đại trà</td><td>Biên bản hết bảo hành · Quyết toán dự án</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ④ WBS -->
+<section class="section page-break">
+  <h2 class="h2 text-blue-900 border-blue-200">④ Phân rã công việc (WBS)</h2>
+
+  <details open>
+    <summary class="text-slate-700"><span class="pill stage-1">P1</span> Pháp lý &amp; Thủ tục — 60 tỷ — 4 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>1.1</td><td>Lập hồ sơ chấp thuận chủ trương đầu tư</td><td>Q1/26</td><td>Pre-FS V2</td><td>Hồ sơ nộp Sở KHĐT</td><td class="num">5</td></tr>
+        <tr><td>1.2</td><td>Lập đồ án QHCT 1/500</td><td>Q1–Q2/26</td><td>QH 1/2.000 đã duyệt</td><td>QHCT 1/500 đã trình</td><td class="num">15</td></tr>
+        <tr><td>1.3</td><td>Lập báo cáo ĐTM</td><td>Q2/26</td><td>QHCT 1/500</td><td>Báo cáo ĐTM trình Sở TNMT</td><td class="num">8</td></tr>
+        <tr><td>1.4</td><td>Hồ sơ giao đất + thẩm định nhu cầu</td><td>Q2–Q3/26</td><td>QHCT · ĐTM · GPMB xong</td><td>QĐ giao đất UBND TP</td><td class="num">10</td></tr>
+        <tr><td>1.5</td><td>Lập FS đầy đủ + thẩm định</td><td>Q2/26</td><td>Pre-FS V2 · TKCS sơ bộ</td><td>FS được phê duyệt</td><td class="num">7</td></tr>
+        <tr><td>1.6</td><td>Hồ sơ giấy phép xây dựng</td><td>Q4/26–Q1/27</td><td>TKCS thẩm tra · PCCC duyệt</td><td>GPXD</td><td class="num">8</td></tr>
+        <tr><td>1.7</td><td>Pháp lý bán hàng (HĐMB mẫu, đăng ký Sở Công Thương)</td><td>Q3–Q4/27</td><td>Hồ sơ thiết kế đã có</td><td>HĐMB mẫu đã đăng ký</td><td class="num">4</td></tr>
+        <tr><td>1.8</td><td>Bảo lãnh ngân hàng cho HĐMB (Đ.56 KDBĐS)</td><td>Q4/27</td><td>HĐMB mẫu · Hoàn thành móng</td><td>Cam kết bảo lãnh NH</td><td class="num">3</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P1</td><td class="num">60</td></tr></tfoot>
+    </table>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-2">P2</span> Đền bù & GPMB — 1.131 tỷ — 3 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>2.1</td><td>Kiểm đếm, áp giá đền bù</td><td>Q1/26</td><td>Phương án bồi thường được UBND duyệt</td><td>Bảng kê chi tiết hộ ảnh hưởng</td><td class="num">10</td></tr>
+        <tr><td>2.2</td><td>Đền bù &amp; thu hồi đất 64.093 m²</td><td>Q1–Q2/26</td><td>Quyết định thu hồi từng hộ</td><td>Biên bản bàn giao MB sạch</td><td class="num">961</td></tr>
+        <tr><td>2.3</td><td>Đền bù khu Phú Cường 11.293 m²</td><td>Q2–Q3/26</td><td>Đàm phán &amp; QĐ thu hồi</td><td>Bàn giao MB sạch</td><td class="num">169</td></tr>
+        <tr><td>2.4</td><td>Tái định cư (nếu có)</td><td>Q2–Q3/26</td><td>Quỹ TĐC do TP bố trí</td><td>Bàn giao nhà TĐC cho hộ ảnh hưởng</td><td class="num">—</td></tr>
+        <tr><td>2.5</td><td>San lấp, rào tạm, văn phòng BCH công trường</td><td>Q3/26</td><td>MB sạch</td><td>MB sẵn sàng thi công cọc</td><td class="num">— (gộp HT)</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P2</td><td class="num">1.131</td></tr></tfoot>
+    </table>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-3">P3</span> Tiền sử dụng đất (CMĐSDĐ) — 1.915 tỷ — 1 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>3.1</td><td>Hồ sơ xác định giá đất cụ thể</td><td>Q3–Q4/26</td><td>QĐ giao đất · Bảng giá NQ 87/2025</td><td>Quyết định giá đất cụ thể UBND TP</td><td class="num">2</td></tr>
+        <tr><td>3.2</td><td>Thông báo nộp tiền sử dụng đất</td><td>Q4/26</td><td>QĐ giá đất cụ thể</td><td>Thông báo từ Cục Thuế</td><td class="num">—</td></tr>
+        <tr><td>3.3</td><td>Nộp tiền CMĐSDĐ (1 lần hoặc 2 đợt)</td><td>Q4/26</td><td>Thông báo + nguồn vốn CSH+vay</td><td>Biên lai · Cấp sổ đỏ dự án</td><td class="num">1.915</td></tr>
+        <tr><td>3.4</td><td>Đăng ký biến động sổ đỏ</td><td>Q4/26–Q1/27</td><td>Biên lai nộp tiền</td><td>Sổ đỏ tổng dự án</td><td class="num">—</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P3</td><td class="num">~1.917</td></tr></tfoot>
+    </table>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-4">P4</span> Thiết kế &amp; Tư vấn — 118 tỷ — 4 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>4.1</td><td>Thiết kế ý tưởng (concept)</td><td>Q1/26</td><td>Brief CĐT · QHCT</td><td>Concept design 3 phương án</td><td class="num">5</td></tr>
+        <tr><td>4.2</td><td>Thiết kế cơ sở (TKCS)</td><td>Q2–Q3/26</td><td>Concept duyệt · QHCT 1/500</td><td>TKCS đầy đủ KT/KC/M&amp;E</td><td class="num">35</td></tr>
+        <tr><td>4.3</td><td>Thẩm tra TKCS (đơn vị độc lập)</td><td>Q3/26</td><td>TKCS</td><td>Báo cáo thẩm tra</td><td class="num">5</td></tr>
+        <tr><td>4.4</td><td>Thiết kế kỹ thuật (TKKT)</td><td>Q4/26–Q1/27</td><td>TKCS duyệt</td><td>Bộ hồ sơ TKKT</td><td class="num">40</td></tr>
+        <tr><td>4.5</td><td>Thiết kế bản vẽ thi công (TKBVTC)</td><td>Q1/27</td><td>TKKT</td><td>Bản vẽ thi công các gói</td><td class="num">25</td></tr>
+        <tr><td>4.6</td><td>Thiết kế PCCC + thẩm duyệt</td><td>Q3–Q4/26</td><td>TKCS · TKKT</td><td>QĐ thẩm duyệt PCCC</td><td class="num">8</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P4</td><td class="num">118</td></tr></tfoot>
+    </table>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-5">P5</span> Xây dựng &amp; Hạ tầng — 3.917 tỷ — 11 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>5.1</td><td>Cọc thử + cọc đại trà CT10</td><td>Q2–Q3/27</td><td>GPXD · TKBVTC cọc</td><td>Hệ cọc hoàn thành</td><td class="num">350</td></tr>
+        <tr><td>5.2</td><td>Tường vây + đào đất hầm</td><td>Q3–Q4/27</td><td>Cọc xong · Quan trắc lún</td><td>Hố đào hầm sẵn sàng</td><td class="num">450</td></tr>
+        <tr><td>5.3</td><td>Đài móng + sàn hầm B1, B2, B3</td><td>Q4/27–Q1/28</td><td>Đào hầm xong</td><td>Móng &amp; hầm hoàn thành — <b>điều kiện M8</b></td><td class="num">700</td></tr>
+        <tr><td>5.4</td><td>Khối đế (TMDV tầng 1–2)</td><td>Q1–Q2/28</td><td>Hầm xong</td><td>Sàn TMDV hoàn thành kết cấu</td><td class="num">350</td></tr>
+        <tr><td>5.5</td><td>Thân tầng cao CT10 (A/B/C, ~1 tuần/sàn)</td><td>Q2/28–Q2/29</td><td>Khối đế xong</td><td>Cất nóc — <b>M9</b></td><td class="num">1.250</td></tr>
+        <tr><td>5.6</td><td>Hoàn thiện M&amp;E + ngoại thất CT10</td><td>Q1/29–Q3/29</td><td>Cất nóc</td><td>Sẵn sàng nghiệm thu PCCC</td><td class="num">450</td></tr>
+        <tr><td>5.7</td><td>Biệt thự B1–B5 (29.048 m² sàn)</td><td>Q1/28–Q2/29</td><td>HT đường nội bộ xong giai đoạn 1</td><td>BT bàn giao thô + hoàn thiện</td><td class="num">290</td></tr>
+        <tr><td>5.8</td><td>Liên kế L1 (8.215 m² sàn)</td><td>Q2/28–Q2/29</td><td>HT đường nội bộ xong</td><td>LK bàn giao</td><td class="num">82</td></tr>
+        <tr><td>5.9</td><td>Hạ tầng kỹ thuật nội bộ (đường, cấp thoát nước, điện, viễn thông)</td><td>Q3/27–Q3/29</td><td>San lấp xong</td><td>HT đấu nối hoàn chỉnh</td><td class="num">151</td></tr>
+        <tr><td>5.10</td><td>Cây xanh, cảnh quan, tiện ích cộng đồng</td><td>Q1/29–Q3/29</td><td>HT cơ bản xong</td><td>Cảnh quan hoàn thiện</td><td class="num">53</td></tr>
+        <tr><td>5.11</td><td>Nghiệm thu PCCC + nghiệm thu hoàn thành</td><td>Q3–Q4/29</td><td>M&amp;E xong · Diễn tập PCCC</td><td>Văn bản nghiệm thu — <b>M10, M11</b></td><td class="num">— (gộp QL)</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P5 (XD + HT)</td><td class="num">~4.126</td></tr></tfoot>
+    </table>
+    <p class="text-xs text-slate-500 mt-1">Ghi chú: Tổng theo Pre-FS V2 là 3.917 tỷ — chênh ~210 tỷ là do số tròn các gói; bảng trên là <i>phân bổ ước tính</i> để phục vụ lập tiến độ và đấu thầu.</p>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-6">P6</span> Bán hàng &amp; Marketing — 1.495 tỷ (10% DT) — 8 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th><th class="num">CP (tỷ)</th></tr></thead>
+      <tbody>
+        <tr><td>6.1</td><td>Branding + nhà mẫu + sa bàn</td><td>Q3–Q4/27</td><td>Concept design · Vật liệu mẫu</td><td>Showroom + 2 căn mẫu vận hành</td><td class="num">120</td></tr>
+        <tr><td>6.2</td><td>Marketing pre-launch (trước M8)</td><td>Q4/27</td><td>Showroom · Booking sheet</td><td>Booking giữ chỗ ~30% rổ hàng</td><td class="num">80</td></tr>
+        <tr><td>6.3</td><td>Mở bán đợt 1 (sau M8 — đủ điều kiện)</td><td>Q1/28</td><td>Văn bản Sở XD · Bảo lãnh NH</td><td>Ký HĐMB · Thu cọc 30%</td><td class="num">200</td></tr>
+        <tr><td>6.4</td><td>Bán theo tiến độ XD (đợt 2–5)</td><td>Q2/28–Q3/29</td><td>Tiến độ thi công đúng cam kết</td><td>Hấp thụ đến 95% rổ hàng</td><td class="num">800</td></tr>
+        <tr><td>6.5</td><td>Sales lực lượng &amp; sàn phân phối</td><td>Q4/27–Q4/29</td><td>HĐMB mẫu</td><td>Đội ngũ 50–80 sale</td><td class="num">200</td></tr>
+        <tr><td>6.6</td><td>Quan hệ khách hàng (CRM, CS)</td><td>Q1/28–Q4/30</td><td>Hệ thống CRM · Call center</td><td>NPS &gt; 60</td><td class="num">95</td></tr>
+      </tbody>
+      <tfoot><tr><td colspan="5">Tổng P6</td><td class="num">1.495</td></tr></tfoot>
+    </table>
+  </details>
+
+  <details>
+    <summary class="text-slate-700"><span class="pill stage-7">P7</span> Bàn giao &amp; Bảo hành — gộp trong CP gián tiếp — 5 quý</summary>
+    <table class="calc mt-2">
+      <thead><tr><th>WBS</th><th>Công việc</th><th>Quý</th><th>Đầu vào</th><th>Đầu ra</th></tr></thead>
+      <tbody>
+        <tr><td>7.1</td><td>Kiểm tra nội bộ căn hộ trước bàn giao</td><td>Q3–Q4/29</td><td>Hoàn thiện nội thất xong</td><td>Checklist 100% căn đạt</td></tr>
+        <tr><td>7.2</td><td>Bàn giao đại trà</td><td>Q4/29–Q1/30</td><td>Nghiệm thu hoàn thành</td><td>BBBG 95% căn · Thu 95% giá trị HĐ</td></tr>
+        <tr><td>7.3</td><td>Đo đạc địa chính, hồ sơ cấp sổ hồng</td><td>Q4/29–Q2/30</td><td>Đã hoàn tất nghĩa vụ tài chính dự án</td><td>Hồ sơ trình Sở TNMT</td></tr>
+        <tr><td>7.4</td><td>Cấp sổ hồng đợt 1 (CT10)</td><td>Q2/30</td><td>Hồ sơ đầy đủ · Đo đạc xong</td><td>Sổ hồng cư dân · Thu 5% giữ lại</td></tr>
+        <tr><td>7.5</td><td>Vận hành bàn giao Ban Quản trị toà nhà</td><td>Q1–Q2/30</td><td>Đã có Hội nghị nhà chung cư</td><td>Quỹ bảo trì 2% bàn giao BQT</td></tr>
+        <tr><td>7.6</td><td>Bảo hành 12 tháng kể từ bàn giao</td><td>Q4/29–Q4/30</td><td>BBBG · Phiếu bảo hành</td><td>Sổ tay xử lý sự cố · Hết bảo hành</td></tr>
+        <tr><td>7.7</td><td>Quyết toán dự án</td><td>Q4/30</td><td>Toàn bộ HĐ thầu phụ tất toán</td><td>Báo cáo quyết toán cho cổ đông</td></tr>
+      </tbody>
+    </table>
+  </details>
+</section>
+
+<!-- ⑤ DELIVERABLES -->
+<section class="section">
+  <h2 class="h2 text-emerald-900 border-emerald-200">⑤ Deliverables theo quý</h2>
+  <table class="calc">
+    <thead><tr><th>Quý</th><th>Nhóm</th><th>Deliverable bắt buộc</th><th>Trách nhiệm</th></tr></thead>
+    <tbody>
+      <tr><td>Q1/26</td><td>Pháp lý</td><td>QĐ chấp thuận chủ trương · Hợp đồng tư vấn QHCT 1/500 · Hợp đồng tư vấn FS</td><td>Phòng Pháp chế · Tư vấn ngoài</td></tr>
+      <tr><td>Q2/26</td><td>QH + Thiết kế</td><td>QHCT 1/500 đã trình · Concept design duyệt · TKCS bắt đầu</td><td>Tư vấn QH · Tư vấn thiết kế</td></tr>
+      <tr><td>Q3/26</td><td>Đất + ĐTM</td><td>MB sạch 100% · ĐTM được duyệt · Hồ sơ giao đất nộp Sở TNMT</td><td>Phòng GPMB · Tư vấn MT</td></tr>
+      <tr><td>Q4/26</td><td>Đất + Vốn</td><td>QĐ giao đất · Nộp 1.915 tỷ CMĐSDĐ · Hợp đồng vay NH ký kết</td><td>Phòng Tài chính · Pháp chế</td></tr>
+      <tr><td>Q1/27</td><td>Thiết kế + GPXD</td><td>TKKT duyệt · TKBVTC sẵn sàng · GPXD cấp · QĐ thẩm duyệt PCCC</td><td>Tư vấn TK · Phòng Pháp chế</td></tr>
+      <tr><td>Q2/27</td><td>Khởi công</td><td>Hợp đồng EPC ký · Bảo hiểm CT · Lễ động thổ · Cọc thử xong</td><td>Phòng Đầu tư · BCH công trường</td></tr>
+      <tr><td>Q3–Q4/27</td><td>Thi công + Marketing</td><td>Hệ cọc xong · Tường vây + đào hầm · Showroom + nhà mẫu vận hành</td><td>Nhà thầu chính · Phòng Marketing</td></tr>
+      <tr><td>Q1/28</td><td>Bán hàng</td><td>Móng CT10 xong · Văn bản Sở XD đủ điều kiện bán · Bảo lãnh NH · <b>Mở bán đợt 1</b></td><td>Phòng Pháp chế · Phòng Bán hàng</td></tr>
+      <tr><td>Q2/28–Q2/29</td><td>Thi công + Bán</td><td>Lên thân tầng cao 1 tuần/sàn · Hấp thụ ≥80% rổ hàng · Thu tiền theo HĐMB</td><td>BCH · Phòng Bán hàng · Tài chính</td></tr>
+      <tr><td>Q3/28</td><td>Cột mốc</td><td><b>Cất nóc CT10</b> · Truyền thông sự kiện</td><td>BCH · Marketing</td></tr>
+      <tr><td>Q1–Q3/29</td><td>Hoàn thiện</td><td>Hoàn thiện M&amp;E · Cảnh quan · Hạ tầng đấu nối</td><td>Nhà thầu hoàn thiện</td></tr>
+      <tr><td>Q3–Q4/29</td><td>Nghiệm thu</td><td>Nghiệm thu PCCC · Nghiệm thu hoàn thành · Bàn giao đại trà</td><td>BCH · CSPCCC · Cục Giám định</td></tr>
+      <tr><td>Q1–Q2/30</td><td>Sổ hồng</td><td>Đo đạc địa chính · Cấp sổ hồng · Thu nốt 5% giữ lại · Bàn giao BQT</td><td>Phòng Pháp chế · Sở TNMT</td></tr>
+      <tr><td>Q4/30</td><td>Quyết toán</td><td>Hết bảo hành · Báo cáo quyết toán · Đóng dự án</td><td>Tài chính · Kiểm toán</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ⑥ CRITICAL PATH -->
+<section class="section">
+  <h2 class="h2 text-red-900 border-red-200">⑥ Đường găng (Critical Path)</h2>
+  <p class="text-sm text-slate-600 mb-3">Chuỗi công việc <b>không có thời gian dự trữ (slack = 0)</b>. Bất kỳ trễ nào trên đường găng đều đẩy lùi M12 (bàn giao) và M14 (đóng dự án).</p>
+  <div class="flex flex-wrap items-center gap-2 text-xs">
+    <span class="pill pill-red">M1 Chấp thuận chủ trương</span> →
+    <span class="pill pill-red">M2 QHCT 1/500</span> →
+    <span class="pill pill-red">M3 GPMB</span> →
+    <span class="pill pill-red">M4 QĐ giao đất</span> →
+    <span class="pill pill-red">M5 Nộp CMĐSDĐ</span> →
+    <span class="pill pill-red">M6 GPXD</span> →
+    <span class="pill pill-red">M7 Khởi công</span> →
+    <span class="pill pill-red">5.1 Cọc</span> →
+    <span class="pill pill-red">5.2 Tường vây + đào hầm</span> →
+    <span class="pill pill-red">5.3 Hầm + móng</span> →
+    <span class="pill pill-red">M8 Đủ điều kiện bán</span> →
+    <span class="pill pill-red">5.5 Thân CT10</span> →
+    <span class="pill pill-red">5.6 Hoàn thiện M&amp;E</span> →
+    <span class="pill pill-red">M10 Nghiệm thu PCCC</span> →
+    <span class="pill pill-red">M11 Nghiệm thu hoàn thành</span> →
+    <span class="pill pill-red">M12 Bàn giao</span>
+  </div>
+  <p class="text-xs text-slate-500 mt-3"><b>Đường găng dài 16 quý</b> (Q1/26 → Q4/29). Các nhánh không găng: Biệt thự (5.7), Liên kế (5.8), Cảnh quan (5.10), Bán hàng đợt sau (6.4) — có thể trễ 1–2 quý mà không ảnh hưởng cột mốc bàn giao.</p>
+</section>
+
+<!-- ⑦ RỦI RO -->
+<section class="section page-break">
+  <h2 class="h2 text-amber-900 border-amber-200">⑦ Đăng ký rủi ro (Risk Register)</h2>
+  <table class="calc">
+    <thead><tr><th>ID</th><th>Rủi ro</th><th>Khả năng</th><th>Tác động</th><th>Nhóm</th><th>Phòng ngừa</th><th>Ứng phó</th></tr></thead>
+    <tbody>
+      <tr class="risk-h"><td>R01</td><td>Trễ chấp thuận chủ trương / QHCT 1/500</td><td>Cao</td><td>Cao (lùi 2–4 quý)</td><td>Pháp lý</td><td>Vận động sớm với Sở KHĐT, QH; chuẩn bị hồ sơ song song</td><td>Cập nhật lịch · Báo cáo HĐQT · Trì hoãn nộp CMĐSDĐ để giảm chi phí cơ hội</td></tr>
+      <tr class="risk-h"><td>R02</td><td>Tiền CMĐSDĐ tăng (NQ giá đất sửa đổi)</td><td>TB</td><td>Rất cao (+500–1000 tỷ)</td><td>Pháp lý + Tài chính</td><td>Theo dõi NQ HĐND TP · Cài giá trần trong FS</td><td>Nộp ngay khi có thông báo · Đàm phán nộp 2 đợt · Tăng giá bán</td></tr>
+      <tr class="risk-h"><td>R03</td><td>Lãi suất NH tăng &gt;2% so với base</td><td>TB</td><td>Cao (NPV giảm ~300 tỷ)</td><td>Tài chính</td><td>Khoá lãi suất 2 năm · Hợp đồng vay điều khoản cap</td><td>Chuyển sang vay đa nguồn · Thúc bán hàng nhanh hơn để giảm dư nợ</td></tr>
+      <tr class="risk-h"><td>R04</td><td>Hấp thụ chậm hơn 25% (Bear)</td><td>TB</td><td>Cao (DSCR &lt; 1)</td><td>Thị trường</td><td>Đa dạng kênh bán · Combo CK + ưu đãi LS</td><td>Giảm giá có chọn lọc · Bán sỉ block cho nhà đầu tư · Cho thuê để tạo CF</td></tr>
+      <tr class="risk-m"><td>R05</td><td>Trễ tiến độ thi công ≥2 quý</td><td>TB</td><td>TB</td><td>Kỹ thuật</td><td>Hợp đồng EPC điều khoản phạt · Giám sát tuần</td><td>Khen thưởng đẩy nhanh · Tăng ca · Bổ sung nhà thầu phụ</td></tr>
+      <tr class="risk-m"><td>R06</td><td>Vướng PCCC (TCVN mới sau 2024)</td><td>TB</td><td>Cao (lùi M10–M12)</td><td>Kỹ thuật</td><td>Tham vấn CSPCCC từ TKCS · Áp QCVN 06:2022 mới nhất</td><td>Bổ sung thiết kế · Chấp nhận tăng CP M&amp;E</td></tr>
+      <tr class="risk-m"><td>R07</td><td>Giá vật liệu tăng &gt;10% (thép, xi măng)</td><td>Cao</td><td>TB (+200–400 tỷ)</td><td>Tài chính</td><td>HĐ EPC trọn gói · Mua trữ giai đoạn 1</td><td>Đàm phán lại · Chấp nhận giảm biên LN</td></tr>
+      <tr class="risk-m"><td>R08</td><td>Tỷ giá USD tăng (vật tư nhập)</td><td>TB</td><td>TB</td><td>Tài chính</td><td>Hedge tỷ giá · Ưu tiên vật tư nội</td><td>Đẩy chi phí sang HĐ ngoại tệ</td></tr>
+      <tr class="risk-m"><td>R09</td><td>Khiếu kiện từ hộ chưa đền bù xong</td><td>TB</td><td>Cao (đình thi công)</td><td>Pháp lý</td><td>Đối thoại sớm · Hỗ trợ TĐC · Đền bù minh bạch</td><td>Cưỡng chế cuối cùng · Truyền thông minh bạch</td></tr>
+      <tr class="risk-l"><td>R10</td><td>NƠXH 20% — phương án nộp tiền tăng phí</td><td>TB</td><td>Thấp (~50 tỷ)</td><td>Pháp lý</td><td>Đăng ký phương án sớm · Đàm phán hoán đổi quỹ đất khác</td><td>Chấp nhận nộp · Hoặc xây tại chỗ block C nhỏ</td></tr>
+      <tr class="risk-l"><td>R11</td><td>Bão / thiên tai làm gián đoạn</td><td>Thấp</td><td>TB</td><td>Kỹ thuật</td><td>Bảo hiểm CT trọn dự án</td><td>Bảo hiểm chi trả · Dự phòng 1 quý</td></tr>
+      <tr class="risk-l"><td>R12</td><td>Thay đổi quy hoạch khu vực An Phú Tây</td><td>Thấp</td><td>Cao (nếu xảy ra)</td><td>Pháp lý</td><td>Theo dõi điều chỉnh QHC · Giữ liên hệ Sở QHKT</td><td>Đàm phán giữ chỉ tiêu QH cũ · Khiếu nại bảo vệ quyền</td></tr>
+    </tbody>
+  </table>
+  <div class="mt-3 grid md:grid-cols-3 gap-3 text-xs">
+    <div class="risk-h rounded p-2"><b>Ưu tiên cao (R01–R04):</b> báo cáo Ban điều hành hàng tuần · ngân sách dự phòng 5–10%</div>
+    <div class="risk-m rounded p-2"><b>Ưu tiên TB (R05–R09):</b> theo dõi 2 tuần/lần · ngân sách dự phòng 2–3%</div>
+    <div class="risk-l rounded p-2"><b>Ưu tiên thấp (R10–R12):</b> theo dõi quý · sử dụng bảo hiểm</div>
+  </div>
+</section>
+
+<!-- ⑧ TỔ CHỨC -->
+<section class="section">
+  <h2 class="h2 text-purple-900 border-purple-200">⑧ Tổ chức &amp; RACI</h2>
+  <table class="calc">
+    <thead><tr><th>Hoạt động</th><th>HĐQT</th><th>BĐH/CEO</th><th>PMO</th><th>Pháp chế</th><th>Đầu tư</th><th>Tài chính</th><th>Bán hàng</th><th>BCH công trường</th><th>Tư vấn</th></tr></thead>
+    <tbody>
+      <tr><td>Quyết định chiến lược (FS, vốn)</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>C</td><td>I</td><td>I</td><td>C</td></tr>
+      <tr><td>Pháp lý (chấp thuận, GPXD, GPMB)</td><td>I</td><td>A</td><td>C</td><td>R</td><td>C</td><td>C</td><td>I</td><td>I</td><td>C</td></tr>
+      <tr><td>Đền bù &amp; GPMB</td><td>I</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>I</td><td>C</td><td>C</td></tr>
+      <tr><td>Thiết kế &amp; Kỹ thuật</td><td>I</td><td>A</td><td>C</td><td>I</td><td>R</td><td>I</td><td>I</td><td>C</td><td>R</td></tr>
+      <tr><td>Đấu thầu &amp; Hợp đồng EPC</td><td>I</td><td>A</td><td>C</td><td>C</td><td>R</td><td>C</td><td>I</td><td>C</td><td>C</td></tr>
+      <tr><td>Thi công &amp; QA/QC</td><td>I</td><td>I</td><td>A</td><td>I</td><td>C</td><td>I</td><td>I</td><td>R</td><td>C</td></tr>
+      <tr><td>Tài chính &amp; Vay vốn</td><td>A</td><td>R</td><td>C</td><td>C</td><td>C</td><td>R</td><td>I</td><td>I</td><td>C</td></tr>
+      <tr><td>Marketing &amp; Bán hàng</td><td>I</td><td>A</td><td>C</td><td>C</td><td>I</td><td>C</td><td>R</td><td>I</td><td>C</td></tr>
+      <tr><td>Bàn giao &amp; Sổ hồng</td><td>I</td><td>A</td><td>R</td><td>C</td><td>I</td><td>C</td><td>C</td><td>C</td><td>I</td></tr>
+      <tr><td>Bảo hành</td><td>I</td><td>A</td><td>R</td><td>I</td><td>I</td><td>I</td><td>C</td><td>C</td><td>I</td></tr>
+    </tbody>
+  </table>
+  <p class="text-xs text-slate-500 mt-2"><b>R</b> = Responsible (thực hiện) · <b>A</b> = Accountable (chịu trách nhiệm cuối cùng — chỉ 1 vai trò) · <b>C</b> = Consulted (tham vấn) · <b>I</b> = Informed (được báo)</p>
+</section>
+
+<!-- ⑨ NGÂN SÁCH THEO QUÝ -->
+<section class="section">
+  <h2 class="h2 text-blue-900 border-blue-200">⑨ Ngân sách giải ngân theo quý (tỷ VND)</h2>
+  <table class="calc">
+    <thead><tr><th>Quý</th><th class="num">Đất+GPMB</th><th class="num">CMĐSDĐ</th><th class="num">Pháp lý</th><th class="num">Thiết kế</th><th class="num">Xây dựng</th><th class="num">Marketing</th><th class="num">QL+Khác</th><th class="num">TỔNG</th></tr></thead>
+      <tbody class="num">
+      <tr><td>Q1/26</td><td class="num">600</td><td class="num">—</td><td class="num">15</td><td class="num">5</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num"><b>625</b></td></tr>
+      <tr><td>Q2/26</td><td class="num">400</td><td class="num">—</td><td class="num">15</td><td class="num">25</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num"><b>445</b></td></tr>
+      <tr><td>Q3/26</td><td class="num">131</td><td class="num">—</td><td class="num">10</td><td class="num">25</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num"><b>171</b></td></tr>
+      <tr><td>Q4/26</td><td class="num">—</td><td class="num">1.915</td><td class="num">10</td><td class="num">30</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num"><b>1.960</b></td></tr>
+      <tr><td>Q1/27</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num">25</td><td class="num">—</td><td class="num">—</td><td class="num">5</td><td class="num"><b>35</b></td></tr>
+      <tr><td>Q2/27</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td class="num">8</td><td class="num">200</td><td class="num">10</td><td class="num">8</td><td class="num"><b>229</b></td></tr>
+      <tr><td>Q3/27</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td class="num">—</td><td class="num">300</td><td class="num">40</td><td class="num">10</td><td class="num"><b>353</b></td></tr>
+      <tr><td>Q4/27</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td class="num">—</td><td class="num">350</td><td class="num">80</td><td class="num">10</td><td class="num"><b>443</b></td></tr>
+      <tr><td>Q1/28</td><td class="num">—</td><td class="num">—</td><td class="num">3</td><td class="num">—</td><td class="num">400</td><td class="num">120</td><td class="num">12</td><td class="num"><b>535</b></td></tr>
+      <tr><td>Q2/28</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">450</td><td class="num">130</td><td class="num">12</td><td class="num"><b>594</b></td></tr>
+      <tr><td>Q3/28</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">450</td><td class="num">140</td><td class="num">12</td><td class="num"><b>604</b></td></tr>
+      <tr><td>Q4/28</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">450</td><td class="num">160</td><td class="num">12</td><td class="num"><b>624</b></td></tr>
+      <tr><td>Q1/29</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">400</td><td class="num">180</td><td class="num">12</td><td class="num"><b>594</b></td></tr>
+      <tr><td>Q2/29</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">350</td><td class="num">200</td><td class="num">12</td><td class="num"><b>564</b></td></tr>
+      <tr><td>Q3/29</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">300</td><td class="num">220</td><td class="num">12</td><td class="num"><b>534</b></td></tr>
+      <tr><td>Q4/29</td><td class="num">—</td><td class="num">—</td><td class="num">2</td><td class="num">—</td><td class="num">267</td><td class="num">150</td><td class="num">15</td><td class="num"><b>434</b></td></tr>
+      <tr><td>Q1/30</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">30</td><td class="num">10</td><td class="num"><b>40</b></td></tr>
+      <tr><td>Q2/30</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">25</td><td class="num">8</td><td class="num"><b>33</b></td></tr>
+      <tr><td>Q3/30</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">10</td><td class="num">5</td><td class="num"><b>15</b></td></tr>
+      <tr><td>Q4/30</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">10</td><td class="num">5</td><td class="num"><b>15</b></td></tr>
+    </tbody>
+    <tfoot><tr><td>TỔNG</td><td class="num">1.131</td><td class="num">1.915</td><td class="num">81</td><td class="num">118</td><td class="num">3.917</td><td class="num">1.495</td><td class="num">163</td><td class="num"><b>~8.820</b></td></tr></tfoot>
+  </table>
+  <p class="text-xs text-slate-500 mt-2">Chênh lệch so với Pre-FS (8.774 tỷ) là do làm tròn các nhóm. Cột "QL+Khác" gộp tư vấn thẩm tra (3% XD = 118 tỷ) + quản lý dự án (2% XD = 78 tỷ) — đã phân bổ rải đều.</p>
+</section>
+
+<!-- ⑩ KIỂM SOÁT -->
+<section class="section">
+  <h2 class="h2 text-slate-700 border-slate-200">⑩ Kiểm soát &amp; Báo cáo</h2>
+  <div class="grid md:grid-cols-2 gap-4 text-sm">
+    <div>
+      <h3 class="h3">Tần suất họp</h3>
+      <ul class="list-disc pl-5 space-y-1 text-xs">
+        <li><b>Hàng tuần:</b> BCH công trường — tiến độ thi công, an toàn lao động, chất lượng</li>
+        <li><b>Hai tuần/lần:</b> PMO — đường găng, deliverables, ngân sách thực vs kế hoạch</li>
+        <li><b>Hàng tháng:</b> Ban điều hành — KPI, dòng tiền, hấp thụ bán hàng, top 5 rủi ro</li>
+        <li><b>Hàng quý:</b> HĐQT — báo cáo tài chính, đối chiếu FS vs thực tế, điều chỉnh kịch bản</li>
+        <li><b>Sự kiện:</b> Mỗi cột mốc M1–M14 — báo cáo riêng có ký phê duyệt</li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="h3">KPI giám sát chính</h3>
+      <ul class="list-disc pl-5 space-y-1 text-xs">
+        <li><b>SPI</b> (Schedule Performance Index) ≥ 0,95 — tiến độ thực / kế hoạch</li>
+        <li><b>CPI</b> (Cost Performance Index) ≥ 0,95 — giá trị hoàn thành / chi phí thực</li>
+        <li><b>Hấp thụ</b> ≥ 80% rổ hàng năm 1 sau M8 (so kế hoạch)</li>
+        <li><b>DSCR</b> theo quý ≥ 1,2 (tối thiểu, theo TT 22/2019/TT-NHNN)</li>
+        <li><b>NPS</b> khách hàng ≥ 60 sau bàn giao</li>
+        <li><b>Tỷ lệ tai nạn lao động</b> = 0 (mục tiêu) · &lt; 1‰ giờ công thực tế</li>
+        <li><b>Quality defect rate</b> &lt; 2% căn hộ (defect ≥ B trở lên) trước bàn giao</li>
+      </ul>
+    </div>
+  </div>
+  <h3 class="h3 mt-4">Cổng kiểm soát (Stage Gates)</h3>
+  <div class="flex flex-wrap items-center gap-2 text-xs">
+    <span class="pill pill-blue">G1: Sau M2 — duyệt FS để cam kết vốn lớn</span> →
+    <span class="pill pill-blue">G2: Sau M5 — kiểm tra dòng tiền sau khi nộp CMĐSDĐ</span> →
+    <span class="pill pill-blue">G3: Sau M7 — duyệt khởi công sau khi có đầy đủ pháp lý &amp; nguồn vốn</span> →
+    <span class="pill pill-blue">G4: Sau M8 — duyệt mở bán đợt 1, đánh giá thị trường</span> →
+    <span class="pill pill-blue">G5: Sau M11 — duyệt bàn giao đại trà</span> →
+    <span class="pill pill-blue">G6: Sau M14 — đóng dự án &amp; quyết toán</span>
+  </div>
+  <p class="text-xs text-slate-500 mt-2">Tại mỗi cổng kiểm soát, dự án phải đạt đủ điều kiện trong checklist FS · Pre-FS · Báo cáo rủi ro để được tiếp tục giai đoạn sau. HĐQT có quyền dừng/điều chỉnh phạm vi tại bất kỳ cổng nào.</p>
+</section>
+
+<footer class="text-center text-xs text-slate-500 py-4">
+  Project Plan v1.0 · Đồng bộ với <a href="FS_EDEN.html" class="underline">FS Eden</a> &amp; <a href="PRE_FS_EDEN_V2.html" class="underline">PRE_FS_EDEN_V2</a> · Lê Nguyên Phi · lenguyenphi@gmail.com · 0916 509 000
+</footer>
+
+</div>
+</body>
+</html>
