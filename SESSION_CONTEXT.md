@@ -1,5 +1,5 @@
 # SESSION CONTEXT — Eden Residential Reports
-> Cập nhật: 28/04/2026 (session 2) — Dùng để tiếp nối từ máy khác hoặc session mới
+> Cập nhật: 29/04/2026 (session 3) — Dùng để tiếp nối từ máy khác hoặc session mới
 
 ---
 
@@ -27,9 +27,12 @@ D:\Eden\
   html\                        ← SOURCE HTML (chỉnh sửa tại đây)
     PRE_FS_EDEN_OG.html        ✅ DONE
     PRE_FS_EDEN_V1.html        ✅ DONE
+    PRE_FS_EDEN_OG1.html       ✅ DONE (OG1 — 15 tr/m² duy nhất)
     EXECUTIVE_SUMMARY_OG.html  ✅ DONE (đã xóa tham chiếu V1)
     EXECUTIVE_SUMMARY_V1.html  ✅ DONE
+    EXECUTIVE_SUMMARY_OG1.html ✅ DONE (OG1 — 15 tr/m² duy nhất)
     ESSOG.html                 ✅ DONE (bản tóm tắt ngắn kịch bản Gốc)
+    ESSOG1.html                ✅ DONE (bản tóm tắt ngắn OG1)
   image\EXECUTIVE_SUMMARY\     ← Images (không chỉnh)
   scripts\validate_html.py
   .venv\Scripts\python.exe
@@ -66,7 +69,10 @@ git push origin main
 - https://khogao.github.io/eden-reports-2/EXECUTIVE_SUMMARY_V1.html
 - https://khogao.github.io/eden-reports-2/PRE_FS_EDEN_OG.html
 - https://khogao.github.io/eden-reports-2/PRE_FS_EDEN_V1.html
-- https://khogao.github.io/eden-reports-2/ESSOG.html ← mới (bản ngắn)
+- https://khogao.github.io/eden-reports-2/ESSOG.html ← bản ngắn kịch bản Gốc
+- https://khogao.github.io/eden-reports-2/ESSOG1.html ← bản ngắn OG1 (15 tr/m²)
+- https://khogao.github.io/eden-reports-2/EXECUTIVE_SUMMARY_OG1.html
+- https://khogao.github.io/eden-reports-2/PRE_FS_EDEN_OG1.html
 
 ---
 
@@ -104,12 +110,18 @@ Pre-FS MD → ES MD → Pre-FS HTML → ES HTML
 
 ## SỐ LIỆU CỐT LÕI (KHÔNG THAY ĐỔI)
 
-### Kịch bản Gốc — PA B (giá đất 13 tr/m²):
+### Kịch bản Gốc OG (giá đất PA A=15 tr/m² / PA B=13 tr/m²):
 - DT = 7.823 tỷ
-- EBIT = 2.094 tỷ (26,8%)
-- Lãi vay ≈ 500 tỷ; Thuế ≈ 319 tỷ
-- LNST ≈ 1.275 tỷ (16,3%)
+- PA A: EBIT = 1.966 tỷ (25,1%); LNST ≈ 1.173 tỷ (15,0%)
+- PA B: EBIT = 2.094 tỷ (26,8%); LNST ≈ 1.275 tỷ (16,3%)
 - Sản phẩm: 376 căn hộ + 76 biệt thự + 24 liên kế + VP Lô C
+
+### Kịch bản Gốc OG1 (giá đất 15 tr/m² DUY NHẤT — không có PA B):
+- DT = 7.823 tỷ; Chi phí đất = 1.131 tỷ
+- EBIT = 1.966 tỷ (25,1%)
+- Lãi vay ≈ 500 tỷ; Thuế ≈ 293 tỷ
+- LNST ≈ 1.173 tỷ (15,0%)
+- Sensitivity: 60tr→9,8% / 65tr→12,5% / 70tr→15,0% / 75tr→17,3% / 80tr→19,4%
 
 ### Kịch bản V1 — PA B:
 - DT = 14.951 tỷ
@@ -152,15 +164,18 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
 ---
 
-## TRẠNG THÁI (28/04/2026)
+## TRẠNG THÁI (29/04/2026)
 
 | File | Bảo mật | Số liệu | Image path | V1 ref | Status |
 |---|---|---|---|---|---|
-| EXECUTIVE_SUMMARY_OG.html | ✅ | ✅ | ✅ | ❌ Đã xóa | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
-| EXECUTIVE_SUMMARY_V1.html | ✅ | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
-| PRE_FS_EDEN_OG.html | N/A | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
-| PRE_FS_EDEN_V1.html | N/A | ✅ | ✅ | — | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| EXECUTIVE_SUMMARY_OG.html | ✅ | ✅ | ✅ | ❌ Đã xóa | ✅ OK |
+| EXECUTIVE_SUMMARY_V1.html | ✅ | ✅ | ✅ | — | ✅ OK |
+| EXECUTIVE_SUMMARY_OG1.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK — 15 tr/m² only |
+| PRE_FS_EDEN_OG.html | N/A | ✅ | ✅ | — | ✅ OK |
+| PRE_FS_EDEN_V1.html | N/A | ✅ | ✅ | — | ✅ OK |
+| PRE_FS_EDEN_OG1.html | N/A | ✅ | ✅ | — | ✅ OK — 15 tr/m² only |
 | ESSOG.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK |
+| ESSOG1.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK — 15 tr/m² only |
 
 ### MD source files (D:\Eden\md\):
 | File | Status |
@@ -169,8 +184,11 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 | PRE_FS_EDEN_V1.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
 | EXECUTIVE_SUMMARY_OG.md | ✅ OK |
 | EXECUTIVE_SUMMARY_V1.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
-| ESSOG.md | ✅ NEW — không có "OG" visible |
-| ESSV1.md | ✅ NEW — "OG" → "Kịch bản Gốc" ✅ |
+| ESSOG.md | ✅ OK — không có "OG" visible |
+| ESSV1.md | ✅ OK — "OG" → "Kịch bản Gốc" ✅ |
+| ESSOG1.md | ✅ NEW — OG1, 15 tr/m² only |
+| EXECUTIVE_SUMMARY_OG1.md | ✅ NEW — OG1, 15 tr/m² only |
+| PRE_FS_EDEN_OG1.md | ✅ NEW — OG1, 15 tr/m² only |
 
 ---
 
