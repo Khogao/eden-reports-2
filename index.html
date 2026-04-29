@@ -1,18 +1,223 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/eden-reports/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Tài liệu phân tích đầu tư — Khu Dân Cư Ê Đen, An Phú Tây, Bình Chánh, TP.HCM" />
-    <title>Khu Dân Cư Ê Đen — Tài liệu Đầu tư</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <script type="module" crossorigin src="/eden-reports/assets/index-D7ysSaPa.js"></script>
-    <link rel="stylesheet" crossorigin href="/eden-reports/assets/index-CpiHNAW1.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tài liệu phân tích đầu tư — Eden Residential, An Phú Tây, Bình Chánh, TP.HCM">
+<title>Eden Residential — Tài liệu Đầu tư</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#1e2d45;--teal:#1a8a7a;--teal-light:#22a896;--teal-pale:#6bbdb3;
+    --amber:#d4860a;--amber-pale:#f0a832;--paper:#f5f7f9;--border:#c4d0da;
+    --ink:#1a1a2e;--ink-mid:#3a4a5a;--ink-soft:#6a7a8a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{font-size:112.5%}
+  body{font-family:'Inter',sans-serif;font-weight:300;background:var(--paper);color:var(--ink);line-height:1.8;max-width:960px;margin:0 auto;padding:0 0 80px}
+
+  .hero{background:var(--deep);padding:56px 60px 44px;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--amber),transparent)}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(212,134,10,0.15);border:1px solid rgba(212,134,10,0.35);padding:5px 14px;border-radius:2px;margin-bottom:22px}
+  .hero-tag span{font-size:11px;color:var(--amber-pale);text-transform:uppercase;letter-spacing:0.12em;font-weight:600}
+  .hero h1{font-family:'Merriweather',serif;font-size:34px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:10px}
+  .hero-sub{font-size:15px;color:rgba(255,255,255,0.5);font-weight:300}
+
+  .content{padding:0 60px}
+  @media(max-width:680px){.hero{padding:40px 24px 32px}.content{padding:0 24px}}
+
+  .section{margin-top:52px}
+  .section-header{margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid var(--teal)}
+  .section-label{font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.15em;font-weight:600;margin-bottom:4px}
+  .section-title{font-family:'Merriweather',serif;font-size:20px;color:var(--deep);font-weight:700}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:580px){.cards{grid-template-columns:1fr}}
+
+  .card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:20px;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:inherit;transition:box-shadow .15s,border-color .15s;position:relative;overflow:hidden}
+  .card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.08);border-color:var(--teal-pale)}
+  .card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px}
+  .card.v2::before{background:var(--amber)}
+  .card.v1::before{background:var(--teal)}
+  .card.og::before{background:#94a3b8}
+  .card.fs::before{background:var(--teal)}
+  .card.tool::before{background:#7c3aed}
+
+  .card-badges{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:2px;text-transform:uppercase;letter-spacing:0.08em}
+  .badge-v2{background:rgba(212,134,10,0.12);color:var(--amber);border:1px solid rgba(212,134,10,0.3)}
+  .badge-v1{background:rgba(26,138,122,0.1);color:var(--teal);border:1px solid rgba(26,138,122,0.25)}
+  .badge-og{background:rgba(100,116,139,0.1);color:#475569;border:1px solid rgba(100,116,139,0.2)}
+  .badge-new{background:rgba(26,138,122,0.15);color:var(--teal-light);border:1px solid rgba(26,138,122,0.3)}
+  .badge-tool{background:rgba(124,58,237,0.1);color:#7c3aed;border:1px solid rgba(124,58,237,0.2)}
+
+  .card-title{font-family:'Merriweather',serif;font-size:15px;font-weight:700;color:var(--deep);line-height:1.35}
+  .card-desc{font-size:12px;color:var(--ink-soft);font-weight:300;line-height:1.6;flex:1}
+  .card-link{font-size:12px;color:var(--teal);font-weight:600;margin-top:4px}
+  .card:hover .card-link{color:var(--teal-light)}
+
+  .footer{text-align:center;padding:40px 60px 0;font-size:12px;color:var(--ink-soft);border-top:1px solid var(--border);margin-top:60px}
+  .footer strong{color:var(--ink-mid)}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"><span>Tài liệu Đầu tư &middot; Nội bộ</span></div>
+  <h1>Eden Residential</h1>
+  <p class="hero-sub">An Phú Tây, Bình Chánh, TP.HCM &ensp;&middot;&ensp; Cập nhật: 30/04/2026</p>
+</div>
+
+<div class="content">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Tóm tắt 1 trang</div>
+      <div class="section-title">Executive Summary Ngắn (ESS)</div>
+    </div>
+    <div class="cards">
+      <a href="ESSV2.html" class="card v2">
+        <div class="card-badges"><span class="badge badge-v2">V2 — Đề xuất</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Phương Án V2</div>
+        <div class="card-desc">1-pager: DT 14.951 tỷ · LN hoạt động 6.177 tỷ (41,3%). Phương án đề xuất chính thức.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="ESSV1.html" class="card v1">
+        <div class="card-badges"><span class="badge badge-v1">V1</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Phương Án V1</div>
+        <div class="card-desc">1-pager: hệ số 8×, ~21 tầng, hai mức giá.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="ESSOG1.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG1</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Gốc OG1</div>
+        <div class="card-desc">1-pager: 15 tr/m² duy nhất. DT 7.823 tỷ.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="ESSOG.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Gốc OG</div>
+        <div class="card-desc">1-pager: phiên bản gốc, phân tích ban đầu.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Tóm tắt đầy đủ</div>
+      <div class="section-title">Executive Summary (ES)</div>
+    </div>
+    <div class="cards">
+      <a href="EXECUTIVE_SUMMARY_V2.html" class="card v2">
+        <div class="card-badges"><span class="badge badge-v2">V2 — Đề xuất</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Phương Án V2</div>
+        <div class="card-desc">Đầy đủ: phân khu, tài chính, độ nhạy, quy hoạch. Phương án đề xuất chính thức.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="EXECUTIVE_SUMMARY_V1.html" class="card v1">
+        <div class="card-badges"><span class="badge badge-v1">V1</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Phương Án V1</div>
+        <div class="card-desc">Hệ số 8×, ~21 tầng, hai phương án giá bán.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="EXECUTIVE_SUMMARY_OG1.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG1</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Gốc OG1</div>
+        <div class="card-desc">15 tr/m² duy nhất. Cơ sở so sánh với V1, V2.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="EXECUTIVE_SUMMARY_OG.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG</span></div>
+        <div class="card-title">Tóm Tắt Đầu Tư — Gốc OG</div>
+        <div class="card-desc">Phiên bản gốc, phân tích hai phương án giá đất.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Phân tích tài chính chi tiết</div>
+      <div class="section-title">Phân tích Tiền Khả Thi (Pre-FS)</div>
+    </div>
+    <div class="cards">
+      <a href="PRE_FS_EDEN_V2.html" class="card v2">
+        <div class="card-badges"><span class="badge badge-v2">V2 — Đề xuất</span></div>
+        <div class="card-title">Phân Tích Tiền Khả Thi — V2</div>
+        <div class="card-desc">Nguồn tham chiếu tài chính. Tổng chi phí 8.774 tỷ · Lợi nhuận sau thuế ~4.262 tỷ (28,5%).</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="PRE_FS_EDEN_V1.html" class="card v1">
+        <div class="card-badges"><span class="badge badge-v1">V1</span></div>
+        <div class="card-title">Phân Tích Tiền Khả Thi — V1</div>
+        <div class="card-desc">Hệ số 8×, ~21 tầng. Cơ sở phát triển phương án V2.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="PRE_FS_EDEN_OG1.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG1</span></div>
+        <div class="card-title">Phân Tích Tiền Khả Thi — Gốc OG1</div>
+        <div class="card-desc">15 tr/m² một phương án. Doanh thu 7.823 tỷ.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="PRE_FS_EDEN_OG.html" class="card og">
+        <div class="card-badges"><span class="badge badge-og">Gốc OG</span></div>
+        <div class="card-title">Phân Tích Tiền Khả Thi — Gốc OG</div>
+        <div class="card-desc">Phiên bản gốc, phân tích ban đầu.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Nghiên cứu đầy đủ</div>
+      <div class="section-title">Nghiên Cứu Khả Thi &amp; Kế Hoạch Dự Án</div>
+    </div>
+    <div class="cards">
+      <a href="FS_EDEN.html" class="card fs">
+        <div class="card-badges"><span class="badge badge-new">FS · V2</span></div>
+        <div class="card-title">Nghiên Cứu Khả Thi — Eden Residential</div>
+        <div class="card-desc">Mô hình 20 quý (Q1/26–Q4/30). IRR, NPV, dòng tiền, kịch bản độ nhạy.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+      <a href="PROJECT_PLAN_EDEN.html" class="card fs">
+        <div class="card-badges"><span class="badge badge-new">Kế hoạch · V2</span></div>
+        <div class="card-title">Kế Hoạch Dự Án — Eden Residential</div>
+        <div class="card-desc">WBS 6 giai đoạn, tiến độ 20 quý, ngân sách 8.774 tỷ theo quý.</div>
+        <div class="card-link">Xem báo cáo →</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-label">Công cụ tính toán</div>
+      <div class="section-title">Mẫu &amp; Công Cụ</div>
+    </div>
+    <div class="cards">
+      <a href="TEMPLATE_FS_CALCULATOR.html" class="card tool">
+        <div class="card-badges"><span class="badge badge-tool">Công cụ</span></div>
+        <div class="card-title">Mẫu Tính Tiền Khả Thi (Pre-FS)</div>
+        <div class="card-desc">Calculator Pre-FS tương tác. Nhập thông số — xuất kết quả tự động.</div>
+        <div class="card-link">Mở công cụ →</div>
+      </a>
+      <a href="TEMPLATE_FS_FULL.html" class="card tool">
+        <div class="card-badges"><span class="badge badge-tool">Công cụ</span></div>
+        <div class="card-title">Mẫu Nghiên Cứu Khả Thi Đầy Đủ (FS)</div>
+        <div class="card-desc">Template FS 20 quý. IRR, NPV, dòng tiền, kịch bản.</div>
+        <div class="card-link">Mở công cụ →</div>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>Eden Residential &ensp;&middot;&ensp; Tài liệu nội bộ &ensp;&middot;&ensp; Lê Nguyên Phi &ensp;&middot;&ensp; lenguyenphi@gmail.com</p>
+  <p style="margin-top:4px">Phương án đề xuất chính thức: <strong>V2</strong> &ensp;&middot;&ensp; Nguồn tham chiếu: PRE_FS_EDEN_V2</p>
+</div>
+
+</body>
 </html>
