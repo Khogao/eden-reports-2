@@ -73,6 +73,9 @@ git push origin main
 - https://khogao.github.io/eden-reports-2/ESSOG1.html ← bản ngắn OG1 (15 tr/m²)
 - https://khogao.github.io/eden-reports-2/EXECUTIVE_SUMMARY_OG1.html
 - https://khogao.github.io/eden-reports-2/PRE_FS_EDEN_OG1.html
+- https://khogao.github.io/eden-reports-2/ESSV2.html ← bản ngắn V2 (15 tr/m², giả định chốt)
+- https://khogao.github.io/eden-reports-2/EXECUTIVE_SUMMARY_V2.html
+- https://khogao.github.io/eden-reports-2/PRE_FS_EDEN_V2.html
 
 ---
 
@@ -174,6 +177,9 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 | PRE_FS_EDEN_OG.html | N/A | ✅ | ✅ | — | ✅ OK |
 | PRE_FS_EDEN_V1.html | N/A | ✅ | ✅ | — | ✅ OK |
 | PRE_FS_EDEN_OG1.html | N/A | ✅ | ✅ | — | ✅ OK — 15 tr/m² only |
+| ESSV2.html | ✅ | ✅ | ✅ | — | ✅ OK — 15 tr/m² only |
+| EXECUTIVE_SUMMARY_V2.html | ✅ | ✅ | ✅ | — | ✅ OK — 15 tr/m² only |
+| PRE_FS_EDEN_V2.html | N/A | ✅ | ✅ | — | ✅ OK — 15 tr/m² only |
 | ESSOG.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK |
 | ESSOG1.html | ✅ | ✅ | ✅ | ❌ Không có | ✅ OK — 15 tr/m² only |
 
