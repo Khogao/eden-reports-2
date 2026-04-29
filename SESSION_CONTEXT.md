@@ -195,6 +195,11 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 | ESSOG1.md | ✅ NEW — OG1, 15 tr/m² only |
 | EXECUTIVE_SUMMARY_OG1.md | ✅ NEW — OG1, 15 tr/m² only |
 | PRE_FS_EDEN_OG1.md | ✅ NEW — OG1, 15 tr/m² only |
+| PRE_FS_EDEN_V2.md | ✅ NEW — V2, 15 tr/m² only, "Phương án" thay "Kịch bản" |
+| EXECUTIVE_SUMMARY_V2.md | ✅ NEW — V2, 15 tr/m² only, "Phương án" thay "Kịch bản" |
+| ESSV2.md | ✅ NEW — V2, 15 tr/m² only, "Phương án" thay "Kịch bản" |
+
+> **Lưu ý từ vựng V2:** Toàn bộ V2 files (MD + HTML) dùng "Phương án" thay cho "Kịch bản" — chuyên nghiệp hơn trong tài liệu đầu tư. V1/OG files giữ nguyên "Kịch bản".
 
 ---
 
