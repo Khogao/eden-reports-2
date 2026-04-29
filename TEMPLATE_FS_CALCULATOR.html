@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FS Calculator — Template tính hiệu quả dự án BĐS</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .num-input { text-align: right; font-variant-numeric: tabular-nums; }
+  .out { font-variant-numeric: tabular-nums; }
+  .pos { color: #047857; }
+  .neg { color: #b91c1c; }
+  .warn { color: #b45309; }
+  input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
+  @media print {
+    .no-print { display: none !important; }
+    body { font-size: 11pt; }
+    .page-break { page-break-before: always; }
+  }
+  .sticky-summary {
+    position: sticky; top: 0; z-index: 50;
+    background: linear-gradient(90deg,#1e3a8a,#0f766e);
+    color: white;
+  }
+  details > summary { cursor: pointer; }
+  .grid-input { display: grid; grid-template-columns: 1fr 140px 60px; gap: 8px; align-items: center; }
+  .grid-input label { font-size: 0.875rem; }
+  .grid-input .unit { font-size: 0.75rem; color: #6b7280; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+<!-- STICKY SUMMARY -->
+<div class="sticky-summary shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center gap-4 text-sm">
+    <div class="font-bold text-base">📊 <span id="pname-top">Dự án mới</span></div>
+    <div class="flex flex-wrap gap-x-6 gap-y-1 ml-auto">
+      <div>Doanh thu: <b class="out" id="s-rev">0</b> tỷ</div>
+      <div>LN HĐ: <b class="out" id="s-opr">0</b> tỷ (<span id="s-opr-pct">0</span>%)</div>
+      <div>LNST: <b class="out" id="s-net">0</b> tỷ (<span id="s-net-pct">0</span>%)</div>
+      <div>Biên AT: <b class="out" id="s-saf">0</b> tỷ</div>
+    </div>
+    <button onclick="window.print()" class="no-print bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs">🖨 In/PDF</button>
+    <button onclick="exportJSON()" class="no-print bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs">💾 Lưu JSON</button>
+    <label class="no-print bg-white/20 hover:bg-white/30 px-3 py-1 rounded text-xs cursor-pointer">
+      📂 Tải JSON<input type="file" accept=".json" onchange="importJSON(event)" class="hidden">
+    </label>
+    <button onclick="resetAll()" class="no-print bg-red-500/30 hover:bg-red-500/50 px-3 py-1 rounded text-xs">🔄 Reset</button>
+  </div>
+</div>
+
+<div class="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
+
+<!-- HEADER -->
+<header class="bg-white rounded-lg shadow p-6">
+  <h1 class="text-3xl font-bold text-slate-800">FS Calculator — Tính hiệu quả dự án BĐS</h1>
+  <p class="text-slate-600 mt-1">Template Pre-Feasibility Study (Pre-FS) — nhập dữ liệu, kết quả tự động cập nhật.</p>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    <div>
+      <label class="text-xs text-slate-500 uppercase">Tên dự án</label>
+      <input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1">
+    </div>
+    <div>
+      <label class="text-xs text-slate-500 uppercase">Địa điểm</label>
+      <input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1">
+    </div>
+    <div>
+      <label class="text-xs text-slate-500 uppercase">Ngày lập</label>
+      <input id="p_date" type="date" class="w-full border rounded px-2 py-1.5 mt-1">
+    </div>
+  </div>
+</header>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+  <!-- 1. ĐẤT & QUY HOẠCH -->
+  <section class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4 pb-2 border-b border-slate-200 text-blue-900">① Đất & Quy hoạch</h2>
+    <div class="space-y-3">
+      <div class="grid-input">
+        <label>Diện tích đất</label>
+        <input id="land_area" type="number" value="10000" class="num-input border rounded px-2 py-1">
+        <span class="unit">m²</span>
+      </div>
+      <div class="grid-input">
+        <label>Đơn giá đất</label>
+        <input id="land_price" type="number" value="50" class="num-input border rounded px-2 py-1">
+        <span class="unit">tr/m²</span>
+      </div>
+      <div class="grid-input bg-blue-50 -mx-2 px-2 py-1.5 rounded">
+        <label class="font-semibold">→ Tổng tiền đất</label>
+        <span class="out font-bold text-blue-900" id="o_land_cost">0</span>
+        <span class="unit">tỷ</span>
+      </div>
+      <div class="grid-input">
+        <label>Hệ số sử dụng đất (FAR)</label>
+        <input id="far" type="number" step="0.1" value="5" class="num-input border rounded px-2 py-1">
+        <span class="unit">lần</span>
+      </div>
+      <div class="grid-input">
+        <label>Mật độ xây dựng</label>
+        <input id="bcr" type="number" step="1" value="40" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input bg-blue-50 -mx-2 px-2 py-1.5 rounded">
+        <label class="font-semibold">→ Tổng GFA (sàn xây dựng)</label>
+        <span class="out font-bold text-blue-900" id="o_gfa">0</span>
+        <span class="unit">m²</span>
+      </div>
+      <div class="grid-input">
+        <label>Tỷ lệ sàn TM/Bán</label>
+        <input id="sale_ratio" type="number" step="1" value="70" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input bg-blue-50 -mx-2 px-2 py-1.5 rounded">
+        <label class="font-semibold">→ Sàn thương phẩm (NSA)</label>
+        <span class="out font-bold text-blue-900" id="o_nsa">0</span>
+        <span class="unit">m²</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. DOANH THU -->
+  <section class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4 pb-2 border-b border-slate-200 text-emerald-900">② Doanh thu</h2>
+    <p class="text-xs text-slate-500 mb-3">Phân loại sản phẩm — đơn giá bán theo m² thông thủy/thương phẩm.</p>
+    <table class="w-full text-sm">
+      <thead class="text-xs uppercase text-slate-500">
+        <tr><th class="text-left">Sản phẩm</th><th>Tỷ lệ %</th><th>Đơn giá (tr/m²)</th><th class="text-right">Doanh thu (tỷ)</th></tr>
+      </thead>
+      <tbody id="rev_tbody">
+        <!-- rows generated -->
+      </tbody>
+      <tfoot class="border-t font-bold">
+        <tr>
+          <td class="py-2">Tổng tỷ lệ</td>
+          <td class="text-center"><span id="rev_total_pct">0</span>%</td>
+          <td></td>
+          <td class="text-right text-emerald-900 out" id="o_revenue">0</td>
+        </tr>
+      </tfoot>
+    </table>
+    <p class="text-xs text-amber-700 mt-2" id="rev_warning"></p>
+  </section>
+
+  <!-- 3. CHI PHÍ XÂY DỰNG & VẬN HÀNH -->
+  <section class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4 pb-2 border-b border-slate-200 text-orange-900">③ Chi phí đầu tư</h2>
+    <div class="space-y-3">
+      <div class="grid-input">
+        <label>Đơn giá xây dựng (theo GFA)</label>
+        <input id="build_unit" type="number" value="14" class="num-input border rounded px-2 py-1">
+        <span class="unit">tr/m²</span>
+      </div>
+      <div class="grid-input bg-orange-50 -mx-2 px-2 py-1.5 rounded">
+        <label class="font-semibold">→ Chi phí XD chính</label>
+        <span class="out font-bold text-orange-900" id="o_build_cost">0</span>
+        <span class="unit">tỷ</span>
+      </div>
+      <div class="grid-input">
+        <label>Hạ tầng & Cảnh quan (% XD)</label>
+        <input id="infra_pct" type="number" step="1" value="10" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input">
+        <label>Tư vấn, thiết kế, pháp lý (% XD)</label>
+        <input id="design_pct" type="number" step="1" value="5" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input">
+        <label>Quản lý dự án (% XD)</label>
+        <input id="pm_pct" type="number" step="1" value="3" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input">
+        <label>Marketing & Bán hàng (% Doanh thu)</label>
+        <input id="mkt_pct" type="number" step="0.5" value="3" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <div class="grid-input">
+        <label>Dự phòng (% Tổng CP)</label>
+        <input id="contin_pct" type="number" step="1" value="5" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+      <hr class="my-2">
+      <div class="grid-input bg-orange-100 -mx-2 px-2 py-2 rounded">
+        <label class="font-bold">∑ Tổng chi phí đầu tư</label>
+        <span class="out font-bold text-orange-900 text-lg" id="o_total_cost">0</span>
+        <span class="unit">tỷ</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. TÀI CHÍNH -->
+  <section class="bg-white rounded-lg shadow p-6">
+    <h2 class="text-xl font-bold mb-4 pb-2 border-b border-slate-200 text-purple-900">④ Tài chính & Lãi vay</h2>
+    <div class="space-y-3">
+      <div class="grid-input">
+        <label>Tỷ lệ vốn vay</label>
+        <input id="loan_pct" type="number" step="1" value="50" class="num-input border rounded px-2 py-1">
+        <span class="unit">% Tổng CP</span>
+      </div>
+      <div class="grid-input">
+        <label>Lãi suất bình quân</label>
+        <input id="rate" type="number" step="0.1" value="10" class="num-input border rounded px-2 py-1">
+        <span class="unit">%/năm</span>
+      </div>
+      <div class="grid-input">
+        <label>Thời gian vay bình quân</label>
+        <input id="loan_term" type="number" step="0.5" value="3" class="num-input border rounded px-2 py-1">
+        <span class="unit">năm</span>
+      </div>
+      <div class="grid-input">
+        <label>Hệ số dư nợ trung bình</label>
+        <input id="avg_factor" type="number" step="0.05" value="0.6" class="num-input border rounded px-2 py-1">
+        <span class="unit">×</span>
+      </div>
+      <p class="text-xs text-slate-500">Lãi vay ≈ Vốn vay × Lãi suất × Thời gian × Hệ số dư nợ TB</p>
+      <div class="grid-input bg-purple-50 -mx-2 px-2 py-1.5 rounded">
+        <label class="font-semibold">→ Vốn vay</label>
+        <span class="out font-bold text-purple-900" id="o_loan">0</span>
+        <span class="unit">tỷ</span>
+      </div>
+      <div class="grid-input bg-purple-100 -mx-2 px-2 py-2 rounded">
+        <label class="font-bold">→ Tổng lãi vay</label>
+        <span class="out font-bold text-purple-900 text-lg" id="o_interest">0</span>
+        <span class="unit">tỷ</span>
+      </div>
+      <div class="grid-input">
+        <label>Thuế TNDN</label>
+        <input id="tax_pct" type="number" step="1" value="20" class="num-input border rounded px-2 py-1">
+        <span class="unit">%</span>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- 5. KẾT QUẢ -->
+<section class="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-lg shadow-xl p-6 page-break">
+  <h2 class="text-2xl font-bold mb-4">⑤ Kết quả tài chính</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div class="bg-white/10 rounded p-4">
+      <div class="text-xs uppercase opacity-70">Doanh thu</div>
+      <div class="text-2xl font-bold out" id="r_rev">0</div>
+      <div class="text-xs opacity-70">tỷ đồng</div>
+    </div>
+    <div class="bg-white/10 rounded p-4">
+      <div class="text-xs uppercase opacity-70">Tổng chi phí</div>
+      <div class="text-2xl font-bold out" id="r_cost">0</div>
+      <div class="text-xs opacity-70">tỷ đồng</div>
+    </div>
+    <div class="bg-emerald-500/20 rounded p-4">
+      <div class="text-xs uppercase opacity-70">LN hoạt động</div>
+      <div class="text-2xl font-bold out" id="r_opr">0</div>
+      <div class="text-xs opacity-70">tỷ — biên <span id="r_opr_pct">0</span>%</div>
+    </div>
+    <div class="bg-amber-500/20 rounded p-4">
+      <div class="text-xs uppercase opacity-70">Lãi vay</div>
+      <div class="text-2xl font-bold out" id="r_int">0</div>
+      <div class="text-xs opacity-70">tỷ đồng</div>
+    </div>
+    <div class="bg-purple-500/20 rounded p-4">
+      <div class="text-xs uppercase opacity-70">LN trước thuế</div>
+      <div class="text-2xl font-bold out" id="r_pbt">0</div>
+      <div class="text-xs opacity-70">tỷ — biên <span id="r_pbt_pct">0</span>%</div>
+    </div>
+    <div class="bg-blue-500/20 rounded p-4">
+      <div class="text-xs uppercase opacity-70">Thuế TNDN</div>
+      <div class="text-2xl font-bold out" id="r_tax">0</div>
+      <div class="text-xs opacity-70">tỷ đồng</div>
+    </div>
+    <div class="bg-green-500/30 rounded p-4 col-span-2">
+      <div class="text-xs uppercase opacity-70">LỢI NHUẬN SAU THUẾ</div>
+      <div class="text-3xl font-bold out" id="r_net">0</div>
+      <div class="text-sm opacity-90">tỷ đồng — biên <b id="r_net_pct">0</b>% — ROI/CP <b id="r_roi">0</b>%</div>
+    </div>
+  </div>
+</section>
+
+<!-- 6. PHÂN TÍCH NHẠY CẢM -->
+<section class="bg-white rounded-lg shadow p-6">
+  <h2 class="text-xl font-bold mb-4 pb-2 border-b border-slate-200">⑥ Phân tích độ nhạy — Biên an toàn</h2>
+  <p class="text-xs text-slate-500 mb-3">Mỗi ô = LNST (tỷ) | biên% — đỏ là âm, xanh là dương. Trục X: thay đổi giá bán. Trục Y: thay đổi giá đất.</p>
+  <div class="overflow-x-auto">
+    <table class="w-full text-xs border-collapse">
+      <thead>
+        <tr class="bg-slate-100">
+          <th class="border p-2">Giá đất \ Giá bán</th>
+          <th class="border p-2">-10%</th>
+          <th class="border p-2">-5%</th>
+          <th class="border p-2 bg-slate-200">Cơ sở</th>
+          <th class="border p-2">+5%</th>
+          <th class="border p-2">+10%</th>
+        </tr>
+      </thead>
+      <tbody id="sens_tbody"></tbody>
+    </table>
+  </div>
+  <div class="mt-4 p-3 bg-amber-50 rounded text-sm">
+    <b>Biên an toàn (giá đất tối đa để hòa vốn):</b>
+    <span class="out font-bold" id="r_break_land">0</span> tr/m² — chênh
+    <span class="out font-bold" id="r_safety">0</span> tỷ so với giá đất hiện tại.
+  </div>
+</section>
+
+<!-- 7. GHI CHÚ -->
+<section class="bg-white rounded-lg shadow p-6 no-print">
+  <details>
+    <summary class="font-bold text-slate-700">📝 Hướng dẫn sử dụng</summary>
+    <div class="mt-3 text-sm text-slate-600 space-y-2">
+      <p><b>Quy trình:</b> Nhập (1) Đất → (2) Doanh thu → (3) Chi phí → (4) Tài chính. Kết quả ⑤ và độ nhạy ⑥ tự động cập nhật.</p>
+      <p><b>Lưu/Tải:</b> Dùng nút <code>💾 Lưu JSON</code> để lưu file dữ liệu — tải lại bằng <code>📂 Tải JSON</code>. Phù hợp version control nhiều phương án.</p>
+      <p><b>Xuất PDF:</b> Bấm <code>🖨 In/PDF</code> → chọn "Save as PDF". Sticky bar và nút điều khiển sẽ tự ẩn khi in.</p>
+      <p><b>Bản chất:</b> Đây là Pre-FS đơn giản. Để đầy đủ FS cần thêm: dòng tiền theo năm (DCF), NPV, IRR, lịch huy động vốn, lịch bán hàng, thuế VAT đầu vào.</p>
+      <p><b>Lưu ý:</b> Giá bán "tr/m²" áp dụng theo diện tích thương phẩm (NSA), không phải GFA.</p>
+    </div>
+  </details>
+</section>
+
+<footer class="text-center text-xs text-slate-400 py-4">
+  Template FS Calculator v1.0 · Eden Project Series · 30/04/2026
+</footer>
+
+</div>
+
+<script>
+'use strict';
+
+// ===== Default product rows =====
+const DEFAULT_PRODUCTS = [
+  { name: 'Căn hộ tiêu chuẩn', pct: 60, price: 50 },
+  { name: 'Căn hộ cao cấp',    pct: 25, price: 70 },
+  { name: 'Shophouse / TM',    pct: 15, price: 80 },
+];
+let products = JSON.parse(JSON.stringify(DEFAULT_PRODUCTS));
+
+// ===== Utility =====
+const $ = id => document.getElementById(id);
+const fmt = (n, d=1) => {
+  if (!isFinite(n)) return '0';
+  return Number(n).toLocaleString('vi-VN', { minimumFractionDigits: d, maximumFractionDigits: d });
+};
+const num = id => parseFloat($(id).value) || 0;
+
+// ===== Render product table =====
+function renderProducts() {
+  const tb = $('rev_tbody');
+  tb.innerHTML = '';
+  products.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.className = 'border-b';
+    tr.innerHTML = `
+      <td class="py-1.5"><input type="text" value="${p.name}" data-i="${i}" data-k="name" class="w-full border-0 bg-transparent text-sm"></td>
+      <td><input type="number" value="${p.pct}" step="1" data-i="${i}" data-k="pct" class="num-input w-full border rounded px-1 py-0.5"></td>
+      <td><input type="number" value="${p.price}" step="0.5" data-i="${i}" data-k="price" class="num-input w-full border rounded px-1 py-0.5"></td>
+      <td class="text-right out font-medium" id="rev_row_${i}">0</td>
+    `;
+    tb.appendChild(tr);
+  });
+  // Add row button
+  const addTr = document.createElement('tr');
+  addTr.innerHTML = `<td colspan="4" class="pt-2 no-print">
+    <button onclick="addProduct()" class="text-xs text-blue-600 hover:underline">+ Thêm sản phẩm</button>
+    ${products.length > 1 ? '<button onclick="removeProduct()" class="text-xs text-red-600 hover:underline ml-3">− Bớt</button>' : ''}
+  </td>`;
+  tb.appendChild(addTr);
+  tb.querySelectorAll('input').forEach(inp => inp.addEventListener('input', e => {
+    const i = +e.target.dataset.i, k = e.target.dataset.k;
+    products[i][k] = e.target.type === 'number' ? parseFloat(e.target.value) || 0 : e.target.value;
+    calc();
+  }));
+}
+function addProduct() {
+  products.push({ name: 'Sản phẩm mới', pct: 0, price: 50 });
+  renderProducts(); calc();
+}
+function removeProduct() {
+  if (products.length > 1) { products.pop(); renderProducts(); calc(); }
+}
+
+// ===== Core calculation =====
+function compute(overrides = {}) {
+  const land_area  = overrides.land_area  ?? num('land_area');
+  const land_price = overrides.land_price ?? num('land_price');
+  const far        = num('far');
+  const sale_ratio = num('sale_ratio') / 100;
+  const build_unit = num('build_unit');
+  const infra_pct  = num('infra_pct') / 100;
+  const design_pct = num('design_pct') / 100;
+  const pm_pct     = num('pm_pct') / 100;
+  const mkt_pct    = num('mkt_pct') / 100;
+  const contin_pct = num('contin_pct') / 100;
+  const loan_pct   = num('loan_pct') / 100;
+  const rate       = num('rate') / 100;
+  const loan_term  = num('loan_term');
+  const avg_factor = num('avg_factor');
+  const tax_pct    = num('tax_pct') / 100;
+  const price_factor = overrides.price_factor ?? 1;
+
+  const land_cost = land_area * land_price / 1000; // tr * m² /1000 = tỷ
+  const gfa = land_area * far;
+  const nsa = gfa * sale_ratio;
+
+  // Revenue
+  let revenue = 0;
+  products.forEach(p => {
+    const area = nsa * (p.pct / 100);
+    revenue += area * p.price * price_factor / 1000;
+  });
+
+  const build_cost = gfa * build_unit / 1000;
+  const infra = build_cost * infra_pct;
+  const design = build_cost * design_pct;
+  const pm = build_cost * pm_pct;
+  const mkt = revenue * mkt_pct;
+  const subtotal = land_cost + build_cost + infra + design + pm + mkt;
+  const contin = subtotal * contin_pct;
+  const total_cost = subtotal + contin;
+
+  const opr = revenue - total_cost;
+  const loan = total_cost * loan_pct;
+  const interest = loan * rate * loan_term * avg_factor;
+  const pbt = opr - interest;
+  const tax = pbt > 0 ? pbt * tax_pct : 0;
+  const net = pbt - tax;
+
+  return { land_cost, gfa, nsa, revenue, build_cost, infra, design, pm, mkt, contin, total_cost, opr, loan, interest, pbt, tax, net };
+}
+
+// ===== Update outputs =====
+function calc() {
+  const r = compute();
+
+  $('o_land_cost').textContent  = fmt(r.land_cost);
+  $('o_gfa').textContent        = fmt(r.gfa, 0);
+  $('o_nsa').textContent        = fmt(r.nsa, 0);
+
+  // Per-row revenue
+  let totalPct = 0;
+  products.forEach((p, i) => {
+    const area = r.nsa * (p.pct / 100);
+    const rev = area * p.price / 1000;
+    const cell = $('rev_row_' + i);
+    if (cell) cell.textContent = fmt(rev);
+    totalPct += p.pct;
+  });
+  $('rev_total_pct').textContent = totalPct;
+  $('rev_warning').textContent = totalPct !== 100 ? `⚠ Tổng tỷ lệ = ${totalPct}% (nên = 100%).` : '';
+  $('o_revenue').textContent    = fmt(r.revenue);
+
+  $('o_build_cost').textContent = fmt(r.build_cost);
+  $('o_total_cost').textContent = fmt(r.total_cost);
+  $('o_loan').textContent       = fmt(r.loan);
+  $('o_interest').textContent   = fmt(r.interest);
+
+  // Results
+  $('r_rev').textContent  = fmt(r.revenue);
+  $('r_cost').textContent = fmt(r.total_cost);
+  $('r_opr').textContent  = fmt(r.opr);
+  $('r_opr_pct').textContent = fmt(r.revenue ? r.opr / r.revenue * 100 : 0);
+  $('r_int').textContent  = fmt(r.interest);
+  $('r_pbt').textContent  = fmt(r.pbt);
+  $('r_pbt_pct').textContent = fmt(r.revenue ? r.pbt / r.revenue * 100 : 0);
+  $('r_tax').textContent  = fmt(r.tax);
+  $('r_net').textContent  = fmt(r.net);
+  $('r_net_pct').textContent = fmt(r.revenue ? r.net / r.revenue * 100 : 0);
+  $('r_roi').textContent  = fmt(r.total_cost ? r.net / r.total_cost * 100 : 0);
+
+  // Sticky
+  $('s-rev').textContent = fmt(r.revenue);
+  $('s-opr').textContent = fmt(r.opr);
+  $('s-opr-pct').textContent = fmt(r.revenue ? r.opr / r.revenue * 100 : 0);
+  $('s-net').textContent = fmt(r.net);
+  $('s-net-pct').textContent = fmt(r.revenue ? r.net / r.revenue * 100 : 0);
+
+  // Break-even land price (LNST = 0 by varying land price)
+  const breakLand = solveBreakEvenLand();
+  $('r_break_land').textContent = fmt(breakLand);
+  const safety = (breakLand - num('land_price')) * num('land_area') / 1000;
+  $('r_safety').textContent = fmt(safety);
+  $('s-saf').textContent = fmt(safety);
+
+  // Sensitivity
+  renderSensitivity();
+  $('pname-top').textContent = $('p_name').value || 'Dự án';
+}
+
+function solveBreakEvenLand() {
+  // bisection on land_price s.t. net = 0
+  let lo = 0, hi = 10000;
+  for (let i = 0; i < 60; i++) {
+    const mid = (lo + hi) / 2;
+    const r = compute({ land_price: mid });
+    if (r.net > 0) lo = mid; else hi = mid;
+  }
+  return (lo + hi) / 2;
+}
+
+function renderSensitivity() {
+  const tb = $('sens_tbody');
+  tb.innerHTML = '';
+  const landDeltas = [-0.1, -0.05, 0, 0.05, 0.1];
+  const priceDeltas = [-0.1, -0.05, 0, 0.05, 0.1];
+  const baseLand = num('land_price');
+  landDeltas.forEach(ld => {
+    const tr = document.createElement('tr');
+    const isBase = ld === 0;
+    tr.innerHTML = `<th class="border p-1 text-left ${isBase ? 'bg-slate-200' : 'bg-slate-50'}">Đất ${ld>0?'+':''}${(ld*100).toFixed(0)}% (${fmt(baseLand*(1+ld))} tr/m²)</th>` +
+      priceDeltas.map(pd => {
+        const r = compute({ land_price: baseLand*(1+ld), price_factor: 1+pd });
+        const pct = r.revenue ? r.net / r.revenue * 100 : 0;
+        const cls = r.net < 0 ? 'bg-red-100 text-red-800' : (pct > 20 ? 'bg-green-100 text-green-800' : 'bg-amber-50');
+        const baseCell = (ld===0 && pd===0) ? 'ring-2 ring-blue-500' : '';
+        return `<td class="border p-1 text-right ${cls} ${baseCell}"><b>${fmt(r.net)}</b><br><span class="text-[10px] opacity-70">${fmt(pct)}%</span></td>`;
+      }).join('');
+    tb.appendChild(tr);
+  });
+}
+
+// ===== Save / Load =====
+function exportJSON() {
+  const data = {
+    meta: { name: $('p_name').value, loc: $('p_loc').value, date: $('p_date').value, exported: new Date().toISOString() },
+    inputs: {},
+    products,
+  };
+  ['land_area','land_price','far','bcr','sale_ratio','build_unit','infra_pct','design_pct','pm_pct','mkt_pct','contin_pct','loan_pct','rate','loan_term','avg_factor','tax_pct'].forEach(k => data.inputs[k] = $(k).value);
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `FS_${($('p_name').value||'project').replace(/\s+/g,'_')}_${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+function importJSON(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (d.meta) { $('p_name').value = d.meta.name||''; $('p_loc').value = d.meta.loc||''; $('p_date').value = d.meta.date||''; }
+      if (d.inputs) Object.entries(d.inputs).forEach(([k,v]) => { if ($(k)) $(k).value = v; });
+      if (d.products) { products = d.products; renderProducts(); }
+      calc();
+    } catch (err) { alert('File JSON không hợp lệ: ' + err.message); }
+  };
+  r.readAsText(f);
+}
+function resetAll() {
+  if (!confirm('Reset toàn bộ về giá trị mặc định?')) return;
+  location.reload();
+}
+
+// ===== Init =====
+document.addEventListener('DOMContentLoaded', () => {
+  $('p_date').value = new Date().toISOString().slice(0,10);
+  renderProducts();
+  document.querySelectorAll('input[type=number], input[type=text]').forEach(inp => {
+    inp.addEventListener('input', calc);
+  });
+  calc();
+});
+</script>
+</body>
+</html>
