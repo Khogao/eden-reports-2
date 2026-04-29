@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tóm Tắt Đầu Tư — Kịch Bản V2 (Ngắn) — Eden Residential</title>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#1e2d45;--deep-mid:#273d5c;
+    --teal:#1a8a7a;--teal-light:#22a896;--teal-pale:#6bbdb3;
+    --coral:#e76f51;--amber:#d4860a;--paper:#f5f7f9;--paper-warm:#ebf0f5;
+    --border:#c4d0da;--ink:#1a1a2e;--ink-mid:#3a4a5a;--ink-soft:#6a7a8a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{font-size:125%}
+  body{font-family:'Inter',sans-serif;font-weight:300;background:var(--paper);color:var(--ink);line-height:1.8;font-size:1rem;max-width:900px;margin:0 auto;padding:0 0 60px}
+
+  /* HERO */
+  .hero{background:var(--deep);padding:56px 60px 44px;position:relative;overflow:hidden}
+  .hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,var(--amber),transparent)}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;background:rgba(212,134,10,0.15);border:1px solid rgba(212,134,10,0.35);padding:5px 14px;border-radius:2px;margin-bottom:22px}
+  .hero-tag span{font-size:11px;color:#f0a832;text-transform:uppercase;letter-spacing:0.12em;font-weight:600}
+  .hero-dot{width:5px;height:5px;background:var(--coral);border-radius:50%}
+  .hero h1{font-family:'Merriweather',serif;font-size:32px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:10px}
+  .hero-sub{font-size:15px;color:rgba(255,255,255,0.5);font-weight:300;margin-bottom:32px;line-height:1.65}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;margin-top:8px}
+  .stat-box{background:rgba(255,255,255,0.04);padding:18px 20px}
+  .stat-label{font-size:10px;color:#f0a832;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;margin-bottom:6px}
+  .stat-value{font-size:26px;font-family:'Merriweather',serif;color:#fff;font-weight:700;line-height:1.1}
+  .stat-note{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px}
+
+  /* CONTENT */
+  .content{padding:0 60px}
+  .section{padding-top:52px}
+  .sec-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+  .sec-num{font-family:'Merriweather',serif;font-size:38px;color:var(--teal-pale);font-weight:700;line-height:1;flex-shrink:0;margin-top:-4px}
+  .sec-label{font-size:10px;color:var(--teal);text-transform:uppercase;letter-spacing:0.15em;font-weight:600;margin-bottom:4px}
+  .sec-title{font-family:'Merriweather',serif;font-size:22px;color:var(--deep);font-weight:700;line-height:1.3}
+
+  .callout{background:var(--deep);border-left:4px solid var(--amber);padding:16px 20px;margin:18px 0;border-radius:0 3px 3px 0}
+  .callout p{color:rgba(255,255,255,0.8);font-size:14px;margin-bottom:0;font-style:italic;font-weight:300}
+  .callout strong{color:#f0a832;font-style:normal}
+
+  .tbl-wrap{overflow-x:auto;margin:14px 0}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead tr{background:var(--deep)}
+  th{padding:11px 14px;color:var(--teal-light);font-weight:600;text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.08em}
+  td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--ink-mid);font-weight:300;vertical-align:top;line-height:1.6}
+  tr:nth-child(even) td{background:var(--paper-warm)}
+  tr:last-child td{border-bottom:none}
+  .td-right{text-align:right;font-variant-numeric:tabular-nums}
+  .td-bold{font-weight:600;color:var(--ink)}
+  .td-total-row td{background:rgba(30,45,69,0.06)!important;font-weight:600;color:var(--deep)}
+  .td-highlight{color:var(--amber);font-weight:600}
+
+  .bullet-list{list-style:none;padding:0;margin:0 0 16px}
+  .bullet-list li{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--border);font-size:14.5px;color:var(--ink-mid);font-weight:300}
+  .bullet-list li:last-child{border-bottom:none}
+  .bullet-list li::before{content:'›';color:var(--amber);font-size:18px;font-weight:600;flex-shrink:0;margin-top:-1px}
+
+  .badge-amber{display:inline-block;background:rgba(212,134,10,0.12);border:1px solid rgba(212,134,10,0.35);color:var(--amber);padding:3px 10px;font-size:11px;font-weight:600;border-radius:2px;letter-spacing:0.05em}
+
+  .timeline{margin:16px 0}
+  .tl-item{display:flex;gap:18px;padding:12px 0;border-bottom:1px solid var(--border)}
+  .tl-item:last-child{border-bottom:none}
+  .tl-num{font-family:'Merriweather',serif;font-size:13px;font-weight:700;color:var(--amber);min-width:80px;flex-shrink:0}
+  .tl-text{font-size:14px;color:var(--ink-mid);line-height:1.65}
+  .tl-text strong{color:var(--ink);font-weight:600}
+
+  .compare-table td:nth-child(2){color:var(--ink-soft)}
+  .compare-table td:nth-child(3){color:var(--amber);font-weight:600}
+  /* utility classes */
+  .stat-unit{font-size:14px;font-weight:400}
+  .col-label{width:38%}
+  .td-result{color:var(--amber);font-weight:700}
+  .mt-18{margin-top:18px}
+  .mt-24{margin-top:24px}
+
+  @media print{
+    @page{size:A4;margin:16mm 14mm 16mm 14mm}
+    body{font-size:10pt;-webkit-print-color-adjust:exact;print-color-adjust:exact;max-width:none}
+    .hero{padding:24px 0 16px}
+    .content{padding:0}
+    .section{page-break-inside:avoid;padding-top:24px}
+    .hero-stats{grid-template-columns:repeat(3,1fr)}
+    table{page-break-inside:avoid;font-size:9pt}
+    a{text-decoration:none;color:inherit}
+    .print-footer{display:block;position:fixed;bottom:0;left:0;right:0;padding:5px 14mm;font-size:8pt;color:#555;border-top:1px solid #bbb;background:#fff;text-align:center}
+    .print-qr{display:block;position:fixed;bottom:28px;right:14mm;text-align:center;z-index:10}
+    .print-qr img{width:40px;height:40px;display:block;margin:0 auto}
+    .print-qr-label{font-size:7pt;color:#777;margin-top:2px;line-height:1.3}
+  }
+  @media screen{.print-footer{display:none}.print-qr{display:none}}
+  @media(max-width:700px){.hero,.content{padding-left:24px;padding-right:24px}.hero-stats{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">
+    <div class="hero-dot"></div>
+    <span>Tài liệu nội bộ — Kịch bản V2 — Tóm tắt ngắn</span>
+  </div>
+  <h1>Tóm Tắt Đầu Tư<br>Eden Residential — Kịch Bản V2</h1>
+  <p class="hero-sub">Xin điều chỉnh quy hoạch chi tiết (QHCT) 1/500 · Toàn bộ CT10 chung cư ~21 tầng · Hệ số sử dụng đất 8× · Xã An Phú Tây, Huyện Bình Chánh, TP.HCM</p>
+  <div class="hero-stats">
+    <div class="stat-box">
+      <div class="stat-label">Tổng doanh thu</div>
+      <div class="stat-value">14.951<span class="stat-unit"> tỷ</span></div>
+      <div class="stat-note">Giá cơ sở căn hộ 70 tr/m²</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Lợi nhuận hoạt động</div>
+      <div class="stat-value">6.177<span class="stat-unit"> tỷ</span></div>
+      <div class="stat-note">41,3% doanh thu · Giá đất 15 tr/m²</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Lợi nhuận sau thuế</div>
+      <div class="stat-value">~4.262<span class="stat-unit"> tỷ</span></div>
+      <div class="stat-note">28,5% doanh thu · Sau lãi vay &amp; thuế</div>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- S1 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div>
+        <div class="sec-label">Phần 1</div>
+        <div class="sec-title">Thông Tin Cốt Lõi</div>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <tbody>
+          <tr><td class="col-label"><strong>Tên dự án</strong></td><td>Eden Residential</td></tr>
+          <tr><td><strong>Vị trí</strong></td><td>Xã An Phú Tây, Huyện Bình Chánh, TP.HCM — mặt tiền đường Nguyễn Văn Linh (lộ giới 120m)</td></tr>
+          <tr><td><strong>Diện tích quy hoạch</strong></td><td>75.386,4 m² (~7,5 ha) — theo quyết định 1/500 đã phê duyệt</td></tr>
+          <tr><td><strong>Kịch bản</strong></td><td>V2 — xin điều chỉnh quy hoạch chi tiết (QHCT) 1/500: toàn bộ CT10 là chung cư, hệ số sử dụng đất 8× (~21 tầng)</td></tr>
+          <tr><td><strong>Hệ số sử dụng đất CT10</strong></td><td>8× (tổng sàn CT10: 222.736 m²)</td></tr>
+          <tr><td><strong>Chủ đầu tư</strong></td><td>[Bảo mật]</td></tr>
+          <tr><td><strong>Tình trạng giải phóng mặt bằng</strong></td><td>~80,9% đã thỏa thuận hoặc bàn giao — san lấp ~90% hoàn tất</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S2 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div>
+        <div class="sec-label">Phần 2</div>
+        <div class="sec-title">Quy Mô Sản Phẩm</div>
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Loại hình</th><th class="td-right">Số lượng</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Căn hộ chung cư</strong> (Tòa A + B + C, ~21 tầng)</td><td class="td-right td-bold">~2.011 căn</td><td>150.852 m² sàn thương phẩm · Tòa C chuyển từ văn phòng sang căn hộ</td></tr>
+          <tr><td><strong>Thương mại dịch vụ (TMDV) tầng đế</strong></td><td class="td-right td-bold">12.960 m²</td><td>60% tổng sàn TMDV 21.600 m²</td></tr>
+          <tr><td><strong>Biệt thự thấp tầng</strong> (TT13 + TT14)</td><td class="td-right td-bold">76 căn</td><td>19.365,5 m² đất · hệ số 1,5× · giữ nguyên theo quy hoạch gốc</td></tr>
+          <tr><td><strong>Nhà liên kế</strong> (TT13 + TT14)</td><td class="td-right td-bold">24 căn</td><td>2.934 m² đất · hệ số 2,8× · giữ nguyên theo quy hoạch gốc</td></tr>
+          <tr class="td-total-row"><td><strong>Tổng sàn xây dựng</strong></td><td class="td-right">~261.000 m²</td><td>Gấp ~1,9 lần kịch bản Gốc</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- S3 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <div>
+        <div class="sec-label">Phần 3</div>
+        <div class="sec-title">Tài Chính Tổng Hợp</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Giá mua đất: <strong>15 triệu/m²</strong> — áp dụng đồng đều, kể cả phần Phú Cường.</p>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Chỉ tiêu</th><th class="td-right">Giá đất 15 tr/m²</th></tr></thead>
+        <tbody>
+          <tr><td>Doanh thu</td><td class="td-right td-bold">14.951 tỷ</td></tr>
+          <tr><td>Chi phí mua đất</td><td class="td-right">1.131 tỷ</td></tr>
+          <tr><td>Chi phí xây dựng &amp; hạ tầng</td><td class="td-right">3.917 tỷ</td></tr>
+          <tr><td>Tiền sử dụng đất (Nghị quyết 87/2025)</td><td class="td-right">1.915 tỷ</td></tr>
+          <tr><td>Chi phí bán hàng, tư vấn, quản lý</td><td class="td-right">1.811 tỷ</td></tr>
+          <tr class="td-total-row"><td><strong>Lợi nhuận hoạt động (trước lãi vay &amp; thuế)</strong></td><td class="td-right td-highlight">6.177 tỷ (41,3%)</td></tr>
+          <tr><td>Lãi vay ước tính (~35% vốn, 10%/năm)</td><td class="td-right">~850 tỷ</td></tr>
+          <tr><td>Thuế TNDN (20%)</td><td class="td-right">~1.065 tỷ</td></tr>
+          <tr class="td-total-row"><td><strong>Lợi nhuận sau thuế</strong></td><td class="td-right td-result">~4.262 tỷ (28,5%)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout mt-18">
+      <p><strong>Biên an toàn:</strong> Ngay ở giá bán 60 triệu/m², lợi nhuận sau thuế vẫn đạt <strong>3.058 tỷ (23,0%)</strong> — vượt xa kịch bản Gốc OG1 (~703 tỷ, 9,8%).</p>
+    </div>
+  </div>
+
+  <!-- S4 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">04</div>
+      <div>
+        <div class="sec-label">Phần 4</div>
+        <div class="sec-title">Lịch Trình Triển Khai</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-num">Năm 1</div>
+        <div class="tl-text"><strong>Chuẩn bị &amp; pháp lý:</strong> Khởi động xin điều chỉnh QHCT 1/500 (song song với thủ tục khác) · Hoàn tất bồi thường · Thiết kế sơ bộ</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">Năm 1–2</div>
+        <div class="tl-text"><strong>Phê duyệt điều chỉnh quy hoạch:</strong> Tòa C chuyển sang đất ở, hệ số 8× · Cấp phép xây dựng CT10</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">Năm 2–4</div>
+        <div class="tl-text"><strong>Xây dựng:</strong> Khởi công toàn bộ CT10 (~21 tầng) và nhóm thấp tầng · Mở bán theo tiến độ</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-num">Năm 4–5</div>
+        <div class="tl-text"><strong>Hoàn thiện &amp; bàn giao:</strong> Nghiệm thu, cấp sổ · Thu hồi vốn &amp; lợi nhuận</div>
+      </div>
+    </div>
+    <ul class="bullet-list mt-18">
+      <li><strong>Chi phí thêm so với kịch bản Gốc:</strong> ~40–80 tỷ tư vấn điều chỉnh quy hoạch &amp; ~75 tỷ tiền sử dụng đất thêm (Tòa C chuyển mục đích) — đã phản ánh trong bảng tài chính</li>
+      <li><strong>Chênh lệch timing:</strong> ~12–18 tháng thêm so với kịch bản Gốc</li>
+      <li><strong>Hiệu quả kinh tế:</strong> Lợi nhuận sau thuế V2 gấp <strong>3,6 lần</strong> kịch bản Gốc OG1 (4.262 tỷ so với 1.173 tỷ) — biện minh rõ ràng cho thời gian chờ thêm</li>
+    </ul>
+  </div>
+
+  <!-- S5 -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-num">05</div>
+      <div>
+        <div class="sec-label">Phần 5</div>
+        <div class="sec-title">Tổng Kết</div>
+      </div>
+    </div>
+    <div class="callout">
+      <p>Cùng quỹ đất <strong>~7,5 ha</strong>, kịch bản V2 tận dụng đòn bẩy điều chỉnh quy hoạch để nâng tổng sàn lên <strong>~261.000 m²</strong> (gấp 1,9 lần kịch bản Gốc). Doanh thu <strong>14.951 tỷ</strong>, lợi nhuận sau thuế <strong>~4.262 tỷ (28,5%)</strong> — gấp <strong>3,6 lần</strong> kịch bản Gốc OG1 với chỉ thêm ~12–18 tháng pháp lý. IRR dự kiến &gt;25%/năm.</p>
+    </div>
+    <ul class="bullet-list">
+      <li><span class="badge-amber">Quy mô</span> &nbsp;~2.011 căn hộ + 76 biệt thự + 24 liên kế — gấp hơn 5 lần số căn kịch bản Gốc (376 căn hộ)</li>
+      <li><span class="badge-amber">Tài chính</span> &nbsp;Lợi nhuận sau thuế ~4.262 tỷ (28,5%)</li>
+      <li><span class="badge-amber">Đòn bẩy quy hoạch</span> &nbsp;Cùng quỹ đất, doanh thu gấp 1,9 lần · lợi nhuận sau thuế gấp 3,4 lần kịch bản Gốc</li>
+      <li><span class="badge-amber">Timing</span> &nbsp;4–5 năm · ~12–18 tháng thêm so với kịch bản Gốc — hoàn toàn biện minh bởi lợi nhuận vượt trội</li>
+    </ul>
+
+    <div class="tbl-wrap mt-24">
+      <table class="compare-table">
+        <thead><tr><th>So sánh nhanh</th><th class="td-right">Kịch bản Gốc OG1</th><th class="td-right">Kịch bản V2</th></tr></thead>
+        <tbody>
+          <tr><td>Doanh thu</td><td class="td-right">7.823 tỷ</td><td class="td-right td-highlight">14.951 tỷ</td></tr>
+          <tr><td>Lợi nhuận hoạt động</td><td class="td-right">1.966 tỷ (25,1%)</td><td class="td-right td-highlight">6.177 tỷ (41,3%)</td></tr>
+          <tr><td>Lợi nhuận sau thuế</td><td class="td-right">~1.173 tỷ (15,0%)</td><td class="td-right td-highlight">~4.262 tỷ (28,5%)</td></tr>
+          <tr><td>Số căn hộ</td><td class="td-right">376</td><td class="td-right td-highlight">~2.011</td></tr>
+          <tr><td>Thời gian</td><td class="td-right">3–4 năm</td><td class="td-right td-highlight">4–5 năm</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<div class="print-qr">
+  <img src="image/EXECUTIVE_SUMMARY/qr_ess_v2.png" alt="QR Eden Residential V2">
+  <div class="print-qr-label">Scan để xem báo cáo đầy đủ<br><span>khogao.github.io/eden-reports-2</span></div>
+</div>
+<div class="print-footer">Lê Nguyên Phi &nbsp;·&nbsp; lenguyenphi@gmail.com &nbsp;·&nbsp; 0916&nbsp;509&nbsp;000</div>
+</body>
+</html>
