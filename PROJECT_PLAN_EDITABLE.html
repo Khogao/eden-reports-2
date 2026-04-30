@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kế hoạch dự án (chỉnh sửa được) — Khu Dân Cư Ê Đen V2</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .num { font-variant-numeric: tabular-nums; }
+  table.calc { width: 100%; font-size: .82rem; border-collapse: collapse; }
+  table.calc th, table.calc td { padding: 5px 6px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+  table.calc thead th { background: #f1f5f9; font-size: .7rem; text-transform: uppercase; color: #475569; text-align: left; font-weight: 700; position: sticky; top: 56px; z-index: 10; }
+  table.calc tfoot td { background: #f1f5f9; font-weight: 700; }
+  table.calc input, table.calc select { width: 100%; border: 1px solid #cbd5e1; border-radius: .25rem; padding: 2px 4px; font-size: .78rem; background: white; }
+  table.calc input.num { text-align: right; }
+  .section { background: white; border-radius: .5rem; box-shadow: 0 1px 3px rgba(0,0,0,.1); padding: 1.25rem; }
+  .h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: .9rem; padding-bottom: .4rem; border-bottom: 2px solid; }
+  .h3 { font-size: 1rem; font-weight: 600; margin: 12px 0 6px; color: #334155; }
+  .row { display: grid; grid-template-columns: 1fr 130px 70px; gap: 6px; align-items: center; margin: 4px 0; font-size: .85rem; }
+  .row label { color: #475569; }
+  .row input, .row select { border: 1px solid #cbd5e1; border-radius: .25rem; padding: 4px 8px; }
+  .u { color: #64748b; font-size: .75rem; }
+  .pill { display: inline-block; padding: 2px 8px; font-size: .68rem; border-radius: 999px; font-weight: 600; }
+  .topbar { position: sticky; top: 0; z-index: 50; background: linear-gradient(90deg,#0f172a,#0e7490,#0f172a); color: white; }
+  .btn { background: rgba(255,255,255,.18); padding: 4px 10px; border-radius: .375rem; font-size: .8rem; }
+  .btn:hover { background: rgba(255,255,255,.3); }
+  .btn-mini { font-size: .7rem; padding: 2px 8px; border-radius: .25rem; background: #e2e8f0; color: #1e293b; }
+  .btn-mini:hover { background: #cbd5e1; }
+  .btn-del { color: #b91c1c; }
+  .btn-del:hover { background: #fee2e2; }
+
+  /* Gantt — số cột = nq + 1 (cột nhãn). grid-template-columns set bằng JS */
+  .gantt { display: grid; gap: 1px; background: #e5e7eb; border-radius: .375rem; overflow: hidden; font-size: .68rem; min-width: 1100px; }
+  .gantt > div { background: white; padding: 3px 5px; min-height: 26px; display: flex; align-items: center; }
+  .gantt .gh { background: #1e293b; color: white; font-weight: 600; justify-content: center; font-size: .65rem; }
+  .gantt .gph { background: #f8fafc; font-weight: 600; }
+  .gantt .gb { padding: 0; }
+  .gantt .gb-fill { height: 100%; width: 100%; box-shadow: inset 0 1px 2px rgba(0,0,0,.1); }
+  .gantt .ms-cell { background: white; position: relative; }
+  .gantt .ms-cell::after { content: '◆'; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); color: #dc2626; font-size: 16px; font-weight: bold; }
+
+  details > summary { cursor: pointer; padding: 6px 0; }
+  details[open] > summary { font-weight: 700; }
+  .risk-h { background: #fee2e2; }
+  .risk-m { background: #fef3c7; }
+  .risk-l { background: #d1fae5; }
+
+  @media print {
+    .no-print { display: none !important; }
+    .section { box-shadow: none; border: 1px solid #cbd5e1; page-break-inside: avoid; }
+    body { font-size: 9.5pt; }
+    .page-break { page-break-before: always; }
+    .topbar { position: static; }
+    .gantt { font-size: .58rem; }
+  }
+</style>
+</head>
+<body class="bg-slate-100 text-slate-900">
+
+<!-- TOP BAR -->
+<div class="topbar shadow-lg">
+  <div class="max-w-[1500px] mx-auto px-4 py-3 flex flex-wrap items-center gap-3 text-xs">
+    <div class="font-bold text-sm">📅 Kế hoạch dự án (chỉnh sửa được)</div>
+    <div class="flex flex-wrap gap-x-5 gap-y-1 ml-auto">
+      <div>Bắt đầu: <b id="t_start">Q1/2026</b></div>
+      <div>Số quý: <b id="t_nq">20</b></div>
+      <div>Bàn giao: <b id="t_handover">Q4/2030</b></div>
+      <div>Tổng vốn: <b class="out" id="t_budget">0</b> tỷ</div>
+    </div>
+    <div class="flex gap-2 no-print flex-wrap">
+      <button onclick="loadEdenV2()" class="btn">🌳 Mẫu Eden V2</button>
+      <button onclick="exportJSON()" class="btn">💾 Xuất JSON</button>
+      <label class="btn cursor-pointer">📂 Nhập JSON<input type="file" accept=".json" onchange="importJSON(event)" hidden></label>
+      <button onclick="window.print()" class="btn">🖨 In/PDF</button>
+      <a href="FS_EDEN.html" class="btn bg-emerald-500/40 hover:bg-emerald-500/60">💰 FS Eden</a>
+      <a href="PROJECT_PLAN_EDEN.html" class="btn">📋 Bản gốc V2</a>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-[1500px] mx-auto p-4 md:p-6 space-y-5">
+
+<!-- HEADER -->
+<header class="section">
+  <div class="flex items-start justify-between flex-wrap gap-3">
+    <div class="flex-1 min-w-0">
+      <div class="flex flex-wrap items-center gap-2">
+        <input id="p_name" type="text" value="Khu Dân Cư Ê Đen V2" class="text-xl font-bold text-slate-800 border-b border-slate-300 bg-transparent px-1 flex-1 min-w-[300px]">
+      </div>
+      <div class="grid md:grid-cols-3 gap-2 mt-2 text-sm">
+        <div><span class="text-slate-500 text-xs">Địa điểm:</span> <input id="p_loc" type="text" value="Xã An Phú Tây, Bình Chánh, TP.HCM" class="border-b border-slate-300 bg-transparent px-1 w-full"></div>
+        <div><span class="text-slate-500 text-xs">Chủ đầu tư:</span> <input id="p_owner" type="text" value="[Bảo mật]" class="border-b border-slate-300 bg-transparent px-1 w-full"></div>
+        <div><span class="text-slate-500 text-xs">Phương án:</span> <input id="p_variant" type="text" value="V2 — CT10 đồng bộ chung cư" class="border-b border-slate-300 bg-transparent px-1 w-full"></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ① THAM SỐ DỰ ÁN -->
+<section class="section">
+  <h2 class="h2 text-slate-700 border-slate-200">① Tham số dự án</h2>
+  <div class="grid md:grid-cols-3 gap-4">
+    <div>
+      <h3 class="h3">Khung thời gian</h3>
+      <div class="row"><label for="p_start_y">Năm bắt đầu</label><input id="p_start_y" type="number" value="2026" step="1" class="num"><span class="u"></span></div>
+      <div class="row"><label for="p_start_q">Quý bắt đầu</label>
+        <select id="p_start_q" class="">
+          <option value="1">Q1</option><option value="2">Q2</option><option value="3">Q3</option><option value="4">Q4</option>
+        </select><span class="u"></span></div>
+      <div class="row"><label for="p_nq">Tổng số quý</label><input id="p_nq" type="number" value="20" min="4" max="40" step="1" class="num"><span class="u">quý</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Quy mô</h3>
+      <div class="row"><label for="p_land_area">Diện tích đất</label><input id="p_land_area" type="number" value="75386" step="100" class="num"><span class="u">m²</span></div>
+      <div class="row"><label for="p_gfa">Sàn thương phẩm</label><input id="p_gfa" type="number" value="186111" step="100" class="num"><span class="u">m²</span></div>
+      <div class="row"><label for="p_total_capex">Tổng vốn đầu tư</label><input id="p_total_capex" type="number" value="8774" step="50" class="num"><span class="u">tỷ</span></div>
+    </div>
+    <div>
+      <h3 class="h3">Hiển thị</h3>
+      <p class="text-xs text-slate-500">Kế hoạch tự động render lại khi bạn đổi quý bắt đầu / số quý / tham số giai đoạn. Mỗi mục dưới đây có nút <b>+ Thêm</b> và <b>×</b> để xoá hàng.</p>
+      <div class="mt-3 flex gap-2 flex-wrap">
+        <button onclick="recalcAll()" class="btn-mini">↻ Vẽ lại Gantt</button>
+        <button onclick="resetAll()" class="btn-mini">⌫ Xoá tất cả</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ② GIAI ĐOẠN (PHASES) -->
+<section class="section">
+  <h2 class="h2 text-amber-900 border-amber-200">② Giai đoạn (Phases)</h2>
+  <p class="text-xs text-slate-500 mb-2">Mỗi giai đoạn: tên, quý bắt đầu (1..nq), số quý kéo dài, ngân sách, màu. Gantt ở mục ④ render trực tiếp từ bảng này.</p>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead><tr>
+        <th style="width:40px">#</th>
+        <th>Tên giai đoạn</th>
+        <th style="width:80px">Bắt đầu (quý)</th>
+        <th style="width:80px">Kéo dài (quý)</th>
+        <th style="width:110px">Hiển thị (Q→Q)</th>
+        <th style="width:100px">Ngân sách (tỷ)</th>
+        <th style="width:120px">Màu</th>
+        <th style="width:50px"></th>
+      </tr></thead>
+      <tbody id="ph_tb"></tbody>
+      <tfoot><tr><td colspan="5">Tổng ngân sách giai đoạn</td><td class="num" id="ph_total">0</td><td colspan="2"></td></tr></tfoot>
+    </table>
+  </div>
+  <div class="mt-2 no-print"><button onclick="addPhase()" class="btn-mini">+ Thêm giai đoạn</button></div>
+</section>
+
+<!-- ③ HOẠT ĐỘNG (ACTIVITIES) -->
+<section class="section">
+  <h2 class="h2 text-blue-900 border-blue-200">③ Hoạt động chi tiết</h2>
+  <p class="text-xs text-slate-500 mb-2">Liệt kê các công việc dưới mỗi giai đoạn. Mỗi hoạt động sẽ là một dòng trên Gantt (mục ④).</p>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead><tr>
+        <th style="width:40px">#</th>
+        <th>Hoạt động</th>
+        <th style="width:120px">Giai đoạn</th>
+        <th style="width:80px">Bắt đầu (quý)</th>
+        <th style="width:80px">Kéo dài (quý)</th>
+        <th style="width:110px">Hiển thị (Q→Q)</th>
+        <th style="width:50px"></th>
+      </tr></thead>
+      <tbody id="ac_tb"></tbody>
+    </table>
+  </div>
+  <div class="mt-2 no-print"><button onclick="addActivity()" class="btn-mini">+ Thêm hoạt động</button></div>
+</section>
+
+<!-- ④ GANTT -->
+<section class="section page-break">
+  <h2 class="h2 text-indigo-900 border-indigo-200">④ Lịch trình Gantt</h2>
+  <div class="overflow-x-auto">
+    <div id="gantt_box" class="gantt"></div>
+  </div>
+  <div id="gantt_legend" class="mt-3 flex flex-wrap gap-3 text-xs"></div>
+</section>
+
+<!-- ⑤ MILESTONES -->
+<section class="section">
+  <h2 class="h2 text-red-900 border-red-200">⑤ Cột mốc bắt buộc (Milestones)</h2>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead><tr>
+        <th style="width:50px">Mã</th>
+        <th style="width:80px">Quý</th>
+        <th>Hạng mục</th>
+        <th>Điều kiện ràng buộc</th>
+        <th>Sản phẩm đầu ra</th>
+        <th style="width:80px">Mức ưu tiên</th>
+        <th style="width:50px"></th>
+      </tr></thead>
+      <tbody id="ms_tb"></tbody>
+    </table>
+  </div>
+  <div class="mt-2 no-print"><button onclick="addMilestone()" class="btn-mini">+ Thêm cột mốc</button></div>
+</section>
+
+<!-- ⑥ NGÂN SÁCH GIẢI NGÂN -->
+<section class="section page-break">
+  <h2 class="h2 text-emerald-900 border-emerald-200">⑥ Ngân sách giải ngân theo quý</h2>
+  <p class="text-xs text-slate-500 mb-2">Đơn vị: tỷ đồng. Bạn nhập trực tiếp vào ô. Cột TỔNG / hàng TỔNG tự cộng.</p>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead id="bg_thead"></thead>
+      <tbody id="bg_tb"></tbody>
+      <tfoot id="bg_tf"></tfoot>
+    </table>
+  </div>
+  <div class="mt-2 no-print flex gap-2"><button onclick="addBudgetRow()" class="btn-mini">+ Thêm khoản chi</button><button onclick="copyPhaseToBudget()" class="btn-mini">📋 Sao chép từ Giai đoạn (rải đều)</button></div>
+</section>
+
+<!-- ⑦ RỦI RO -->
+<section class="section">
+  <h2 class="h2 text-amber-900 border-amber-200">⑦ Đăng ký rủi ro</h2>
+  <div class="overflow-x-auto">
+    <table class="calc">
+      <thead><tr>
+        <th style="width:50px">Mã</th>
+        <th>Mô tả rủi ro</th>
+        <th style="width:80px">Khả năng</th>
+        <th style="width:80px">Tác động</th>
+        <th style="width:100px">Nhóm</th>
+        <th>Phòng ngừa</th>
+        <th>Ứng phó</th>
+        <th style="width:50px"></th>
+      </tr></thead>
+      <tbody id="rk_tb"></tbody>
+    </table>
+  </div>
+  <div class="mt-2 no-print"><button onclick="addRisk()" class="btn-mini">+ Thêm rủi ro</button></div>
+</section>
+
+<!-- ⑧ GHI CHÚ -->
+<section class="section">
+  <h2 class="h2 text-slate-700 border-slate-200">⑧ Ghi chú & Đường găng</h2>
+  <textarea id="p_notes" rows="6" class="w-full border border-slate-300 rounded p-2 text-sm" placeholder="Ghi chú đường găng (Critical Path), giả định, phụ thuộc bên ngoài..."></textarea>
+</section>
+
+</div>
+
+<script>
+// ====== HELPERS ======
+const $ = id => document.getElementById(id);
+const num = id => parseFloat($(id).value) || 0;
+const fmt = (n, d=0) => isFinite(n) ? n.toLocaleString('vi-VN', { maximumFractionDigits: d, minimumFractionDigits: d }) : '—';
+
+function quarterLabel(idx) {  // idx 1..nq → "Q?/YYYY"
+  const sy = parseInt($('p_start_y').value) || 2026;
+  const sq = parseInt($('p_start_q').value) || 1;
+  const off = idx - 1;
+  const totalQ = (sq - 1) + off;
+  const y = sy + Math.floor(totalQ / 4);
+  const q = (totalQ % 4) + 1;
+  return `Q${q}/${y}`;
+}
+
+// ====== STATE ======
+const PALETTE = [
+  { val: '#fde68a', name: 'Vàng nhạt' },
+  { val: '#fdba74', name: 'Cam' },
+  { val: '#f87171', name: 'Đỏ nhạt' },
+  { val: '#93c5fd', name: 'Xanh dương' },
+  { val: '#86efac', name: 'Xanh lá' },
+  { val: '#c4b5fd', name: 'Tím' },
+  { val: '#fca5a5', name: 'Hồng' },
+  { val: '#a7f3d0', name: 'Ngọc' },
+  { val: '#fcd34d', name: 'Vàng đậm' },
+  { val: '#cbd5e1', name: 'Xám' },
+];
+
+let phases     = [];   // { id, name, start, dur, budget, color }
+let activities = [];   // { id, name, phaseId, start, dur }
+let milestones = [];   // { code, q, item, cond, output, prio }
+let risks      = [];   // { code, desc, prob, impact, group, prevent, response }
+let budgetRows = [];   // { name, values: [n1..nq] }
+let _seq = 0;
+const newId = () => 'x' + (++_seq);
+
+// ====== PHASES ======
+function addPhase(p) {
+  const def = { id: newId(), name: 'Giai đoạn mới', start: 1, dur: 4, budget: 0, color: PALETTE[phases.length % PALETTE.length].val };
+  phases.push(p ? Object.assign(def, p, { id: newId() }) : def);
+  renderPhases(); renderActivityPhaseOptions(); renderGantt(); renderBudget(); updateTotals();
+}
+function delPhase(id) {
+  phases = phases.filter(x => x.id !== id);
+  // Activities thuộc giai đoạn này → set phaseId=null
+  activities.forEach(a => { if (a.phaseId === id) a.phaseId = null; });
+  renderPhases(); renderActivities(); renderGantt(); renderBudget(); updateTotals();
+}
+function renderPhases() {
+  let html = '';
+  phases.forEach((p, i) => {
+    const endQ = Math.min(p.start + p.dur - 1, parseInt($('p_nq').value)||20);
+    const range = `${quarterLabel(p.start)} → ${quarterLabel(endQ)}`;
+    const colorOpts = PALETTE.map(c => `<option value="${c.val}" ${c.val===p.color?'selected':''} style="background:${c.val}">${c.name}</option>`).join('');
+    html += `<tr>
+      <td>P${i+1}</td>
+      <td><input type="text" value="${escapeHtml(p.name)}" data-ph="${p.id}" data-f="name"></td>
+      <td><input type="number" class="num" value="${p.start}" min="1" data-ph="${p.id}" data-f="start"></td>
+      <td><input type="number" class="num" value="${p.dur}" min="1" data-ph="${p.id}" data-f="dur"></td>
+      <td class="text-xs text-slate-500">${range}</td>
+      <td><input type="number" class="num" value="${p.budget}" step="10" data-ph="${p.id}" data-f="budget"></td>
+      <td><select data-ph="${p.id}" data-f="color" style="background:${p.color}">${colorOpts}</select></td>
+      <td class="no-print"><button class="btn-mini btn-del" onclick="delPhase('${p.id}')">×</button></td>
+    </tr>`;
+  });
+  $('ph_tb').innerHTML = html;
+  bindEdit('ph_tb', 'ph', phases, () => { renderActivityPhaseOptions(); renderGantt(); renderBudget(); updateTotals(); renderPhases(); });
+  $('ph_total').textContent = fmt(phases.reduce((s,p)=>s+(+p.budget||0),0));
+}
+
+// ====== ACTIVITIES ======
+function addActivity(a) {
+  const def = { id: newId(), name: 'Hoạt động mới', phaseId: phases[0]?.id || null, start: 1, dur: 1 };
+  activities.push(a ? Object.assign(def, a, { id: newId() }) : def);
+  renderActivities(); renderGantt();
+}
+function delActivity(id) {
+  activities = activities.filter(x => x.id !== id);
+  renderActivities(); renderGantt();
+}
+function renderActivityPhaseOptions() {
+  // Re-render activities to refresh phase dropdown options
+  renderActivities();
+}
+function renderActivities() {
+  let html = '';
+  const phOpts = '<option value="">— Không —</option>' + phases.map((p, i) => `<option value="${p.id}">P${i+1} · ${escapeHtml(p.name)}</option>`).join('');
+  activities.forEach((a, i) => {
+    const endQ = Math.min(a.start + a.dur - 1, parseInt($('p_nq').value)||20);
+    const range = `${quarterLabel(a.start)} → ${quarterLabel(endQ)}`;
+    const opts = phOpts.replace(`value="${a.phaseId}"`, `value="${a.phaseId}" selected`);
+    html += `<tr>
+      <td>${i+1}</td>
+      <td><input type="text" value="${escapeHtml(a.name)}" data-ac="${a.id}" data-f="name"></td>
+      <td><select data-ac="${a.id}" data-f="phaseId">${opts}</select></td>
+      <td><input type="number" class="num" value="${a.start}" min="1" data-ac="${a.id}" data-f="start"></td>
+      <td><input type="number" class="num" value="${a.dur}" min="1" data-ac="${a.id}" data-f="dur"></td>
+      <td class="text-xs text-slate-500">${range}</td>
+      <td class="no-print"><button class="btn-mini btn-del" onclick="delActivity('${a.id}')">×</button></td>
+    </tr>`;
+  });
+  $('ac_tb').innerHTML = html;
+  bindEdit('ac_tb', 'ac', activities, () => { renderGantt(); renderActivities(); });
+}
+
+// ====== MILESTONES ======
+function addMilestone(m) {
+  const def = { code: 'M' + (milestones.length + 1), q: 1, item: 'Cột mốc mới', cond: '', output: '', prio: 'TB' };
+  milestones.push(m ? Object.assign(def, m) : def);
+  renderMilestones(); renderGantt();
+}
+function delMilestone(i) { milestones.splice(i,1); renderMilestones(); renderGantt(); }
+function renderMilestones() {
+  let html = '';
+  milestones.forEach((m, i) => {
+    const prioOpts = ['Cao','TB','Thấp'].map(x => `<option value="${x}" ${x===m.prio?'selected':''}>${x}</option>`).join('');
+    html += `<tr>
+      <td><input type="text" value="${escapeHtml(m.code)}" data-ms="${i}" data-f="code"></td>
+      <td><input type="number" class="num" value="${m.q}" min="1" data-ms="${i}" data-f="q"></td>
+      <td><input type="text" value="${escapeHtml(m.item)}" data-ms="${i}" data-f="item"></td>
+      <td><input type="text" value="${escapeHtml(m.cond)}" data-ms="${i}" data-f="cond"></td>
+      <td><input type="text" value="${escapeHtml(m.output)}" data-ms="${i}" data-f="output"></td>
+      <td><select data-ms="${i}" data-f="prio">${prioOpts}</select></td>
+      <td class="no-print"><button class="btn-mini btn-del" onclick="delMilestone(${i})">×</button></td>
+    </tr>`;
+  });
+  $('ms_tb').innerHTML = html;
+  bindEditIdx('ms_tb', 'ms', milestones, () => renderGantt());
+}
+
+// ====== RISKS ======
+function addRisk(r) {
+  const def = { code: 'R' + String(risks.length + 1).padStart(2,'0'), desc: 'Rủi ro mới', prob: 'TB', impact: 'TB', group: 'Khác', prevent: '', response: '' };
+  risks.push(r ? Object.assign(def, r) : def);
+  renderRisks();
+}
+function delRisk(i) { risks.splice(i,1); renderRisks(); }
+function renderRisks() {
+  let html = '';
+  const lvl = ['Cao','TB','Thấp'];
+  risks.forEach((r, i) => {
+    const probOpts = lvl.map(x => `<option value="${x}" ${x===r.prob?'selected':''}>${x}</option>`).join('');
+    const impOpts = lvl.map(x => `<option value="${x}" ${x===r.impact?'selected':''}>${x}</option>`).join('');
+    const cls = (r.prob === 'Cao' && r.impact === 'Cao') ? 'risk-h' : (r.prob === 'Thấp' && r.impact === 'Thấp') ? 'risk-l' : 'risk-m';
+    html += `<tr class="${cls}">
+      <td><input type="text" value="${escapeHtml(r.code)}" data-rk="${i}" data-f="code"></td>
+      <td><input type="text" value="${escapeHtml(r.desc)}" data-rk="${i}" data-f="desc"></td>
+      <td><select data-rk="${i}" data-f="prob">${probOpts}</select></td>
+      <td><select data-rk="${i}" data-f="impact">${impOpts}</select></td>
+      <td><input type="text" value="${escapeHtml(r.group)}" data-rk="${i}" data-f="group"></td>
+      <td><input type="text" value="${escapeHtml(r.prevent)}" data-rk="${i}" data-f="prevent"></td>
+      <td><input type="text" value="${escapeHtml(r.response)}" data-rk="${i}" data-f="response"></td>
+      <td class="no-print"><button class="btn-mini btn-del" onclick="delRisk(${i})">×</button></td>
+    </tr>`;
+  });
+  $('rk_tb').innerHTML = html;
+  bindEditIdx('rk_tb', 'rk', risks, renderRisks);
+}
+
+// ====== BUDGET ======
+function addBudgetRow(b) {
+  const n = parseInt($('p_nq').value) || 20;
+  const def = { name: 'Khoản chi mới', values: Array(n).fill(0) };
+  budgetRows.push(b ? Object.assign(def, b) : def);
+  renderBudget();
+}
+function delBudgetRow(i) { budgetRows.splice(i,1); renderBudget(); }
+function copyPhaseToBudget() {
+  budgetRows = phases.map(p => {
+    const n = parseInt($('p_nq').value) || 20;
+    const arr = Array(n).fill(0);
+    const each = (+p.budget || 0) / Math.max(p.dur, 1);
+    for (let i = 0; i < p.dur; i++) {
+      const idx = (p.start - 1) + i;
+      if (idx >= 0 && idx < n) arr[idx] = +each.toFixed(1);
+    }
+    return { name: p.name, values: arr };
+  });
+  renderBudget();
+}
+function renderBudget() {
+  const n = parseInt($('p_nq').value) || 20;
+  // Đảm bảo độ dài values khớp nq
+  budgetRows.forEach(r => {
+    if (r.values.length < n) r.values = r.values.concat(Array(n - r.values.length).fill(0));
+    else if (r.values.length > n) r.values = r.values.slice(0, n);
+  });
+
+  // Header
+  let h = '<tr><th style="width:200px">Khoản chi</th>';
+  for (let i = 1; i <= n; i++) h += `<th class="num">${quarterLabel(i)}</th>`;
+  h += '<th class="num bg-slate-100">TỔNG</th><th class="no-print"></th></tr>';
+  $('bg_thead').innerHTML = h;
+
+  // Body
+  let html = '';
+  budgetRows.forEach((r, i) => {
+    let row = `<tr><td><input type="text" value="${escapeHtml(r.name)}" data-bg="${i}" data-f="name"></td>`;
+    let sum = 0;
+    r.values.forEach((v, j) => {
+      sum += (+v || 0);
+      row += `<td><input type="number" class="num" value="${v}" step="1" data-bg="${i}" data-f="values" data-j="${j}"></td>`;
+    });
+    row += `<td class="num bg-slate-50 font-bold">${fmt(sum)}</td><td class="no-print"><button class="btn-mini btn-del" onclick="delBudgetRow(${i})">×</button></td></tr>`;
+    html += row;
+  });
+  $('bg_tb').innerHTML = html;
+
+  // Footer (cột tổng)
+  let f = '<tr><td>TỔNG quý</td>';
+  let grand = 0;
+  for (let j = 0; j < n; j++) {
+    const colSum = budgetRows.reduce((s, r) => s + (+r.values[j] || 0), 0);
+    grand += colSum;
+    f += `<td class="num">${fmt(colSum)}</td>`;
+  }
+  f += `<td class="num">${fmt(grand)}</td><td class="no-print"></td></tr>`;
+  $('bg_tf').innerHTML = f;
+
+  // Bind edit
+  $('bg_tb').querySelectorAll('input[data-bg]').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.bg, f = e.target.dataset.f;
+      if (f === 'values') budgetRows[i].values[+e.target.dataset.j] = parseFloat(e.target.value) || 0;
+      else budgetRows[i][f] = e.target.value;
+      // Re-render footer & row sum without losing focus → cập nhật tổng quý
+      renderBudgetTotalsOnly();
+    });
+  });
+}
+function renderBudgetTotalsOnly() {
+  const n = parseInt($('p_nq').value) || 20;
+  // Cập nhật cột TỔNG mỗi hàng
+  $('bg_tb').querySelectorAll('tr').forEach((tr, i) => {
+    if (!budgetRows[i]) return;
+    const sum = budgetRows[i].values.reduce((s,v)=>s+(+v||0),0);
+    const cells = tr.querySelectorAll('td');
+    cells[cells.length - 2].textContent = fmt(sum);
+  });
+  // Cập nhật footer
+  let f = '<tr><td>TỔNG quý</td>';
+  let grand = 0;
+  for (let j = 0; j < n; j++) {
+    const colSum = budgetRows.reduce((s, r) => s + (+r.values[j] || 0), 0);
+    grand += colSum;
+    f += `<td class="num">${fmt(colSum)}</td>`;
+  }
+  f += `<td class="num">${fmt(grand)}</td><td class="no-print"></td></tr>`;
+  $('bg_tf').innerHTML = f;
+}
+
+// ====== GANTT ======
+function renderGantt() {
+  const n = parseInt($('p_nq').value) || 20;
+  const box = $('gantt_box');
+  box.style.gridTemplateColumns = `220px repeat(${n}, minmax(40px, 1fr))`;
+
+  let html = '<div class="gh">Hoạt động ↓ / Quý →</div>';
+  for (let i = 1; i <= n; i++) html += `<div class="gh">${quarterLabel(i)}</div>`;
+
+  // Render activities under their phase
+  // Sắp xếp: theo phase order, rồi theo start
+  const phaseOrder = new Map(phases.map((p, i) => [p.id, i]));
+  const acts = [...activities].sort((a, b) => {
+    const oa = phaseOrder.has(a.phaseId) ? phaseOrder.get(a.phaseId) : 999;
+    const ob = phaseOrder.has(b.phaseId) ? phaseOrder.get(b.phaseId) : 999;
+    if (oa !== ob) return oa - ob;
+    return (a.start || 0) - (b.start || 0);
+  });
+  acts.forEach(a => {
+    const ph = phases.find(p => p.id === a.phaseId);
+    const color = ph?.color || '#cbd5e1';
+    html += `<div class="gph">${escapeHtml(a.name)}</div>`;
+    for (let q = 1; q <= n; q++) {
+      const inBar = a.start && q >= a.start && q < a.start + a.dur;
+      const isMs = milestones.some(m => +m.q === q && (a.name.toLowerCase().includes(m.code.toLowerCase()) || a.name.includes(m.item)));
+      if (inBar) html += `<div class="gb"><div class="gb-fill" style="background:${color}"></div></div>`;
+      else if (isMs) html += `<div class="ms-cell"></div>`;
+      else html += `<div></div>`;
+    }
+  });
+
+  // Standalone milestone row (nếu có milestone chưa map vào activity)
+  if (milestones.length) {
+    html += `<div class="gph" style="background:#fef2f2;color:#991b1b">★ Cột mốc</div>`;
+    for (let q = 1; q <= n; q++) {
+      const ms = milestones.filter(m => +m.q === q);
+      if (ms.length) html += `<div class="ms-cell" title="${ms.map(m=>m.code+' '+m.item).join(' / ')}"></div>`;
+      else html += `<div></div>`;
+    }
+  }
+
+  box.innerHTML = html;
+
+  // Legend
+  let lg = '';
+  phases.forEach((p, i) => {
+    lg += `<div class="flex items-center gap-1"><span class="inline-block w-4 h-3 rounded" style="background:${p.color}"></span>P${i+1} ${escapeHtml(p.name)}</div>`;
+  });
+  if (milestones.length) lg += `<div class="flex items-center gap-1"><span class="text-red-600 font-bold">◆</span> Cột mốc</div>`;
+  $('gantt_legend').innerHTML = lg;
+}
+
+// ====== EDIT BINDING ======
+function bindEdit(tbId, attr, list, after) {
+  $(tbId).querySelectorAll('input[data-'+attr+'], select[data-'+attr+']').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const id = e.target.dataset[attr];
+      const f = e.target.dataset.f;
+      const item = list.find(x => x.id === id);
+      if (!item) return;
+      const v = e.target.value;
+      item[f] = (e.target.type === 'number') ? (parseFloat(v) || 0) : v;
+      after && after();
+    });
+  });
+}
+function bindEditIdx(tbId, attr, list, after) {
+  $(tbId).querySelectorAll('input[data-'+attr+'], select[data-'+attr+']').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset[attr];
+      const f = e.target.dataset.f;
+      const v = e.target.value;
+      list[i][f] = (e.target.type === 'number') ? (parseFloat(v) || 0) : v;
+      after && after();
+    });
+  });
+}
+
+function escapeHtml(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+// ====== TOTALS ======
+function updateTotals() {
+  const sy = $('p_start_y').value, sq = $('p_start_q').value;
+  $('t_start').textContent = `Q${sq}/${sy}`;
+  const n = parseInt($('p_nq').value) || 20;
+  $('t_nq').textContent = n;
+  $('t_handover').textContent = quarterLabel(n);
+  $('t_budget').textContent = fmt(num('p_total_capex'));
+}
+
+function recalcAll() {
+  updateTotals();
+  renderPhases();
+  renderActivities();
+  renderMilestones();
+  renderBudget();
+  renderRisks();
+  renderGantt();
+}
+
+function resetAll() {
+  if (!confirm('Xoá toàn bộ giai đoạn / hoạt động / cột mốc / rủi ro / ngân sách?')) return;
+  phases = []; activities = []; milestones = []; risks = []; budgetRows = [];
+  recalcAll();
+}
+
+// ====== JSON SAVE/LOAD ======
+function exportJSON() {
+  const data = {
+    meta: ['p_name','p_loc','p_owner','p_variant','p_start_y','p_start_q','p_nq','p_land_area','p_gfa','p_total_capex','p_notes']
+            .reduce((o,k)=>{ o[k] = $(k).value; return o; }, {}),
+    phases, activities, milestones, risks, budgetRows
+  };
+  const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `PROJECT_PLAN_${($('p_name').value||'duan').replace(/\s+/g,'_')}.json`;
+  a.click();
+}
+function importJSON(ev) {
+  const f = ev.target.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = e => {
+    try {
+      const d = JSON.parse(e.target.result);
+      if (d.meta) Object.entries(d.meta).forEach(([k,v]) => { if ($(k)) $(k).value = v; });
+      phases = d.phases || []; activities = d.activities || [];
+      milestones = d.milestones || []; risks = d.risks || []; budgetRows = d.budgetRows || [];
+      // Re-id phases để tránh trùng
+      const idMap = {};
+      phases.forEach(p => { const old = p.id; p.id = newId(); idMap[old] = p.id; });
+      activities.forEach(a => { a.id = newId(); if (a.phaseId && idMap[a.phaseId]) a.phaseId = idMap[a.phaseId]; });
+      recalcAll();
+    } catch(err) { alert('JSON không hợp lệ: ' + err.message); }
+  };
+  r.readAsText(f);
+}
+
+// ====== PRESET EDEN V2 ======
+function loadEdenV2() {
+  $('p_name').value = 'Khu Dân Cư Ê Đen V2';
+  $('p_loc').value = 'Xã An Phú Tây, Bình Chánh, TP.HCM';
+  $('p_owner').value = '[Bảo mật]';
+  $('p_variant').value = 'V2 — CT10 đồng bộ chung cư';
+  $('p_start_y').value = 2026; $('p_start_q').value = 1; $('p_nq').value = 20;
+  $('p_land_area').value = 75386; $('p_gfa').value = 186111; $('p_total_capex').value = 8774;
+
+  phases = [
+    { id: newId(), name: 'Pháp lý & Thủ tục',          start: 1,  dur: 4,  budget: 120,   color: '#fde68a' },
+    { id: newId(), name: 'Đền bù & Giải phóng mặt bằng', start: 1,  dur: 3,  budget: 1131, color: '#fdba74' },
+    { id: newId(), name: 'Tiền sử dụng đất',           start: 4,  dur: 1,  budget: 1915, color: '#f87171' },
+    { id: newId(), name: 'Thiết kế & Tư vấn',          start: 2,  dur: 4,  budget: 118,  color: '#93c5fd' },
+    { id: newId(), name: 'Xây dựng & Hạ tầng',         start: 6,  dur: 12, budget: 3917, color: '#86efac' },
+    { id: newId(), name: 'Bán hàng & Tiếp thị',        start: 8,  dur: 10, budget: 1495, color: '#c4b5fd' },
+    { id: newId(), name: 'Bàn giao & Bảo hành',        start: 16, dur: 5,  budget: 78,   color: '#fca5a5' },
+  ];
+  const ph = phases;  // alias
+  activities = [
+    { id: newId(), name: 'P1.1 Chấp thuận chủ trương',         phaseId: ph[0].id, start: 1,  dur: 2 },
+    { id: newId(), name: 'P1.2 Quy hoạch chi tiết 1/500',       phaseId: ph[0].id, start: 2,  dur: 2 },
+    { id: newId(), name: 'P1.3 Quyết định giao đất',            phaseId: ph[0].id, start: 3,  dur: 1 },
+    { id: newId(), name: 'P1.4 Giấy phép xây dựng',             phaseId: ph[0].id, start: 5,  dur: 1 },
+    { id: newId(), name: 'P2 Đền bù & Giải phóng mặt bằng',     phaseId: ph[1].id, start: 1,  dur: 3 },
+    { id: newId(), name: 'P3 Nộp tiền sử dụng đất',             phaseId: ph[2].id, start: 4,  dur: 1 },
+    { id: newId(), name: 'P4.1 Thiết kế cơ sở',                 phaseId: ph[3].id, start: 2,  dur: 2 },
+    { id: newId(), name: 'P4.2 Thiết kế kỹ thuật',              phaseId: ph[3].id, start: 4,  dur: 2 },
+    { id: newId(), name: 'P4.3 Bản vẽ thi công',                phaseId: ph[3].id, start: 5,  dur: 1 },
+    { id: newId(), name: 'P5.1 Cọc + Tường vây',                phaseId: ph[4].id, start: 6,  dur: 2 },
+    { id: newId(), name: 'P5.2 Hầm + Móng',                     phaseId: ph[4].id, start: 7,  dur: 2 },
+    { id: newId(), name: 'P5.3 Khối đế (Thương mại dịch vụ)',   phaseId: ph[4].id, start: 8,  dur: 2 },
+    { id: newId(), name: 'P5.4 Thân tầng cao CT10 (A/B/C)',     phaseId: ph[4].id, start: 9,  dur: 5 },
+    { id: newId(), name: 'P5.5 Hoàn thiện cơ điện (M&E)',       phaseId: ph[4].id, start: 13, dur: 3 },
+    { id: newId(), name: 'P5.6 Biệt thự + Liên kế',             phaseId: ph[4].id, start: 9,  dur: 6 },
+    { id: newId(), name: 'P5.7 Hạ tầng + Cảnh quan',            phaseId: ph[4].id, start: 14, dur: 2 },
+    { id: newId(), name: 'P6.1 Tiếp thị tiền-mở-bán',           phaseId: ph[5].id, start: 7,  dur: 2 },
+    { id: newId(), name: 'P6.2 Mở bán đợt 1 (sau hoàn thành móng)', phaseId: ph[5].id, start: 9,  dur: 1 },
+    { id: newId(), name: 'P6.3 Bán theo tiến độ xây dựng',      phaseId: ph[5].id, start: 10, dur: 6 },
+    { id: newId(), name: 'P6.4 Bàn giao + giữ 5%',              phaseId: ph[5].id, start: 16, dur: 1 },
+    { id: newId(), name: 'P7.1 Bàn giao đại trà',               phaseId: ph[6].id, start: 15, dur: 2 },
+    { id: newId(), name: 'P7.2 Cấp sổ hồng',                    phaseId: ph[6].id, start: 16, dur: 3 },
+    { id: newId(), name: 'P7.3 Bảo hành 12 tháng',              phaseId: ph[6].id, start: 16, dur: 5 },
+  ];
+  milestones = [
+    { code: 'M1',  q: 1,  item: 'Khởi động dự án',                         cond: 'Nộp hồ sơ chấp thuận chủ trương', output: 'Quyết định chấp thuận', prio: 'Cao' },
+    { code: 'M2',  q: 2,  item: 'Phê duyệt Quy hoạch chi tiết 1/500',      cond: 'Phù hợp NQ HĐND TP', output: 'Quyết định phê duyệt', prio: 'Cao' },
+    { code: 'M3',  q: 3,  item: 'Hoàn tất Giải phóng mặt bằng',            cond: 'Đền bù 100% diện tích', output: 'Biên bản bàn giao mặt bằng sạch', prio: 'Cao' },
+    { code: 'M4',  q: 3,  item: 'Quyết định giao đất',                      cond: 'Đã có ĐTM + thẩm định', output: 'Quyết định UBND TP', prio: 'Cao' },
+    { code: 'M5',  q: 4,  item: 'Nộp tiền sử dụng đất 1.915 tỷ',           cond: 'Có thông báo nộp tiền', output: 'Biên lai · Sổ đỏ dự án', prio: 'Cao' },
+    { code: 'M6',  q: 5,  item: 'Giấy phép xây dựng',                       cond: 'Thiết kế cơ sở thẩm tra', output: 'GPXD', prio: 'Cao' },
+    { code: 'M7',  q: 6,  item: 'Khởi công xây dựng',                       cond: 'Hợp đồng EPC + Bảo hiểm', output: 'Lễ động thổ', prio: 'TB' },
+    { code: 'M8',  q: 9,  item: 'Đủ điều kiện bán nhà hình thành tương lai', cond: 'Hoàn thành móng + Bảo lãnh ngân hàng', output: 'Văn bản Sở XD', prio: 'Cao' },
+    { code: 'M9',  q: 11, item: 'Cất nóc CT10',                             cond: 'Kết cấu thân hoàn thành', output: 'Lễ cất nóc', prio: 'TB' },
+    { code: 'M10', q: 15, item: 'Nghiệm thu phòng cháy chữa cháy',           cond: 'Diễn tập + thử áp lực', output: 'Văn bản nghiệm thu', prio: 'Cao' },
+    { code: 'M11', q: 16, item: 'Nghiệm thu công trình hoàn thành',          cond: 'Cục Giám định kiểm tra', output: 'Biên bản đưa vào sử dụng', prio: 'Cao' },
+    { code: 'M12', q: 16, item: 'Bàn giao đại trà',                          cond: 'Đã nghiệm thu hoàn thành', output: 'Biên bản 95% căn', prio: 'Cao' },
+    { code: 'M13', q: 18, item: 'Cấp sổ hồng đợt đầu',                       cond: 'Hoàn tất nghĩa vụ tài chính', output: 'Sổ hồng cư dân', prio: 'TB' },
+    { code: 'M14', q: 20, item: 'Hết bảo hành · Quyết toán',                 cond: '12 tháng từ bàn giao', output: 'Báo cáo quyết toán', prio: 'Thấp' },
+  ];
+  risks = [
+    { code: 'R01', desc: 'Trễ chấp thuận chủ trương / quy hoạch chi tiết',  prob:'Cao', impact:'Cao', group:'Pháp lý',  prevent:'Vận động sớm với Sở Kế hoạch Đầu tư', response:'Báo cáo HĐQT · Trì hoãn nộp tiền sử dụng đất' },
+    { code: 'R02', desc: 'Tiền sử dụng đất tăng (NQ giá đất sửa đổi)',       prob:'TB',  impact:'Cao', group:'Tài chính',prevent:'Theo dõi NQ HĐND TP · Cài giá trần', response:'Nộp ngay khi có thông báo · Đàm phán nộp 2 đợt' },
+    { code: 'R03', desc: 'Lãi suất ngân hàng tăng > 2%',                     prob:'TB',  impact:'Cao', group:'Tài chính',prevent:'Khoá lãi suất 2 năm · Điều khoản cap', response:'Vay đa nguồn · Thúc bán hàng nhanh hơn' },
+    { code: 'R04', desc: 'Hấp thụ chậm hơn 25% so với cơ sở',                prob:'TB',  impact:'Cao', group:'Thị trường',prevent:'Đa dạng kênh bán · Combo CK + ưu đãi LS', response:'Giảm giá · Bán sỉ block · Cho thuê tạo dòng tiền' },
+    { code: 'R05', desc: 'Trễ tiến độ thi công ≥ 2 quý',                     prob:'TB',  impact:'TB',  group:'Kỹ thuật', prevent:'Hợp đồng EPC điều khoản phạt · Giám sát tuần', response:'Khen thưởng đẩy nhanh · Tăng ca · Bổ sung thầu phụ' },
+    { code: 'R06', desc: 'Vướng phòng cháy chữa cháy (TCVN mới)',            prob:'TB',  impact:'Cao', group:'Kỹ thuật', prevent:'Tham vấn CSPCCC từ thiết kế cơ sở', response:'Bổ sung thiết kế · Tăng chi phí cơ điện' },
+    { code: 'R07', desc: 'Giá vật liệu tăng > 10%',                          prob:'Cao', impact:'TB',  group:'Tài chính',prevent:'Hợp đồng EPC trọn gói · Mua trữ giai đoạn 1', response:'Đàm phán lại · Chấp nhận giảm biên lợi nhuận' },
+    { code: 'R10', desc: 'Quỹ Nhà ở xã hội 20% — phương án nộp tiền tăng',   prob:'TB',  impact:'Thấp',group:'Pháp lý',  prevent:'Đăng ký phương án sớm', response:'Hoán đổi quỹ đất khác hoặc xây tại chỗ' },
+  ];
+  budgetRows = [
+    { name: 'Tiền đất + Giải phóng mặt bằng', values: [600,400,131,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+    { name: 'Tiền sử dụng đất',                values: [0,0,0,1915,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+    { name: 'Pháp lý',                          values: [24,22,15,15,7,4,4,4,4,3,3,3,3,3,3,3,0,0,0,0] },
+    { name: 'Thiết kế',                         values: [5,25,25,30,25,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0] },
+    { name: 'Xây dựng',                         values: [0,0,0,0,0,200,300,350,400,450,450,450,400,350,300,267,0,0,0,0] },
+    { name: 'Tiếp thị & Bán hàng',              values: [0,0,0,0,0,10,40,80,120,130,140,160,180,200,220,150,30,25,10,10] },
+    { name: 'Quản lý & khác',                   values: [2,2,2,2,2,3,4,5,6,6,6,6,6,6,5,5,3,3,2,2] },
+  ];
+  recalcAll();
+}
+
+// ====== INIT ======
+document.addEventListener('DOMContentLoaded', () => {
+  ['p_start_y','p_start_q','p_nq','p_total_capex'].forEach(id => {
+    $(id).addEventListener('input', recalcAll);
+  });
+  loadEdenV2();
+});
+</script>
+</body>
+</html>
