@@ -55,6 +55,26 @@
     .topbar { position: static; }
     .gantt { font-size: .65rem; }
   }
+
+  /* Gantt span classes (replaces inline grid-column styles) */
+  .gantt-wrap{min-width:1100px}
+  .gc-2{grid-column:span 2}
+  .gc-3{grid-column:span 3}
+  .gc-4{grid-column:span 4}
+  .gc-5{grid-column:span 5}
+  .gc-6{grid-column:span 6}
+  .gc-7{grid-column:span 7}
+  .gc-8{grid-column:span 8}
+  .gc-9{grid-column:span 9}
+  .gc-10{grid-column:span 10}
+  .gc-11{grid-column:span 11}
+  .gc-12{grid-column:span 12}
+  .gc-13{grid-column:span 13}
+  .gc-14{grid-column:span 14}
+  .gc-15{grid-column:span 15}
+  .gc-16{grid-column:span 16}
+  .gc-17{grid-column:span 17}
+  .gc-18{grid-column:span 18}
 </style>
 </head>
 <body class="bg-slate-100 text-slate-900">
@@ -118,7 +138,7 @@
 <section class="section page-break">
   <h2 class="h2 text-indigo-900 border-indigo-200">② Lịch trình Gantt theo quý (Q1/2026 – Q4/2030)</h2>
   <div class="overflow-x-auto">
-    <div class="gantt" style="min-width: 1100px;">
+    <div class="gantt gantt-wrap">
       <!-- Header row -->
       <div class="gh">Hoạt động ↓ / Quý →</div>
       <div class="gh">Q1/26</div><div class="gh">Q2/26</div><div class="gh">Q3/26</div><div class="gh">Q4/26</div>
@@ -129,122 +149,122 @@
 
       <!-- P1 Pháp lý -->
       <div class="gph">P1.1 Chấp thuận chủ trương</div>
-      <div class="gb stage-1" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 18;"></div>
+      <div class="gb stage-1 gc-2"></div>
+      <div class="gb gc-18"></div>
 
       <div class="gph">P1.2 QHCT 1/500</div>
       <div class="gb"></div>
-      <div class="gb stage-1" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 17;"></div>
+      <div class="gb stage-1 gc-2"></div>
+      <div class="gb gc-17"></div>
 
       <div class="gph">P1.3 Quyết định giao đất</div>
-      <div class="gb" style="grid-column: span 2;"></div>
+      <div class="gb gc-2"></div>
       <div class="gb stage-1"></div>
-      <div class="gb" style="grid-column: span 17;"></div>
+      <div class="gb gc-17"></div>
 
       <div class="gph">P1.4 Giấy phép xây dựng</div>
-      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb gc-4"></div>
       <div class="gb stage-1"></div>
-      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb gc-15"></div>
 
       <!-- P2 GPMB -->
       <div class="gph">P2 Đền bù GPMB</div>
-      <div class="gb stage-2" style="grid-column: span 3;"></div>
-      <div class="gb" style="grid-column: span 17;"></div>
+      <div class="gb stage-2 gc-3"></div>
+      <div class="gb gc-17"></div>
 
       <!-- P3 CMĐSDĐ -->
       <div class="gph">P3 Nộp tiền CMĐSDĐ</div>
-      <div class="gb" style="grid-column: span 3;"></div>
+      <div class="gb gc-3"></div>
       <div class="gb stage-3"></div>
-      <div class="gb" style="grid-column: span 16;"></div>
+      <div class="gb gc-16"></div>
 
       <!-- P4 Thiết kế -->
       <div class="gph">P4.1 Thiết kế cơ sở</div>
       <div class="gb"></div>
-      <div class="gb stage-4" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 17;"></div>
+      <div class="gb stage-4 gc-2"></div>
+      <div class="gb gc-17"></div>
 
       <div class="gph">P4.2 Thiết kế kỹ thuật</div>
-      <div class="gb" style="grid-column: span 3;"></div>
-      <div class="gb stage-4" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb gc-3"></div>
+      <div class="gb stage-4 gc-2"></div>
+      <div class="gb gc-15"></div>
 
       <div class="gph">P4.3 Thiết kế bản vẽ thi công</div>
-      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb gc-4"></div>
       <div class="gb stage-4"></div>
-      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb gc-15"></div>
 
       <!-- P5 Xây dựng -->
       <div class="gph">P5.1 Cọc + tường vây</div>
-      <div class="gb" style="grid-column: span 5;"></div>
-      <div class="gb stage-5" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 13;"></div>
+      <div class="gb gc-5"></div>
+      <div class="gb stage-5 gc-2"></div>
+      <div class="gb gc-13"></div>
 
       <div class="gph">P5.2 Hầm + móng</div>
-      <div class="gb" style="grid-column: span 6;"></div>
-      <div class="gb stage-5" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 12;"></div>
+      <div class="gb gc-6"></div>
+      <div class="gb stage-5 gc-2"></div>
+      <div class="gb gc-12"></div>
 
       <div class="gph">P5.3 Khối đế (TMDV)</div>
-      <div class="gb" style="grid-column: span 7;"></div>
-      <div class="gb stage-5" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 11;"></div>
+      <div class="gb gc-7"></div>
+      <div class="gb stage-5 gc-2"></div>
+      <div class="gb gc-11"></div>
 
       <div class="gph">P5.4 Thân tầng cao CT10</div>
-      <div class="gb" style="grid-column: span 8;"></div>
-      <div class="gb stage-5" style="grid-column: span 5;"></div>
-      <div class="gb" style="grid-column: span 7;"></div>
+      <div class="gb gc-8"></div>
+      <div class="gb stage-5 gc-5"></div>
+      <div class="gb gc-7"></div>
 
       <div class="gph">P5.5 Hoàn thiện M&E</div>
-      <div class="gb" style="grid-column: span 12;"></div>
-      <div class="gb stage-5" style="grid-column: span 3;"></div>
-      <div class="gb" style="grid-column: span 5;"></div>
+      <div class="gb gc-12"></div>
+      <div class="gb stage-5 gc-3"></div>
+      <div class="gb gc-5"></div>
 
       <div class="gph">P5.6 Biệt thự + Liên kế</div>
-      <div class="gb" style="grid-column: span 8;"></div>
-      <div class="gb stage-5" style="grid-column: span 6;"></div>
-      <div class="gb" style="grid-column: span 6;"></div>
+      <div class="gb gc-8"></div>
+      <div class="gb stage-5 gc-6"></div>
+      <div class="gb gc-6"></div>
 
       <div class="gph">P5.7 Hạ tầng + Cảnh quan</div>
-      <div class="gb" style="grid-column: span 13;"></div>
-      <div class="gb stage-5" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 5;"></div>
+      <div class="gb gc-13"></div>
+      <div class="gb stage-5 gc-2"></div>
+      <div class="gb gc-5"></div>
 
       <!-- P6 Bán hàng -->
       <div class="gph">P6.1 Marketing pre-launch</div>
-      <div class="gb" style="grid-column: span 6;"></div>
-      <div class="gb stage-6" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 12;"></div>
+      <div class="gb gc-6"></div>
+      <div class="gb stage-6 gc-2"></div>
+      <div class="gb gc-12"></div>
 
       <div class="gph">P6.2 Mở bán đợt 1 (sau móng)</div>
-      <div class="gb" style="grid-column: span 8;"></div>
+      <div class="gb gc-8"></div>
       <div class="gb stage-6"></div>
-      <div class="gb" style="grid-column: span 11;"></div>
+      <div class="gb gc-11"></div>
 
       <div class="gph">P6.3 Bán theo tiến độ XD</div>
-      <div class="gb" style="grid-column: span 9;"></div>
-      <div class="gb stage-6" style="grid-column: span 6;"></div>
-      <div class="gb" style="grid-column: span 5;"></div>
+      <div class="gb gc-9"></div>
+      <div class="gb stage-6 gc-6"></div>
+      <div class="gb gc-5"></div>
 
       <div class="gph">P6.4 Bàn giao + giữ 5%</div>
-      <div class="gb" style="grid-column: span 15;"></div>
+      <div class="gb gc-15"></div>
       <div class="gb stage-6"></div>
-      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb gc-4"></div>
 
       <!-- P7 Bàn giao + BH -->
       <div class="gph">P7.1 Bàn giao đại trà</div>
-      <div class="gb" style="grid-column: span 14;"></div>
-      <div class="gb stage-7" style="grid-column: span 2;"></div>
-      <div class="gb" style="grid-column: span 4;"></div>
+      <div class="gb gc-14"></div>
+      <div class="gb stage-7 gc-2"></div>
+      <div class="gb gc-4"></div>
 
       <div class="gph">P7.2 Cấp sổ hồng</div>
-      <div class="gb" style="grid-column: span 15;"></div>
-      <div class="gb stage-7" style="grid-column: span 3;"></div>
-      <div class="gb" style="grid-column: span 2;"></div>
+      <div class="gb gc-15"></div>
+      <div class="gb stage-7 gc-3"></div>
+      <div class="gb gc-2"></div>
 
       <div class="gph">P7.3 Bảo hành 12 tháng</div>
-      <div class="gb" style="grid-column: span 15;"></div>
-      <div class="gb stage-7" style="grid-column: span 5;"></div>
+      <div class="gb gc-15"></div>
+      <div class="gb stage-7 gc-5"></div>
     </div>
     <div class="mt-3 flex flex-wrap gap-3 text-xs">
       <div class="flex items-center gap-1"><span class="inline-block w-4 h-3 stage-1 rounded"></span>P1 Pháp lý</div>
