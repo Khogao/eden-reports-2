@@ -2,6 +2,14 @@
 
 Repo `Khogao/eden-reports-2` (GitHub Pages, branch `main`). Báo cáo Pre-FS / Executive Summary / Executive Summary Short cho dự án **Eden Residential** (An Phú Tây, Bình Chánh, TP.HCM).
 
+## ⚠️ BẢO MẬT — QUAN TRỌNG NHẤT
+
+- **Repo này PUBLIC** (GitHub Pages) — nơi post HTML cho đồng nghiệp/khách hàng. Mọi commit đều public.
+- **`d:\Eden\` (workspace nguồn) = LOCAL ONLY** vì lý do bảo mật — chứa MD source, Excel model, dữ liệu nội bộ. KHÔNG bao giờ push.
+- HTML trong repo này đã sanitize: CĐT = `[Bảo mật]`, không có tên công ty/địa chỉ trụ sở/số liệu nội bộ chưa duyệt.
+- **TUYỆT ĐỐI KHÔNG** commit `.md`, `.xlsx`, `.docx`, `.pdf`, scripts từ `d:\Eden\` sang đây.
+- Khi sửa HTML: verify không vô tình paste thông tin sensitive từ MD source.
+
 ## Cấu trúc 2 nguồn
 
 ```
