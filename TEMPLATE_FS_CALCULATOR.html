@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
@@ -78,10 +78,10 @@
   <h1 class="text-2xl font-bold text-slate-800">📋 Pre-FS Calculator — Dự án BĐS Việt Nam</h1>
   <p class="text-sm text-slate-600 mt-1">Template tính toán hiệu quả tài chính giai đoạn nghiên cứu khả thi sơ bộ. Dựa trên cấu trúc thực tế Dự án Eden — phù hợp dự án có nhiều phân khu, đa sản phẩm (chung cư, TMDV, biệt thự, liên kế) tại VN. Bao gồm <b>tiền chuyển mục đích sử dụng đất theo NQ 87/2025</b> và bảng giá vị trí.</p>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-4">
-    <div><label class="text-xs text-slate-500">Tên dự án</label><input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500">Địa điểm</label><input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500">Phương án</label><input id="p_ver" type="text" value="V1" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500">Ngày lập</label><input id="p_date" type="date" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500" for="p_name">Tên dự án</label><input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500" for="p_loc">Địa điểm</label><input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500" for="p_ver">Phương án</label><input id="p_ver" type="text" value="V1" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500" for="p_date">Ngày lập</label><input id="p_date" type="date" class="w-full border rounded px-2 py-1.5 mt-1"></div>
   </div>
 </header>
 
@@ -159,7 +159,7 @@
   <div class="flex gap-2 mt-3 no-print flex-wrap">
     <button onclick="addBuild()" class="btn btn-blue">+ Thêm khoản (đơn giá)</button>
     <button onclick="addBuildLump()" class="btn">+ Thêm khoản (lumpsum)</button>
-    <select onchange="addPreset(this.value); this.value=''" class="btn cursor-pointer">
+    <select onchange="addPreset(this.value); this.value=''" title="Tải hạng mục mẫu" class="btn cursor-pointer">
       <option value="">+ Thêm hạng mục mẫu...</option>
       <optgroup label="Hạ tầng & tiện ích">
         <option value="htkt">Hạ tầng kỹ thuật nội bộ (2 tr/m²)</option>
@@ -199,18 +199,18 @@
   <div class="grid md:grid-cols-3 gap-4 mb-4">
     <div class="bg-red-50 p-3 rounded">
       <div class="text-xs font-bold text-red-900 mb-2">Bảng giá VT1 (mặt đường lớn)</div>
-      <div class="row"><label>Đất ở</label><input id="vt1_o" type="number" value="49.8" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label>TMDV</label><input id="vt1_t" type="number" value="24.9" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt1_o">Đất ở</label><input id="vt1_o" type="number" value="49.8" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt1_t">TMDV</label><input id="vt1_t" type="number" value="24.9" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
     <div class="bg-amber-50 p-3 rounded">
       <div class="text-xs font-bold text-amber-900 mb-2">Bảng giá VT2 (nội khu)</div>
-      <div class="row"><label>Đất ở</label><input id="vt2_o" type="number" value="34.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label>TMDV</label><input id="vt2_t" type="number" value="17.3" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt2_o">Đất ở</label><input id="vt2_o" type="number" value="34.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt2_t">TMDV</label><input id="vt2_t" type="number" value="17.3" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
     <div class="bg-blue-50 p-3 rounded">
       <div class="text-xs font-bold text-blue-900 mb-2">Bảng giá VT3 (nhánh nhỏ)</div>
-      <div class="row"><label>Đất ở</label><input id="vt3_o" type="number" value="23.0" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label>TMDV</label><input id="vt3_t" type="number" value="11.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt3_o">Đất ở</label><input id="vt3_o" type="number" value="23.0" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label for="vt3_t">TMDV</label><input id="vt3_t" type="number" value="11.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
   </div>
   <table class="calc">
@@ -230,27 +230,27 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
   <section class="section">
     <h2 class="h2 text-violet-900 border-violet-200">⑤ Chi phí gián tiếp</h2>
-    <div class="row"><label>Bán hàng & Tiếp thị</label><input id="c_mkt" type="number" value="10" step="0.5" class="num border rounded px-2 py-1"><span class="u">% DT</span></div>
+    <div class="row"><label for="c_mkt">Bán hàng & Tiếp thị</label><input id="c_mkt" type="number" value="10" step="0.5" class="num border rounded px-2 py-1"><span class="u">% DT</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_mkt">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label>Tư vấn pháp lý & thủ tục</label><input id="c_legal" type="number" value="60" step="1" class="num border rounded px-2 py-1"><span class="u">tỷ (cố định)</span></div>
-    <div class="row"><label>Tư vấn TK & thẩm tra</label><input id="c_design" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label for="c_legal">Tư vấn pháp lý & thủ tục</label><input id="c_legal" type="number" value="60" step="1" class="num border rounded px-2 py-1"><span class="u">tỷ (cố định)</span></div>
+    <div class="row"><label for="c_design">Tư vấn TK & thẩm tra</label><input id="c_design" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_design">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label>Quản lý doanh nghiệp</label><input id="c_pm" type="number" value="2" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label for="c_pm">Quản lý doanh nghiệp</label><input id="c_pm" type="number" value="2" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_pm">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label>Dự phòng phát sinh</label><input id="c_contin" type="number" value="5" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label for="c_contin">Dự phòng phát sinh</label><input id="c_contin" type="number" value="5" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_contin">0</span><span class="u">tỷ</span></div>
   </section>
 
   <section class="section">
     <h2 class="h2 text-purple-900 border-purple-200">⑥ Tài chính & Lãi vay</h2>
     <p class="text-xs text-slate-500 mb-2">Lãi vay ≈ Vốn vay × Lãi suất × Thời gian × Hệ số dư nợ TB</p>
-    <div class="row"><label>Tỷ lệ vốn vay</label><input id="f_loan" type="number" value="35" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
-    <div class="row"><label>Lãi suất</label><input id="f_rate" type="number" value="10" step="0.1" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
-    <div class="row"><label>Thời gian vay BQ</label><input id="f_term" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
-    <div class="row"><label>Hệ số dư nợ TB</label><input id="f_avg" type="number" value="0.6" step="0.05" class="num border rounded px-2 py-1"><span class="u">×</span></div>
+    <div class="row"><label for="f_loan">Tỷ lệ vốn vay</label><input id="f_loan" type="number" value="35" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
+    <div class="row"><label for="f_rate">Lãi suất</label><input id="f_rate" type="number" value="10" step="0.1" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+    <div class="row"><label for="f_term">Thời gian vay BQ</label><input id="f_term" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
+    <div class="row"><label for="f_avg">Hệ số dư nợ TB</label><input id="f_avg" type="number" value="0.6" step="0.05" class="num border rounded px-2 py-1"><span class="u">×</span></div>
     <div class="row ro"><label>→ Vốn vay</label><span class="v out" id="o_loan">0</span><span class="u">tỷ</span></div>
     <div class="row ro"><label>→ Lãi vay</label><span class="v out" id="o_int">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label>Thuế TNDN</label><input id="f_tax" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+    <div class="row"><label for="f_tax">Thuế TNDN</label><input id="f_tax" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
   </section>
 </div>
 
@@ -310,24 +310,24 @@
   <div class="grid md:grid-cols-2 gap-3 mb-3 text-xs no-print">
     <div class="bg-slate-50 p-2 rounded flex flex-wrap items-center gap-2">
       <b>Trục giá bán:</b>
-      <select id="s_pmode" class="border rounded px-1 py-0.5">
+      <select id="s_pmode" title="Đơn vị trục giá bán" class="border rounded px-1 py-0.5">
         <option value="pct">% thay đổi</option>
         <option value="abs">tr/m² (tuyệt đối)</option>
       </select>
-      <label>Bước</label>
+      <label for="s_pstep">Bước</label>
       <input id="s_pstep" type="number" value="5" step="0.5" class="num border rounded px-1 py-0.5 w-16">
-      <label>Số mức ±</label>
+      <label for="s_pn">Số mức ±</label>
       <input id="s_pn" type="number" value="3" min="1" max="6" step="1" class="num border rounded px-1 py-0.5 w-12">
     </div>
     <div class="bg-slate-50 p-2 rounded flex flex-wrap items-center gap-2">
       <b>Trục giá đất:</b>
-      <select id="s_lmode" class="border rounded px-1 py-0.5">
+      <select id="s_lmode" title="Đơn vị trục giá đất" class="border rounded px-1 py-0.5">
         <option value="pct">% thay đổi</option>
         <option value="abs">tr/m² (tuyệt đối)</option>
       </select>
-      <label>Bước</label>
+      <label for="s_lstep">Bước</label>
       <input id="s_lstep" type="number" value="10" step="0.5" class="num border rounded px-1 py-0.5 w-16">
-      <label>Số mức ±</label>
+      <label for="s_ln">Số mức ±</label>
       <input id="s_ln" type="number" value="3" min="1" max="6" step="1" class="num border rounded px-1 py-0.5 w-12">
     </div>
   </div>
@@ -347,9 +347,9 @@
   <h2 class="h2 text-indigo-900 border-indigo-200">Ⅹ Dòng tiền & Hiệu quả đầu tư (đơn giản)</h2>
   <p class="text-xs text-slate-500 mb-3">Mức độ Pre-FS: phân bổ chi phí & doanh thu theo năm bằng % (tổng = 100%). Tính NPV, IRR, Payback. Để có dòng tiền chi tiết theo quý, lịch huy động và bán hàng đầy đủ, dùng <code>TEMPLATE_FS_FULL.html</code>.</p>
   <div class="grid md:grid-cols-3 gap-3 mb-3 text-sm">
-    <div class="row"><label>Số năm dự án</label><input id="cf_years" type="number" value="5" min="2" max="10" step="1" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
-    <div class="row"><label>WACC / lãi chiết khấu</label><input id="cf_wacc" type="number" value="12" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
-    <div class="row"><label>Vốn CSH góp</label><input id="cf_equity_pct" type="number" value="65" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
+    <div class="row"><label for="cf_years">Số năm dự án</label><input id="cf_years" type="number" value="5" min="2" max="10" step="1" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
+    <div class="row"><label for="cf_wacc">WACC / lãi chiết khấu</label><input id="cf_wacc" type="number" value="12" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+    <div class="row"><label for="cf_equity_pct">Vốn CSH góp</label><input id="cf_equity_pct" type="number" value="65" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
   </div>
   <div class="overflow-x-auto">
     <table class="calc text-xs" id="cf_table">
