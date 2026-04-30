@@ -78,10 +78,10 @@
   <h1 class="text-2xl font-bold text-slate-800">📋 Pre-FS Calculator — Dự án BĐS Việt Nam</h1>
   <p class="text-sm text-slate-600 mt-1">Template tính toán hiệu quả tài chính giai đoạn nghiên cứu khả thi sơ bộ. Dựa trên cấu trúc thực tế Dự án Eden — phù hợp dự án có nhiều phân khu, đa sản phẩm (chung cư, TMDV, biệt thự, liên kế) tại VN. Bao gồm <b>tiền chuyển mục đích sử dụng đất theo NQ 87/2025</b> và bảng giá vị trí.</p>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mt-4">
-    <div><label class="text-xs text-slate-500" for="p_name">Tên dự án</label><input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500" for="p_loc">Địa điểm</label><input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500" for="p_ver">Phương án</label><input id="p_ver" type="text" value="V1" class="w-full border rounded px-2 py-1.5 mt-1"></div>
-    <div><label class="text-xs text-slate-500" for="p_date">Ngày lập</label><input id="p_date" type="date" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Tên dự án</label><input id="p_name" type="text" value="Dự án mới" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Địa điểm</label><input id="p_loc" type="text" value="" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Phương án</label><input id="p_ver" type="text" value="V1" class="w-full border rounded px-2 py-1.5 mt-1"></div>
+    <div><label class="text-xs text-slate-500">Ngày lập</label><input id="p_date" type="date" class="w-full border rounded px-2 py-1.5 mt-1"></div>
   </div>
 </header>
 
@@ -93,9 +93,7 @@
     <thead><tr>
       <th title="Bao gồm trong tính toán?">✓</th>
       <th>Tên phân khu / Lô</th><th>Loại</th><th class="num">DT đất (m²)</th><th class="num">HSSDĐ (FAR)</th>
-      <th class="num">Mật độ (%)</th><th class="num">Số tầng</th>
-      <th class="num" title="Số căn hộ/sản phẩm để tính chỗ đỗ xe">Số căn</th>
-      <th class="num" title="Số tầng hầm — có đề xuất auto tính theo chỗ đỗ">Hầm</th>
+      <th class="num">Mật độ (%)</th><th class="num">Số tầng</th><th class="num" title="Số tầng hầm">Hầm</th>
       <th>VT</th><th class="num">Giá đất (tr/m²)</th><th class="num">Tổng sàn (m²)</th>
       <th class="num" title="Tổng diện tích sàn hầm">Sàn hầm (m²)</th>
       <th class="num">CP đất (tỷ)</th><th class="no-print"></th>
@@ -104,22 +102,10 @@
     <tfoot><tr id="zones_total"></tr></tfoot>
   </table>
   <button onclick="addZone()" class="btn btn-blue mt-3 no-print">+ Thêm phân khu</button>
-  <button onclick="autoFillBsm()" class="btn mt-3 no-print" title="Áp đề xuất số tầng hầm cho tất cả phân khu CC dựa trên số căn & mặc định đỗ xe">🅿️ Auto-fill hầm theo số căn</button>
-  <div class="flex flex-wrap gap-3 items-center mt-3 p-2 bg-slate-50 rounded text-xs no-print">
-    <b>Mặc định chỗ đỗ (QCVN 04:2021 / TCVN 4391):</b>
-    <label>m²/chỗ ô tô (gồm lối đi)
-      <input id="park_m2" type="number" value="25" step="1" min="15" class="num border rounded px-1 py-0.5 w-16">
-    </label>
-    <label>Chỗ ô tô / căn
-      <input id="park_per_unit" type="number" value="1" step="0.1" min="0" class="num border rounded px-1 py-0.5 w-16">
-    </label>
-    <span class="text-slate-500">(QCVN 04:2021: tối thiểu 1 chỗ ô tô / 100 m² DT sử dụng căn hộ; xe máy 6 m²/100 m²)</span>
-  </div>
   <div class="text-xs text-slate-500 mt-2">
     <b>Loại:</b> CC = Chung cư · BT = Biệt thự · LK = Liên kế · TMDV = Thương mại dịch vụ · HT = Hạ tầng/giao thông (không bán)<br>
     <b>VT (Vị trí):</b> VT1 = mặt đường lớn · VT2 = đường nội khu · VT3 = đường nhánh nhỏ<br>
-    <b>FAR (HSSDĐ):</b> tổng sàn / DT đất · <b>Mật độ (BCR):</b> diện tích chiếm đất / DT đất · <b>Số tầng = FAR ÷ Mật độ</b> (nội suy tự động).<br>
-    <b>Số tầng hầm đề xuất</b> = ⌈ (Số căn × chỗ/căn × m²/chỗ) / DT khối đế ⌉, với DT khối đế = DT đất × Mật độ. Quy chuẩn: <b>Luật Nhà ở 2023 Đ.144</b> — chỗ đỗ ô tô chủ đầu tư được bán/cho thuê (sở hữu riêng); xe máy/xe đạp sở hữu chung.
+    <b>FAR (HSSDĐ):</b> tổng sàn / DT đất · <b>Mật độ (BCR):</b> diện tích chiếm đất / DT đất · <b>Số tầng = FAR ÷ Mật độ</b> (nội suy tự động). Vd: FAR 12, Mật độ 40% → 30 tầng. CC cao tầng FAR 8–13 mật độ 30–45%; BT FAR 0.6–1.2 mật độ 40–60%; LK FAR 2–3 mật độ 70–80%.
   </div>
 </section>
 
@@ -159,7 +145,7 @@
   <div class="flex gap-2 mt-3 no-print flex-wrap">
     <button onclick="addBuild()" class="btn btn-blue">+ Thêm khoản (đơn giá)</button>
     <button onclick="addBuildLump()" class="btn">+ Thêm khoản (lumpsum)</button>
-    <select onchange="addPreset(this.value); this.value=''" title="Tải hạng mục mẫu" class="btn cursor-pointer">
+    <select onchange="addPreset(this.value); this.value=''" class="btn cursor-pointer">
       <option value="">+ Thêm hạng mục mẫu...</option>
       <optgroup label="Hạ tầng & tiện ích">
         <option value="htkt">Hạ tầng kỹ thuật nội bộ (2 tr/m²)</option>
@@ -199,18 +185,18 @@
   <div class="grid md:grid-cols-3 gap-4 mb-4">
     <div class="bg-red-50 p-3 rounded">
       <div class="text-xs font-bold text-red-900 mb-2">Bảng giá VT1 (mặt đường lớn)</div>
-      <div class="row"><label for="vt1_o">Đất ở</label><input id="vt1_o" type="number" value="49.8" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label for="vt1_t">TMDV</label><input id="vt1_t" type="number" value="24.9" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>Đất ở</label><input id="vt1_o" type="number" value="49.8" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>TMDV</label><input id="vt1_t" type="number" value="24.9" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
     <div class="bg-amber-50 p-3 rounded">
       <div class="text-xs font-bold text-amber-900 mb-2">Bảng giá VT2 (nội khu)</div>
-      <div class="row"><label for="vt2_o">Đất ở</label><input id="vt2_o" type="number" value="34.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label for="vt2_t">TMDV</label><input id="vt2_t" type="number" value="17.3" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>Đất ở</label><input id="vt2_o" type="number" value="34.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>TMDV</label><input id="vt2_t" type="number" value="17.3" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
     <div class="bg-blue-50 p-3 rounded">
       <div class="text-xs font-bold text-blue-900 mb-2">Bảng giá VT3 (nhánh nhỏ)</div>
-      <div class="row"><label for="vt3_o">Đất ở</label><input id="vt3_o" type="number" value="23.0" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
-      <div class="row"><label for="vt3_t">TMDV</label><input id="vt3_t" type="number" value="11.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>Đất ở</label><input id="vt3_o" type="number" value="23.0" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
+      <div class="row"><label>TMDV</label><input id="vt3_t" type="number" value="11.5" step="0.1" class="num border rounded px-2 py-1"><span class="u">tr/m²</span></div>
     </div>
   </div>
   <table class="calc">
@@ -230,27 +216,27 @@
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
   <section class="section">
     <h2 class="h2 text-violet-900 border-violet-200">⑤ Chi phí gián tiếp</h2>
-    <div class="row"><label for="c_mkt">Bán hàng & Tiếp thị</label><input id="c_mkt" type="number" value="10" step="0.5" class="num border rounded px-2 py-1"><span class="u">% DT</span></div>
+    <div class="row"><label>Bán hàng & Tiếp thị</label><input id="c_mkt" type="number" value="10" step="0.5" class="num border rounded px-2 py-1"><span class="u">% DT</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_mkt">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label for="c_legal">Tư vấn pháp lý & thủ tục</label><input id="c_legal" type="number" value="60" step="1" class="num border rounded px-2 py-1"><span class="u">tỷ (cố định)</span></div>
-    <div class="row"><label for="c_design">Tư vấn TK & thẩm tra</label><input id="c_design" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label>Tư vấn pháp lý & thủ tục</label><input id="c_legal" type="number" value="60" step="1" class="num border rounded px-2 py-1"><span class="u">tỷ (cố định)</span></div>
+    <div class="row"><label>Tư vấn TK & thẩm tra</label><input id="c_design" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_design">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label for="c_pm">Quản lý doanh nghiệp</label><input id="c_pm" type="number" value="2" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label>Quản lý doanh nghiệp</label><input id="c_pm" type="number" value="2" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_pm">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label for="c_contin">Dự phòng phát sinh</label><input id="c_contin" type="number" value="5" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
+    <div class="row"><label>Dự phòng phát sinh</label><input id="c_contin" type="number" value="5" step="0.5" class="num border rounded px-2 py-1"><span class="u">% CP XD</span></div>
     <div class="row ro"><label>→ Thành tiền</label><span class="v out" id="o_contin">0</span><span class="u">tỷ</span></div>
   </section>
 
   <section class="section">
     <h2 class="h2 text-purple-900 border-purple-200">⑥ Tài chính & Lãi vay</h2>
     <p class="text-xs text-slate-500 mb-2">Lãi vay ≈ Vốn vay × Lãi suất × Thời gian × Hệ số dư nợ TB</p>
-    <div class="row"><label for="f_loan">Tỷ lệ vốn vay</label><input id="f_loan" type="number" value="35" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
-    <div class="row"><label for="f_rate">Lãi suất</label><input id="f_rate" type="number" value="10" step="0.1" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
-    <div class="row"><label for="f_term">Thời gian vay BQ</label><input id="f_term" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
-    <div class="row"><label for="f_avg">Hệ số dư nợ TB</label><input id="f_avg" type="number" value="0.6" step="0.05" class="num border rounded px-2 py-1"><span class="u">×</span></div>
+    <div class="row"><label>Tỷ lệ vốn vay</label><input id="f_loan" type="number" value="35" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
+    <div class="row"><label>Lãi suất</label><input id="f_rate" type="number" value="10" step="0.1" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
+    <div class="row"><label>Thời gian vay BQ</label><input id="f_term" type="number" value="3" step="0.5" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
+    <div class="row"><label>Hệ số dư nợ TB</label><input id="f_avg" type="number" value="0.6" step="0.05" class="num border rounded px-2 py-1"><span class="u">×</span></div>
     <div class="row ro"><label>→ Vốn vay</label><span class="v out" id="o_loan">0</span><span class="u">tỷ</span></div>
     <div class="row ro"><label>→ Lãi vay</label><span class="v out" id="o_int">0</span><span class="u">tỷ</span></div>
-    <div class="row"><label for="f_tax">Thuế TNDN</label><input id="f_tax" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
+    <div class="row"><label>Thuế TNDN</label><input id="f_tax" type="number" value="20" step="1" class="num border rounded px-2 py-1"><span class="u">%</span></div>
   </section>
 </div>
 
@@ -310,24 +296,24 @@
   <div class="grid md:grid-cols-2 gap-3 mb-3 text-xs no-print">
     <div class="bg-slate-50 p-2 rounded flex flex-wrap items-center gap-2">
       <b>Trục giá bán:</b>
-      <select id="s_pmode" title="Đơn vị trục giá bán" class="border rounded px-1 py-0.5">
+      <select id="s_pmode" class="border rounded px-1 py-0.5">
         <option value="pct">% thay đổi</option>
         <option value="abs">tr/m² (tuyệt đối)</option>
       </select>
-      <label for="s_pstep">Bước</label>
+      <label>Bước</label>
       <input id="s_pstep" type="number" value="5" step="0.5" class="num border rounded px-1 py-0.5 w-16">
-      <label for="s_pn">Số mức ±</label>
+      <label>Số mức ±</label>
       <input id="s_pn" type="number" value="3" min="1" max="6" step="1" class="num border rounded px-1 py-0.5 w-12">
     </div>
     <div class="bg-slate-50 p-2 rounded flex flex-wrap items-center gap-2">
       <b>Trục giá đất:</b>
-      <select id="s_lmode" title="Đơn vị trục giá đất" class="border rounded px-1 py-0.5">
+      <select id="s_lmode" class="border rounded px-1 py-0.5">
         <option value="pct">% thay đổi</option>
         <option value="abs">tr/m² (tuyệt đối)</option>
       </select>
-      <label for="s_lstep">Bước</label>
+      <label>Bước</label>
       <input id="s_lstep" type="number" value="10" step="0.5" class="num border rounded px-1 py-0.5 w-16">
-      <label for="s_ln">Số mức ±</label>
+      <label>Số mức ±</label>
       <input id="s_ln" type="number" value="3" min="1" max="6" step="1" class="num border rounded px-1 py-0.5 w-12">
     </div>
   </div>
@@ -342,34 +328,7 @@
     Chênh so với hiện tại: <b class="out" id="r_safety">0</b> tỷ
   </div>
 </section>
-<!-- 9. NPV / IRR / PAYBACK — SIMPLIFIED -->
-<section class="section page-break">
-  <h2 class="h2 text-indigo-900 border-indigo-200">Ⅹ Dòng tiền & Hiệu quả đầu tư (đơn giản)</h2>
-  <p class="text-xs text-slate-500 mb-3">Mức độ Pre-FS: phân bổ chi phí & doanh thu theo năm bằng % (tổng = 100%). Tính NPV, IRR, Payback. Để có dòng tiền chi tiết theo quý, lịch huy động và bán hàng đầy đủ, dùng <code>TEMPLATE_FS_FULL.html</code>.</p>
-  <div class="grid md:grid-cols-3 gap-3 mb-3 text-sm">
-    <div class="row"><label for="cf_years">Số năm dự án</label><input id="cf_years" type="number" value="5" min="2" max="10" step="1" class="num border rounded px-2 py-1"><span class="u">năm</span></div>
-    <div class="row"><label for="cf_wacc">WACC / lãi chiết khấu</label><input id="cf_wacc" type="number" value="12" step="0.5" class="num border rounded px-2 py-1"><span class="u">%/năm</span></div>
-    <div class="row"><label for="cf_equity_pct">Vốn CSH góp</label><input id="cf_equity_pct" type="number" value="65" step="1" class="num border rounded px-2 py-1"><span class="u">% Tổng vốn</span></div>
-  </div>
-  <div class="overflow-x-auto">
-    <table class="calc text-xs" id="cf_table">
-      <thead><tr id="cf_thead"></tr></thead>
-      <tbody id="cf_tb"></tbody>
-    </table>
-  </div>
-  <p class="text-[11px] text-slate-500 mt-1">% chi phí và % doanh thu mỗi năm — chỉnh trực tiếp. Tổng mỗi dòng sẽ được chuẩn hoá về 100% khi tính.</p>
 
-  <div class="mt-4 grid grid-cols-2 md:grid-cols-5 gap-3">
-    <div class="bg-indigo-50 rounded p-3"><div class="text-xs uppercase text-indigo-700">NPV</div><div class="text-xl font-bold out" id="r_npv">0</div><div class="text-xs text-slate-500">tỷ (chiết khấu WACC)</div></div>
-    <div class="bg-indigo-50 rounded p-3"><div class="text-xs uppercase text-indigo-700">IRR</div><div class="text-xl font-bold out" id="r_irr">0</div><div class="text-xs text-slate-500">% / năm</div></div>
-    <div class="bg-indigo-50 rounded p-3"><div class="text-xs uppercase text-indigo-700">Payback</div><div class="text-xl font-bold out" id="r_pb">0</div><div class="text-xs text-slate-500">năm (không chiết khấu)</div></div>
-    <div class="bg-indigo-50 rounded p-3"><div class="text-xs uppercase text-indigo-700">PI</div><div class="text-xl font-bold out" id="r_pi">0</div><div class="text-xs text-slate-500">PV(thu)/PV(chi)</div></div>
-    <div class="bg-indigo-50 rounded p-3"><div class="text-xs uppercase text-indigo-700">ROE</div><div class="text-xl font-bold out" id="r_roe">0</div><div class="text-xs text-slate-500">LNST/Vốn CSH</div></div>
-  </div>
-  <div class="mt-3 p-3 bg-slate-50 rounded text-xs text-slate-600">
-    <b>Quy ước:</b> NPV/IRR tính trên dòng tiền thuần (Doanh thu × % − Tổng chi phí sau thuế × %) mỗi năm. Payback = số năm để dòng tiền lũy kế >= 0. PI > 1 ⇒ dự án đáng đầu tư. Quy tắc thẩm định: <b>IRR > WACC + 3%</b> và <b>NPV > 0</b>.
-  </div>
-</section>
 <!-- HƯỚNG DẪN -->
 <section class="section no-print">
   <details>
@@ -419,18 +378,11 @@ function renderZones() {
   zones.forEach(z => {
     if (z.inc === undefined) z.inc = true;
     if (z.bsm === undefined) z.bsm = 0;
-    if (z.units === undefined) z.units = 0;
     const floor = z.area * z.far;
     const bcr = z.bcr || 40;
     const floors = bcr > 0 ? Math.round(z.far / (bcr/100)) : 0;
     const bsmArea = z.area * (z.bsm || 0);
     const landCost = z.area * z.price / 1000;
-    // Suggested basement floors based on parking demand
-    const m2per = num('park_m2') || 25;
-    const ppu = num('park_per_unit') || 1;
-    const footprint = z.area * (bcr/100);
-    const parkingArea = (z.units || 0) * ppu * m2per;
-    const suggBsm = footprint > 0 && parkingArea > 0 ? Math.ceil(parkingArea / footprint) : 0;
     if (z.inc) { totArea += z.area; totLand += landCost; totFloor += floor; totBase += bsmArea; }
     const tr = document.createElement('tr');
     if (!z.inc) tr.className = 'excl';
@@ -444,11 +396,7 @@ function renderZones() {
       <td><input type="number" value="${z.far}" step="0.1" data-id="${z.id}" data-k="far" class="num border rounded px-1 py-0.5 w-16"></td>
       <td><input type="number" value="${bcr}" step="1" data-id="${z.id}" data-k="bcr" class="num border rounded px-1 py-0.5 w-16"></td>
       <td class="num out">${fmt0(floors)}</td>
-      <td><input type="number" value="${z.units||0}" step="1" min="0" data-id="${z.id}" data-k="units" class="num border rounded px-1 py-0.5 w-16" title="Số căn hộ (để tính chỗ đỗ xe)"></td>
-      <td>
-        <input type="number" value="${z.bsm||0}" step="1" min="0" data-id="${z.id}" data-k="bsm" class="num border rounded px-1 py-0.5 w-12" title="Số tầng hầm">
-        ${suggBsm > 0 ? `<button class="btn px-1 py-0 text-[10px] ml-1 no-print" onclick="setBsm('${z.id}', ${suggBsm})" title="Áp đề xuất: ${suggBsm} tầng (⌈${fmt0(parkingArea)}/${fmt0(footprint)}⌉)">→${suggBsm}</button>` : ''}
-      </td>
+      <td><input type="number" value="${z.bsm||0}" step="1" min="0" data-id="${z.id}" data-k="bsm" class="num border rounded px-1 py-0.5 w-12" title="Số tầng hầm"></td>
       <td><select data-id="${z.id}" data-k="vt" class="border rounded px-1 py-0.5 text-xs">
         ${Object.entries(VTS).map(([k,v])=>`<option value="${k}" ${z.vt===k?'selected':''}>${k}</option>`).join('')}
       </select></td>
@@ -459,7 +407,7 @@ function renderZones() {
       <td class="no-print"><button class="btn btn-red" onclick="delZone('${z.id}')">×</button></td>`;
     tb.appendChild(tr);
   });
-  $('zones_total').innerHTML = `<td colspan="3">TỔNG (${zones.filter(z=>z.inc).length}/${zones.length} phân khu)</td><td class="num">${fmt0(totArea)}</td><td colspan="7"></td><td class="num">${fmt0(totFloor)}</td><td class="num">${fmt0(totBase)}</td><td class="num">${fmt(totLand)}</td><td class="no-print"></td>`;
+  $('zones_total').innerHTML = `<td colspan="3">TỔNG (${zones.filter(z=>z.inc).length}/${zones.length} phân khu)</td><td class="num">${fmt0(totArea)}</td><td colspan="6"></td><td class="num">${fmt0(totFloor)}</td><td class="num">${fmt0(totBase)}</td><td class="num">${fmt(totLand)}</td><td class="no-print"></td>`;
   // bind
   tb.querySelectorAll('input,select').forEach(el => el.addEventListener('input', e => {
     const z = zones.find(x => x.id === e.target.dataset.id);
@@ -472,31 +420,10 @@ function renderZones() {
   }));
 }
 function addZone() {
-  zones.push({ id: uid(), name: 'Phân khu mới', type: 'CC', area: 10000, far: 3, bcr: 40, bsm: 0, units: 0, vt: 'VT2', price: 15, inc: true });
+  zones.push({ id: uid(), name: 'Phân khu mới', type: 'CC', area: 10000, far: 3, bcr: 40, bsm: 0, vt: 'VT2', price: 15, inc: true });
   renderZones(); renderProds(); renderBuilds(); renderCmds(); calc();
 }
 function delZone(id) { zones = zones.filter(z => z.id !== id); renderZones(); renderProds(); renderBuilds(); renderCmds(); calc(); }
-
-function setBsm(id, n) {
-  const z = zones.find(x => x.id === id); if (!z) return;
-  z.bsm = n; renderZones(); calc();
-}
-function autoFillBsm() {
-  const m2per = num('park_m2') || 25;
-  const ppu = num('park_per_unit') || 1;
-  let changed = 0;
-  zones.forEach(z => {
-    if (z.type !== 'CC' && z.type !== 'TMDV') return;
-    const footprint = z.area * ((z.bcr||40)/100);
-    const need = (z.units || 0) * ppu * m2per;
-    if (footprint > 0 && need > 0) {
-      z.bsm = Math.ceil(need / footprint);
-      changed++;
-    }
-  });
-  if (changed === 0) alert('Không có phân khu CC/TMDV nào có "Số căn" > 0 để tính.');
-  renderZones(); calc();
-}
 
 // ====== PRODUCTS ======
 function zoneOptions(sel) {
@@ -784,7 +711,6 @@ function compute(opts = {}) {
 // ====== UPDATE OUTPUTS ======
 function calc() {
   const r = compute();
-  window._lastCompute = r;
 
   // Indirect breakdown
   $('o_mkt').textContent    = fmt(r.mktCost);
@@ -824,7 +750,6 @@ function calc() {
   // Sensitivity
   renderSensitivity();
   computeBreakEven();
-  renderCashflow();
 }
 
 function renderSensitivity() {
@@ -866,143 +791,8 @@ function renderSensitivity() {
   });
 }
 
-// ====== Section ⑨ — Cashflow / NPV / IRR / Payback ======
-let cfCost = [25, 35, 25, 10, 5];   // % chi phí năm 1..N (default 5 năm)
-let cfRev  = [0, 15, 35, 35, 15];   // % doanh thu năm 1..N
-
-function resizeCf(n) {
-  const adj = (arr) => {
-    if (arr.length === n) return arr;
-    if (arr.length < n) return arr.concat(Array(n - arr.length).fill(0));
-    return arr.slice(0, n);
-  };
-  cfCost = adj(cfCost);
-  cfRev  = adj(cfRev);
-}
-
-function irr(cf, guess = 0.1) {
-  let r = guess;
-  for (let it = 0; it < 100; it++) {
-    let npv = 0, dnpv = 0;
-    for (let t = 0; t < cf.length; t++) {
-      const d = Math.pow(1 + r, t);
-      npv += cf[t] / d;
-      if (t > 0) dnpv -= t * cf[t] / (d * (1 + r));
-    }
-    if (Math.abs(npv) < 1e-6) return r;
-    if (dnpv === 0) break;
-    const next = r - npv / dnpv;
-    if (!isFinite(next)) break;
-    if (Math.abs(next - r) < 1e-8) return next;
-    r = next;
-  }
-  return NaN;
-}
-
-function renderCashflow() {
-  const r = window._lastCompute; if (!r) return;
-  const N = Math.max(2, Math.min(10, parseInt($('cf_years').value) || 5));
-  const wacc = (parseFloat($('cf_wacc').value) || 0) / 100;
-  const eqPct = (parseFloat($('cf_equity_pct').value) || 0) / 100;
-  resizeCf(N);
-
-  // Header
-  const thead = $('cf_thead');
-  let h = `<th class="text-left">Khoản mục</th>`;
-  for (let i = 1; i <= N; i++) h += `<th class="text-center">N${i}</th>`;
-  h += `<th class="text-center bg-slate-100">Tổng</th>`;
-  thead.innerHTML = h;
-
-  // % rows (editable)
-  const tb = $('cf_tb');
-  tb.innerHTML = '';
-  const sumC = cfCost.reduce((s,x)=>s+(+x||0),0) || 1;
-  const sumR = cfRev.reduce((s,x)=>s+(+x||0),0) || 1;
-
-  // Cost % row
-  const trC = document.createElement('tr');
-  trC.innerHTML = `<td>% Chi phí</td>` +
-    cfCost.map((v,i) => `<td><input type="number" value="${v}" step="1" class="num border rounded px-1 py-0.5 w-14" data-cf="cost" data-i="${i}"></td>`).join('') +
-    `<td class="num bg-slate-50">${fmt0(sumC)}%</td>`;
-  tb.appendChild(trC);
-
-  // Revenue % row
-  const trR = document.createElement('tr');
-  trR.innerHTML = `<td>% Doanh thu</td>` +
-    cfRev.map((v,i) => `<td><input type="number" value="${v}" step="1" class="num border rounded px-1 py-0.5 w-14" data-cf="rev" data-i="${i}"></td>`).join('') +
-    `<td class="num bg-slate-50">${fmt0(sumR)}%</td>`;
-  tb.appendChild(trR);
-
-  // Compute annual CF (normalize to 100%)
-  const totalCostAfterTax = r.totalCost + r.tax;   // outflow gồm cả thuế (xấp xỉ nộp khi có LN)
-  const annualCost = cfCost.map(v => -(v/sumC) * totalCostAfterTax);
-  const annualRev  = cfRev .map(v =>  (v/sumR) * r.revenue);
-  const annualNet  = annualCost.map((c,i) => c + annualRev[i]);
-
-  // Cost outflow row (display)
-  const trCo = document.createElement('tr');
-  trCo.innerHTML = `<td class="text-slate-600">Chi (tỷ)</td>` +
-    annualCost.map(v => `<td class="num text-red-700">${fmt(v)}</td>`).join('') +
-    `<td class="num bg-slate-50">${fmt(annualCost.reduce((s,x)=>s+x,0))}</td>`;
-  tb.appendChild(trCo);
-
-  // Revenue inflow row
-  const trRi = document.createElement('tr');
-  trRi.innerHTML = `<td class="text-slate-600">Thu (tỷ)</td>` +
-    annualRev.map(v => `<td class="num text-emerald-700">${fmt(v)}</td>`).join('') +
-    `<td class="num bg-slate-50">${fmt(annualRev.reduce((s,x)=>s+x,0))}</td>`;
-  tb.appendChild(trRi);
-
-  // Net cashflow row
-  const trN = document.createElement('tr');
-  trN.innerHTML = `<td class="font-bold">CF thuần</td>` +
-    annualNet.map(v => `<td class="num font-bold ${v<0?'text-red-700':'text-emerald-800'}">${fmt(v)}</td>`).join('') +
-    `<td class="num bg-slate-50 font-bold">${fmt(annualNet.reduce((s,x)=>s+x,0))}</td>`;
-  tb.appendChild(trN);
-
-  // Cumulative
-  let cum = 0; const cumArr = annualNet.map(v => cum += v);
-  const trCu = document.createElement('tr');
-  trCu.innerHTML = `<td class="text-slate-500 text-xs">Lũy kế</td>` +
-    cumArr.map(v => `<td class="num text-xs ${v<0?'text-red-600':'text-emerald-700'}">${fmt(v)}</td>`).join('') +
-    `<td></td>`;
-  tb.appendChild(trCu);
-
-  // Bind input changes
-  tb.querySelectorAll('input[data-cf]').forEach(inp => {
-    inp.addEventListener('input', e => {
-      const k = e.target.dataset.cf, i = +e.target.dataset.i, v = parseFloat(e.target.value) || 0;
-      if (k === 'cost') cfCost[i] = v; else cfRev[i] = v;
-      renderCashflow();
-    });
-  });
-
-  // NPV / IRR / Payback / PI / ROE
-  let npv = 0, pvIn = 0, pvOut = 0;
-  for (let t = 0; t < N; t++) {
-    const d = Math.pow(1 + wacc, t + 0.5);  // mid-year convention
-    npv += annualNet[t] / d;
-    pvIn  += annualRev[t]  / d;
-    pvOut += -annualCost[t] / d;
-  }
-  const irrVal = irr(annualNet);
-  let pb = NaN; for (let t = 0; t < N; t++) { if (cumArr[t] >= 0) {
-    const prev = t === 0 ? 0 : cumArr[t-1];
-    pb = t + (0 - prev) / (cumArr[t] - prev);
-    break;
-  }}
-  const equity = r.totalCost * eqPct;
-  const roe = equity > 0 ? r.net / equity * 100 : 0;
-  const pi = pvOut > 0 ? pvIn / pvOut : 0;
-
-  $('r_npv').textContent = fmt(npv);
-  $('r_irr').textContent = isFinite(irrVal) ? fmt(irrVal*100, 1) + '%' : 'N/A';
-  $('r_pb').textContent  = isFinite(pb) ? fmt(pb, 1) : '> ' + N;
-  $('r_pi').textContent  = fmt(pi, 2);
-  $('r_roe').textContent = fmt(roe, 1) + '%';
-}
-
 function computeBreakEven() {
+  // bisection on landFactor s.t. net = 0
   let lo = 0, hi = 5;
   for (let i = 0; i < 60; i++) {
     const mid = (lo + hi)/2;
@@ -1062,11 +852,11 @@ function loadEdenV2() {
 
   const zCT10 = uid(), zTT13 = uid(), zTT14 = uid(), zBT = uid(), zHT = uid();
   zones = [
-    { id: zCT10, name: 'CT10 (Tòa A+B+C)', type: 'CC', area: 27842, far: 8, bcr: 40, bsm: 2, units: 1500, vt: 'VT1', price: 15, inc: true },
-    { id: zBT,   name: 'B1–B5 Biệt thự',   type: 'BT', area: 19365.5, far: 1.5, bcr: 50, bsm: 0, units: 0, vt: 'VT2', price: 15, inc: true },
-    { id: zTT13, name: 'TT13 Liên kế',      type: 'LK', area: 11150, far: 2.8, bcr: 75, bsm: 0, units: 0, vt: 'VT2', price: 15, inc: true },
-    { id: zTT14, name: 'TT14 Liên kế',      type: 'LK', area: 11149, far: 2.8, bcr: 75, bsm: 0, units: 0, vt: 'VT3', price: 15, inc: true },
-    { id: zHT,   name: 'Hạ tầng nội bộ',  type: 'HT', area: 18718, far: 0,   bcr: 0, bsm: 0, units: 0,  vt: '-',   price: 15, inc: true },
+    { id: zCT10, name: 'CT10 (Tòa A+B+C)', type: 'CC', area: 27842, far: 8, bcr: 40, bsm: 2, vt: 'VT1', price: 15, inc: true },
+    { id: zBT,   name: 'B1–B5 Biệt thự',   type: 'BT', area: 19365.5, far: 1.5, bcr: 50, bsm: 0, vt: 'VT2', price: 15, inc: true },
+    { id: zTT13, name: 'TT13 Liên kế',      type: 'LK', area: 11150, far: 2.8, bcr: 75, bsm: 0, vt: 'VT2', price: 15, inc: true },
+    { id: zTT14, name: 'TT14 Liên kế',      type: 'LK', area: 11149, far: 2.8, bcr: 75, bsm: 0, vt: 'VT3', price: 15, inc: true },
+    { id: zHT,   name: 'Hạ tầng nội bộ',  type: 'HT', area: 18718, far: 0,   bcr: 0, bsm: 0,  vt: '-',   price: 15, inc: true },
   ];
   prods = [
     { id: uid(), name: 'TMDV tầng đế CT10',     zoneId: zCT10, pctOfFloor: 9.7,  eff: 60, basis: 'floor', priceUnit: 87.5 }, // 21,600/222,736
@@ -1120,8 +910,8 @@ function renderAll() {
 document.addEventListener('DOMContentLoaded', () => {
   $('p_date').value = new Date().toISOString().slice(0,10);
   // Bind global inputs
-  ['p_name','p_loc','p_ver','vt1_o','vt1_t','vt2_o','vt2_t','vt3_o','vt3_t','c_mkt','c_legal','c_design','c_pm','c_contin','f_loan','f_rate','f_term','f_avg','f_tax','s_pmode','s_pstep','s_pn','s_lmode','s_lstep','s_ln','park_m2','park_per_unit','cf_years','cf_wacc','cf_equity_pct']
-    .forEach(id => $(id).addEventListener('input', () => { renderZones(); calc(); }));
+  ['p_name','p_loc','p_ver','vt1_o','vt1_t','vt2_o','vt2_t','vt3_o','vt3_t','c_mkt','c_legal','c_design','c_pm','c_contin','f_loan','f_rate','f_term','f_avg','f_tax','s_pmode','s_pstep','s_pn','s_lmode','s_lstep','s_ln']
+    .forEach(id => $(id).addEventListener('input', calc));
   // Start with Eden V2 preset
   loadEdenV2();
 });
