@@ -933,12 +933,43 @@ function computeBreakEven() {
 
 // ====== SAVE/LOAD ======
 function exportJSON() {
+  const r = compute();
+  const nx = computeNOXH(r);
+  const tl = computeTimeline(r);
+  const wacc_e=num('w_e')/100, wacc_re=num('w_re')/100, wacc_d=num('w_d')/100, wacc_rd=num('w_rd')/100;
+  const taxR = num('f_tax')/100;
+  const waccVal = wacc_e*wacc_re + wacc_d*wacc_rd*(1-taxR);
+  const npvVal = npv(waccVal, tl.cf);
+  const irrVal = irr(tl.cf);
+  const pbVal  = payback(tl.cf);
+  const adjOpr = r.opr - nx.cost;
+  const adjPbt = adjOpr - r.interest;
+  const adjTax = adjPbt > 0 ? adjPbt * taxR : 0;
+  const adjNet = adjPbt - adjTax;
+  const equity = r.totalCost * (1 - num('f_loan')/100);
   const data = {
     meta: { name: $('p_name').value, loc: $('p_loc').value, ver: $('p_ver').value, date: $('p_date').value, exported: new Date().toISOString() },
     zones, prods, builds, cmds,
     rates: { vt1_o:num('vt1_o'),vt1_t:num('vt1_t'),vt2_o:num('vt2_o'),vt2_t:num('vt2_t'),vt3_o:num('vt3_o'),vt3_t:num('vt3_t') },
     indirect: { c_mkt:num('c_mkt'),c_legal:num('c_legal'),c_design:num('c_design'),c_pm:num('c_pm'),c_contin:num('c_contin') },
-    finance: { f_loan:num('f_loan'),f_rate:num('f_rate'),f_term:num('f_term'),f_avg:num('f_avg'),f_tax:num('f_tax') }
+    finance: { f_loan:num('f_loan'),f_rate:num('f_rate'),f_term:num('f_term'),f_avg:num('f_avg'),f_tax:num('f_tax') },
+    fsParams: {
+      nx_on:$('nx_on').checked, nx_mode:$('nx_mode').value, nx_pct:num('nx_pct'), nx_land_mul:num('nx_land_mul'),
+      v_out:num('v_out'), v_in_xd:num('v_in_xd'), v_in_other:num('v_in_other'),
+      t_years:num('t_years'), t_y0:num('t_y0'),
+      t_y_sales:num('t_y_sales'), t_y_sales_end:num('t_y_sales_end'),
+      t_y_build:num('t_y_build'), t_y_build_end:num('t_y_build_end'),
+      t_y_cmd:num('t_y_cmd'), t_y_land:num('t_y_land'),
+      w_e:num('w_e'), w_re:num('w_re'), w_d:num('w_d'), w_rd:num('w_rd')
+    },
+    computed: {
+      revenue:r.revenue, landCost:r.landCost, buildCost:r.buildCost, cmdCost:r.cmdCost,
+      mktCost:r.mktCost, legalCost:r.legalCost, designCost:r.designCost, pmCost:r.pmCost, continCost:r.continCost,
+      indirectTotal:r.indirect, noxhCost:nx.cost, totalCost:r.totalCost+nx.cost,
+      opr:adjOpr, interest:r.interest, pbt:adjPbt, tax:adjTax, net:adjNet, equity,
+      wacc:waccVal*100, npv:npvVal, irr:isFinite(irrVal)?irrVal*100:null, payback:isFinite(pbVal)?pbVal:null,
+      cashflow: tl.cf.map(c => ({ y:c.y, inflow:c.inflow, outflow:c.outflow, net:c.net }))
+    }
   };
   const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
   const a = document.createElement('a');

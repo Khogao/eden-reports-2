@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Executive Summary Short — Dự án BĐS VN</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body { font-family: 'Segoe UI', system-ui, sans-serif; }
+  .num { text-align: right; font-variant-numeric: tabular-nums; }
+  .page { max-width: 820px; margin: 0 auto; }
+  .kcard { padding: .9rem 1rem; border-radius: .5rem; }
+  table.pl { width:100%; font-size:.8rem; border-collapse:collapse; }
+  table.pl td { padding: 3px 6px; }
+  table.pl .sep { border-top: 1px solid #e2e8f0; }
+  table.pl .total-row { border-top: 2px solid #94a3b8; font-weight:700; background:#f8fafc; }
+  table.pl .ebit-row  { background:#ecfdf5; font-weight:800; color:#065f46; }
+  table.pl .lnst-row  { background:#eff6ff; font-weight:800; color:#1e40af; }
+  @media print {
+    .no-print { display:none !important; }
+    body { font-size: 8.5pt; }
+    * { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    .page { max-width:100%; padding:0 !important; }
+    .no-page-break { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body class="bg-slate-200 print:bg-white">
+
+<!-- TOOLBAR -->
+<div class="no-print sticky top-0 z-50 bg-slate-800 text-white shadow-xl">
+  <div class="max-w-4xl mx-auto px-4 py-2 flex flex-wrap items-center gap-2 text-xs">
+    <div class="font-bold text-slate-300 mr-2">📄 ESS — Executive Summary Short</div>
+    <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 px-3 py-1.5 rounded">
+      📂 Tải JSON từ FS
+      <input type="file" accept=".json" onchange="importJSON(event)" class="hidden">
+    </label>
+    <button onclick="loadEdenV2()" class="bg-emerald-600 hover:bg-emerald-700 px-3 py-1.5 rounded">🏗 Eden V2</button>
+    <div class="ml-auto flex gap-2">
+      <a href="ES.html"  class="bg-slate-600 hover:bg-slate-500 px-3 py-1.5 rounded">ES ↗</a>
+      <a href="FS.html"  class="bg-slate-600 hover:bg-slate-500 px-3 py-1.5 rounded">FS ↗</a>
+      <button onclick="window.print()" class="bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded">🖨 In / PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- A4 CARD -->
+<div class="page pt-4 print:pt-0 px-3 pb-6">
+<div class="bg-white rounded-xl shadow-lg print:shadow-none print:rounded-none overflow-hidden no-page-break">
+
+  <!-- HEADER BAND -->
+  <div style="background:linear-gradient(135deg,#0f172a,#1e3a8a,#065f46);print-color-adjust:exact" class="text-white px-6 py-5 flex justify-between items-center gap-4">
+    <div>
+      <div class="text-[.6rem] font-bold uppercase tracking-widest text-blue-300 mb-1">EXECUTIVE SUMMARY SHORT · TÓM TẮT ĐẦU TƯ</div>
+      <h1 class="text-xl font-black leading-tight" id="ess_name">Dự án BĐS</h1>
+      <p class="text-blue-200 text-xs mt-0.5" id="ess_loc">—</p>
+      <div class="flex gap-4 mt-2 text-xs text-slate-400">
+        <span>PA: <b class="text-white" id="ess_ver">—</b></span>
+        <span>Ngày: <b class="text-white" id="ess_date">—</b></span>
+      </div>
+    </div>
+    <div class="text-right shrink-0">
+      <div class="text-4xl font-black text-emerald-400" id="ess_irr">—</div>
+      <div class="text-[.65rem] text-slate-400">IRR (%/năm)</div>
+      <div class="text-lg font-bold text-blue-300 mt-1" id="ess_npv">—</div>
+      <div class="text-[.65rem] text-slate-400">NPV @ WACC (tỷ)</div>
+    </div>
+  </div>
+
+  <div class="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
+
+    <!-- LEFT: KPIs + P&L -->
+    <div>
+      <!-- KPI badges -->
+      <div class="grid grid-cols-2 gap-2 mb-4">
+        <div class="kcard" style="background:#ecfdf5;border-left:3px solid #10b981">
+          <div class="text-[.6rem] font-bold uppercase text-emerald-700">Doanh Thu</div>
+          <div class="text-lg font-black text-emerald-800 mt-0.5" id="k_rev">—</div>
+          <div class="text-[.65rem] text-emerald-600">tỷ đồng</div>
+        </div>
+        <div class="kcard" style="background:#eff6ff;border-left:3px solid #3b82f6">
+          <div class="text-[.6rem] font-bold uppercase text-blue-700">Tổng Chi Phí</div>
+          <div class="text-lg font-black text-blue-800 mt-0.5" id="k_cost">—</div>
+          <div class="text-[.65rem] text-blue-600">tỷ đồng</div>
+        </div>
+        <div class="kcard" style="background:#faf5ff;border-left:3px solid #8b5cf6">
+          <div class="text-[.6rem] font-bold uppercase text-purple-700">LN Hoạt Động</div>
+          <div class="text-lg font-black text-purple-800 mt-0.5" id="k_opr">—</div>
+          <div class="text-[.65rem] text-purple-600" id="k_opr_pct">—% / DT</div>
+        </div>
+        <div class="kcard" style="background:#fff7ed;border-left:3px solid #f97316">
+          <div class="text-[.6rem] font-bold uppercase text-orange-700">LNST</div>
+          <div class="text-lg font-black text-orange-800 mt-0.5" id="k_net">—</div>
+          <div class="text-[.65rem] text-orange-600" id="k_net_pct">—% / DT</div>
+        </div>
+      </div>
+
+      <!-- P&L mini table -->
+      <table class="pl">
+        <tr><td colspan="3" class="pb-1 text-[.65rem] font-bold uppercase text-slate-500 tracking-wider">Bảng P&amp;L tóm tắt (tỷ đồng)</td></tr>
+        <tr><td>Doanh thu</td><td></td><td class="num font-bold" id="pl_rev">—</td></tr>
+        <tr class="sep text-slate-500"><td class="pl-2">— Đất &amp; CMĐSDĐ</td><td class="num text-slate-400" id="pl_land_pct">—</td><td class="num" id="pl_land">—</td></tr>
+        <tr class="text-slate-500"><td class="pl-2">— XD công trình</td><td class="num text-slate-400" id="pl_build_pct">—</td><td class="num" id="pl_build">—</td></tr>
+        <tr class="text-slate-500"><td class="pl-2">— Gián tiếp &amp; NOXH</td><td class="num text-slate-400" id="pl_indir_pct">—</td><td class="num" id="pl_indir">—</td></tr>
+        <tr class="total-row"><td>Tổng chi phí</td><td class="num text-slate-500" id="pl_cost_pct">—</td><td class="num" id="pl_cost">—</td></tr>
+        <tr class="ebit-row"><td>LN HĐ (EBIT)</td><td class="num" id="pl_opr_pct">—</td><td class="num" id="pl_opr">—</td></tr>
+        <tr class="text-slate-500 sep"><td class="pl-2">— Lãi vay &amp; thuế</td><td></td><td class="num" id="pl_int_tax">—</td></tr>
+        <tr class="lnst-row"><td>LNST</td><td class="num" id="pl_net_pct">—</td><td class="num" id="pl_net">—</td></tr>
+      </table>
+    </div>
+
+    <!-- RIGHT: FS Metrics + Scenarios + Scale -->
+    <div class="space-y-4">
+      <!-- FS indicators -->
+      <div>
+        <div class="text-[.65rem] font-bold uppercase text-slate-500 tracking-wider mb-2">Chỉ Số FS</div>
+        <div class="grid grid-cols-2 gap-2">
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold text-indigo-700" id="fi_irr">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">IRR</div>
+          </div>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold text-blue-700" id="fi_npv">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">NPV @ WACC (tỷ)</div>
+          </div>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold" id="fi_pb">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">Payback (năm)</div>
+          </div>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold" id="fi_roe">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">ROE vốn CSH</div>
+          </div>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold" id="fi_wacc">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">WACC</div>
+          </div>
+          <div class="bg-slate-50 rounded p-2 text-center">
+            <div class="text-sm font-bold" id="fi_dscr">—</div>
+            <div class="text-[.6rem] text-slate-400 uppercase">DSCR</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenarios mini -->
+      <div>
+        <div class="text-[.65rem] font-bold uppercase text-slate-500 tracking-wider mb-2">Kịch Bản</div>
+        <table class="w-full text-xs border-collapse">
+          <thead>
+            <tr class="bg-slate-50 text-[.6rem] uppercase text-slate-400">
+              <th class="py-1 px-2 text-left">Kịch bản</th>
+              <th class="py-1 px-2 text-right">DT</th>
+              <th class="py-1 px-2 text-right">EBIT</th>
+              <th class="py-1 px-2 text-right">LNST</th>
+              <th class="py-1 px-2 text-right">%DT</th>
+            </tr>
+          </thead>
+          <tbody id="scn_tb">
+            <tr><td colspan="5" class="py-2 text-center text-slate-400 text-[.65rem]">Tải JSON để xem</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Scale info -->
+      <div>
+        <div class="text-[.65rem] font-bold uppercase text-slate-500 tracking-wider mb-2">Quy Mô Dự Án</div>
+        <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-xs text-slate-600" id="scale_list">
+          <span class="text-slate-400">Tải JSON để xem</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM BAND: assumptions strip -->
+  <div class="bg-slate-50 border-t border-slate-100 px-5 py-3 text-[.65rem] text-slate-500">
+    <span class="font-semibold text-slate-600 uppercase tracking-wider mr-2">Giả định:</span>
+    <span id="asm_strip">—</span>
+  </div>
+
+</div><!-- end card -->
+</div><!-- end page -->
+
+<script>
+const fmt  = (n,d=1) => isFinite(n) ? Number(n).toLocaleString('vi-VN',{minimumFractionDigits:d,maximumFractionDigits:d}) : '—';
+const fmt0 = n => fmt(n,0);
+const fmtp = (n,d=1) => isFinite(n) ? fmt(n,d)+'%' : '—';
+const $    = id => document.getElementById(id);
+const set  = (id,v) => { const el=$(id); if(el) el.textContent=v; };
+
+function computeFromData(d) {
+  const Z=d.zones||[], P=d.prods||[], B=d.builds||[], C=d.cmds||[];
+  const r=d.rates||{}, ind=d.indirect||{}, fin=d.finance||{};
+  const vtR=(vt,k) => ({'1o':r.vt1_o,'1t':r.vt1_t,'2o':r.vt2_o,'2t':r.vt2_t,'3o':r.vt3_o,'3t':r.vt3_t}[vt+k]||0);
+  const incZ=Z.filter(z=>z.inc!==false);
+  const isInc=id=>{const z=Z.find(x=>x.id===id);return z&&z.inc!==false;};
+  const landCost=incZ.reduce((s,z)=>s+z.area*z.price/1000,0);
+  let revenue=0;
+  const prodDetails=[];
+  P.forEach(p=>{
+    if(p.inc===false)return;
+    const z=Z.find(x=>x.id===p.zoneId); if(!z||z.inc===false)return;
+    let sf=0;
+    if(p.basis==='floor') sf=z.area*z.far*(p.pctOfFloor/100)*(p.eff/100);
+    else if(p.basis==='basement') sf=z.area*(z.bsm||0)*(p.pctOfFloor/100)*(p.eff/100);
+    else sf=z.area*(p.pctOfFloor/100);
+    const rev=sf*p.priceUnit/1000;
+    revenue+=rev; prodDetails.push({...p,saleFloor:sf,rev,zoneName:z.name});
+  });
+  const totalFloor=incZ.reduce((s,z)=>s+z.area*z.far,0);
+  let buildCost=0;
+  B.forEach(b=>{
+    if(b.inc===false)return;
+    if(b.mode==='lump'){buildCost+=(b.lump||0)/1000;return;}
+    if(b.target!=='all'&&!isInc(b.target))return;
+    const qty=b.target==='all'?totalFloor:(()=>{const z=Z.find(x=>x.id===b.target);return z?z.area*z.far:0;})();
+    buildCost+=qty*(b.unit||0)/1000;
+  });
+  let cmdCost=0;
+  C.forEach(c=>{
+    if(c.inc===false)return;
+    if(c.zoneId&&!isInc(c.zoneId))return;
+    cmdCost+=c.area*vtR(c.vt,c.kind)/1000;
+  });
+  const mktCost=revenue*(ind.c_mkt||0)/100;
+  const legalCost=(ind.c_legal||0);
+  const designCost=buildCost*(ind.c_design||0)/100;
+  const pmCost=buildCost*(ind.c_pm||0)/100;
+  const continCost=buildCost*(ind.c_contin||0)/100;
+  const indirectTotal=mktCost+legalCost+designCost+pmCost+continCost;
+  const totalCost=landCost+buildCost+cmdCost+indirectTotal;
+  const opr=revenue-totalCost;
+  const loan=totalCost*(fin.f_loan||0)/100;
+  const interest=loan*((fin.f_rate||0)/100)*(fin.f_term||1)*(fin.f_avg||0.6);
+  const pbt=opr-interest;
+  const taxRate=(fin.f_tax||20)/100;
+  const tax=pbt>0?pbt*taxRate:0;
+  const net=pbt-tax;
+  const equity=totalCost*(1-(fin.f_loan||0)/100);
+  return {revenue,landCost,buildCost,cmdCost,mktCost,legalCost,designCost,pmCost,continCost,
+          indirectTotal,totalCost,opr,loan,interest,pbt,tax,net,equity,
+          prodDetails,incZones:incZ,totalFloor,taxRate};
+}
+
+function sCurve(years,s,e){
+  const w=new Array(years).fill(0);if(s<0)s=0;if(e>=years)e=years-1;
+  const span=e-s+1;if(span<=1){w[Math.min(s,years-1)]=1;return w;}
+  let tot=0;for(let i=0;i<span;i++){const t=(i+.5)/span;const v=Math.pow(t,1.5)*Math.pow(1-t,1.5);w[s+i]=v;tot+=v;}
+  for(let i=s;i<=e;i++)w[i]/=tot;return w;
+}
+function npvCalc(rate,cf){let s=0;cf.forEach((c,i)=>s+=c.net/Math.pow(1+rate,i));return s;}
+function irrCalc(cf){
+  let lo=-0.99,hi=5;if(npvCalc(lo,cf)*npvCalc(hi,cf)>0)return NaN;
+  for(let i=0;i<80;i++){const m=(lo+hi)/2;npvCalc(m,cf)>0?(lo=m):(hi=m);}return(lo+hi)/2;
+}
+function paybackCalc(cf){
+  let cum=0;
+  for(let i=0;i<cf.length;i++){const n=cum+cf[i].net;if(n>=0&&(i===0||cum<0))return i+(i===0?0:-cum/cf[i].net);cum=n;}
+  return NaN;
+}
+function buildCF(r,fp,noxhCost){
+  const years=Math.max(3,Math.min(15,Math.round(fp.t_years||5)));
+  const wB=sCurve(years,fp.t_y_build||1,fp.t_y_build_end||4);
+  const wS=sCurve(years,fp.t_y_sales||1,fp.t_y_sales_end||4);
+  const yL=Math.min(years-1,fp.t_y_land||0);
+  const cf=[];
+  for(let y=0;y<years;y++){
+    const inf=r.revenue*wS[y];
+    const out=(y===yL?r.landCost+noxhCost:0)+r.buildCost*wB[y]+r.mktCost*wS[y]+(r.designCost+r.pmCost+r.continCost)*wB[y]+(y===0?r.legalCost:0);
+    cf.push({y,inflow:inf,outflow:out,net:inf-out});
+  }
+  return cf;
+}
+function calcNOXH(d,r){
+  const fp=d.fsParams||{};if(!fp.nx_on)return 0;
+  const pct=(fp.nx_pct||20)/100,mul=fp.nx_land_mul||1;
+  const resi=r.incZones.filter(z=>['CC','BT','LK'].includes(z.type));
+  const aR=resi.reduce((s,z)=>s+z.area,0);
+  const aO=aR*pct;
+  const lAvg=aR>0?resi.reduce((s,z)=>s+z.area*z.price,0)/aR:0;
+  return aO*lAvg*mul*(fp.nx_mode==='build'?0.5:1)/1000;
+}
+
+function renderAll(data) {
+  const m=data.meta||{}, fin=data.finance||{f_loan:35,f_rate:10,f_term:3,f_avg:.6,f_tax:20};
+  const fp=data.fsParams||{t_years:5,t_y0:2026,t_y_sales:1,t_y_sales_end:4,t_y_build:1,t_y_build_end:4,t_y_land:0,w_e:65,w_re:18,w_d:35,w_rd:10};
+  set('ess_name',m.name||'Dự án BĐS');set('ess_loc',m.loc||'—');
+  set('ess_ver',m.ver||'—');set('ess_date',m.date||'—');
+
+  const r=computeFromData(data);
+  const noxh=calcNOXH(data,r);
+  const adjTotal=r.totalCost+noxh;
+  const adjOpr=r.opr-noxh;
+  const adjPbt=adjOpr-r.interest;
+  const adjTax=adjPbt>0?adjPbt*r.taxRate:0;
+  const adjNet=adjPbt-adjTax;
+  const adjEquity=adjTotal*(1-(fin.f_loan||0)/100);
+
+  const C=data.computed||{};
+  const useC=(k,fb)=>(C[k]!==undefined&&C[k]!==null)?C[k]:fb;
+  const cf=(C.cashflow&&C.cashflow.length)?C.cashflow:buildCF(r,fp,noxh);
+  const we=fp.w_e/100,wd=fp.w_d/100,re=fp.w_re/100,rd=fp.w_rd/100;
+  const taxR=(fin.f_tax||20)/100;
+  const wacc=we*re+wd*rd*(1-taxR);
+  const npvVal=useC('npv',npvCalc(wacc,cf));
+  const irrPct=useC('irr',irrCalc(cf)*100);
+  const pbVal=useC('payback',paybackCalc(cf));
+
+  set('ess_irr',  isFinite(irrPct)?fmt(irrPct,1)+'%':'—');
+  set('ess_npv',  isFinite(npvVal)?fmt(npvVal)+' tỷ':'—');
+  set('k_rev',    fmt(r.revenue));
+  set('k_cost',   fmt(adjTotal));
+  set('k_opr',    fmt(adjOpr));
+  set('k_opr_pct',fmtp(r.revenue>0?adjOpr/r.revenue*100:0)+' / DT');
+  set('k_net',    fmt(adjNet));
+  set('k_net_pct',fmtp(r.revenue>0?adjNet/r.revenue*100:0)+' / DT');
+
+  // P&L
+  set('pl_rev',   fmt(r.revenue)+' tỷ');
+  set('pl_land',  fmt(r.landCost+r.cmdCost)+' tỷ'); set('pl_land_pct',  fmtp(r.revenue>0?(r.landCost+r.cmdCost)/r.revenue*100:0));
+  set('pl_build', fmt(r.buildCost)+' tỷ');           set('pl_build_pct', fmtp(r.revenue>0?r.buildCost/r.revenue*100:0));
+  set('pl_indir', fmt(r.indirectTotal+noxh)+' tỷ');  set('pl_indir_pct', fmtp(r.revenue>0?(r.indirectTotal+noxh)/r.revenue*100:0));
+  set('pl_cost',  fmt(adjTotal)+' tỷ');              set('pl_cost_pct',  fmtp(r.revenue>0?adjTotal/r.revenue*100:0));
+  set('pl_opr',   fmt(adjOpr)+' tỷ');               set('pl_opr_pct',   fmtp(r.revenue>0?adjOpr/r.revenue*100:0));
+  set('pl_int_tax',fmt(r.interest+adjTax)+' tỷ');
+  set('pl_net',   fmt(adjNet)+' tỷ');               set('pl_net_pct',   fmtp(r.revenue>0?adjNet/r.revenue*100:0));
+
+  // FS
+  const annualNet=adjOpr/Math.max(1,cf.length);
+  const annualDebt=r.interest/Math.max(1,fin.f_term||3);
+  set('fi_irr',   isFinite(irrPct)?fmt(irrPct,1)+'%':'—');
+  set('fi_npv',   isFinite(npvVal)?fmt(npvVal):'—');
+  set('fi_pb',    isFinite(pbVal)?fmt(pbVal,1)+'n':'—');
+  set('fi_roe',   adjEquity>0?fmtp(adjNet/adjEquity*100):'—');
+  set('fi_wacc',  fmt(wacc*100,1)+'%');
+  set('fi_dscr',  annualDebt>0?fmt(annualNet/annualDebt,2):'—');
+
+  // Scenarios
+  const scns=[
+    {name:'✅ Best', pf:1.10,lf:.90,cls:'text-emerald-700'},
+    {name:'⚖️ Base', pf:1.00,lf:1.0,cls:''},
+    {name:'⚠️ Worst',pf:.90, lf:1.10,cls:'text-red-700'},
+  ];
+  $('scn_tb').innerHTML=scns.map(s=>{
+    const sd={...data,zones:(data.zones||[]).map(z=>({...z,price:z.price*s.lf})),prods:(data.prods||[]).map(p=>({...p,priceUnit:p.priceUnit*s.pf}))};
+    const rs=computeFromData(sd);
+    const sNx=calcNOXH(sd,rs);
+    const sO=rs.opr-sNx;
+    const sP=sO-rs.interest;
+    const sT=sP>0?sP*r.taxRate:0;
+    const sN=sP-sT;
+    return`<tr class="border-b border-slate-100 ${s.cls}">
+      <td class="py-1 px-2 font-medium">${s.name}</td>
+      <td class="py-1 px-2 text-right">${fmt(rs.revenue)}</td>
+      <td class="py-1 px-2 text-right">${fmt(sO)}</td>
+      <td class="py-1 px-2 text-right font-semibold">${fmt(sN)}</td>
+      <td class="py-1 px-2 text-right">${fmtp(rs.revenue>0?sN/rs.revenue*100:0)}</td>
+    </tr>`;
+  }).join('');
+
+  // Scale
+  const totArea=r.incZones.reduce((s,z)=>s+z.area,0);
+  const totFloor=r.totalFloor;
+  const totUnits=r.prodDetails.reduce((s,p)=>s+(p.saleFloor>0?Math.round(p.saleFloor/70):0),0);
+  $('scale_list').innerHTML=[
+    `Diện tích đất: <b>${fmt0(totArea)} m²</b>`,
+    `Sàn XD tổng: <b>${fmt0(totFloor)} m²</b>`,
+    `Vốn CSH cần: <b>${fmt(adjEquity)} tỷ</b>`,
+    `Vốn vay: <b>${fmt(r.loan)} tỷ</b>`,
+    `Thời gian: <b>${fp.t_years||5} năm</b>`,
+    `Từ: <b>${fp.t_y0||2026}–${(fp.t_y0||2026)+(fp.t_years||5)-1}</b>`,
+  ].map(t=>`<span>${t}</span>`).join('');
+
+  // Assumptions strip
+  $('asm_strip').textContent=[
+    `Giá đất: ${(data.rates||{}).vt1_o||'—'} tr/m² (VT1)`,
+    `Vốn vay: ${fin.f_loan||35}%@${fin.f_rate||10}%/năm`,
+    `WACC: ${fmt(wacc*100,1)}%`,
+    `Thuế: ${fin.f_tax||20}%`,
+    noxh>0?`NOXH 20%: ${fmt(noxh)} tỷ`:null,
+  ].filter(Boolean).join(' · ');
+}
+
+function importJSON(ev){
+  const f=ev.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=e=>{try{renderAll(JSON.parse(e.target.result));}catch(err){alert('JSON không hợp lệ: '+err.message);}};
+  rd.readAsText(f);
+}
+
+function loadEdenV2(){
+  renderAll({
+    meta:{name:'Khu Dân Cư Ê Đen (Eden)',loc:'An Phú Tây, Bình Chánh, TP.HCM',ver:'V2',date:'2026-05-01'},
+    zones:[
+      {id:'z1',name:'CT10 — Chung cư',type:'CC', area:27798,far:8,  bcr:40,vt:'1',price:15,inc:true},
+      {id:'z2',name:'BT1 — Biệt thự', type:'BT', area:10000,far:1.2,bcr:50,vt:'2',price:15,inc:true},
+      {id:'z3',name:'LK  — Liên kế',  type:'LK', area:8000, far:3,  bcr:75,vt:'2',price:15,inc:true},
+      {id:'z4',name:'TMDV',            type:'TMDV',area:5000,far:5,  bcr:75,vt:'1',price:15,inc:true},
+      {id:'z5',name:'HT/Cây xanh',    type:'HT', area:24588,far:0,  bcr:0, vt:'1',price:0, inc:false},
+    ],
+    prods:[
+      {id:'p1',name:'Căn hộ CC',  zoneId:'z1',pctOfFloor:85,eff:72, basis:'floor',priceUnit:70,inc:true},
+      {id:'p2',name:'TMDV CT10',  zoneId:'z1',pctOfFloor:8, eff:75, basis:'floor',priceUnit:45,inc:true},
+      {id:'p3',name:'Biệt thự',   zoneId:'z2',pctOfFloor:100,eff:100,basis:'floor',priceUnit:60,inc:true},
+      {id:'p4',name:'Nhà liên kế',zoneId:'z3',pctOfFloor:100,eff:100,basis:'floor',priceUnit:55,inc:true},
+      {id:'p5',name:'TMDV đơn lập',zoneId:'z4',pctOfFloor:80,eff:75, basis:'floor',priceUnit:40,inc:true},
+    ],
+    builds:[
+      {id:'b1',name:'XD CC',  mode:'unit',target:'z1',unit:11,lump:0,     inc:true},
+      {id:'b2',name:'XD BT',  mode:'unit',target:'z2',unit:8, lump:0,     inc:true},
+      {id:'b3',name:'XD LK',  mode:'unit',target:'z3',unit:7, lump:0,     inc:true},
+      {id:'b4',name:'XD TMDV',mode:'unit',target:'z4',unit:9, lump:0,     inc:true},
+      {id:'b5',name:'HT lump',mode:'lump',target:'all',unit:0,lump:500000,inc:true},
+    ],
+    cmds:[
+      {id:'c1',name:'CMĐSDĐ→ĐO',zoneId:'z1',area:27798,vt:'1',kind:'o',inc:true},
+      {id:'c2',name:'CMĐSDĐ→TM',zoneId:'z1',area:5000, vt:'1',kind:'t',inc:true},
+    ],
+    rates:{vt1_o:49.8,vt1_t:24.9,vt2_o:34.5,vt2_t:17.3,vt3_o:23.0,vt3_t:11.5},
+    indirect:{c_mkt:10,c_legal:60,c_design:3,c_pm:2,c_contin:5},
+    finance:{f_loan:35,f_rate:10,f_term:3,f_avg:0.6,f_tax:20},
+    fsParams:{nx_on:true,nx_mode:'cash',nx_pct:20,nx_land_mul:1,t_years:5,t_y0:2026,t_y_sales:1,t_y_sales_end:4,t_y_build:1,t_y_build_end:4,t_y_land:0,w_e:65,w_re:18,w_d:35,w_rd:10},
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {});
+</script>
+</body>
+</html>
